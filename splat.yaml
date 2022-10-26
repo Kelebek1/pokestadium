@@ -319,7 +319,7 @@ segments:
     - [0x66BC0, bin]
     - [0x66C90, bin, F3DEX2]
     - [0x68020, bin] # rest of rom part 1
-    
+
     # .data is somewhere in here
     - [0x6A1B0, .data, crash_screen]
     - [0x6A3B0, bin, rom_data_6A3B0]
@@ -346,6 +346,8 @@ segments:
     - [0x7BB10, bin, rom_rodata_7BB10]
     - [0x7BBE0, .rodata, crash_screen]
     - [0x7BFA0, bin, rom_rodata_7BFA0]
+    - [0x7D230, .rodata, 373A0]
+    - [0x7D340, bin, rom_rodata_7D340]
     - [0x7EE90, .rodata, libultra/gu/sinf]
     - [0x7EEE0, bin, rom_rodata_7EEE0]
     - [0x7EF30, .rodata, libultra/al/reverb]
