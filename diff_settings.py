@@ -2,6 +2,8 @@
 
 def apply(config, args):
     config['baseimg'] = 'baserom.z64'
-    config['myimg'] = 'pokemonstadium.z64'
-    config['mapfile'] = 'build/pokemonstadium.map'
-    config['source_directories'] = ['.']
+    config['myimg'] = 'build/pokestadium.z64'
+    config['mapfile'] = 'build/pokestadium.map'
+    config['source_directories'] = ['./src','./include']
+    config['objdump_flags'] = ['-d', '-r', '-z', '-Mreg-names=32']
+    config['makeflags'] = ['KEEP_MDEBUG=1']

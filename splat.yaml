@@ -88,7 +88,7 @@ segments:
     - [0x33E30, asm]
     - [0x33FE0, asm]
     - [0x37370, asm]
-    - [0x373A0, asm]  # battle code
+    - [0x373A0, c]  # battle code
     - [0x38BB0, asm]  #
     - [0x3D140, asm]  # music code
     - [0x43520, c] # 
@@ -106,7 +106,7 @@ segments:
     - [0x49DC0, asm]
     - [0x4A360, asm]
     - [0x4A3E0, asm]
-    - [0x4B940, asm]
+    - [0x4B940, c]
     - [0x4BA90, asm]
     - [0x4BDC0, asm]
     - [0x4CBC0, asm]
@@ -346,7 +346,7 @@ segments:
     - [0x7BB10, bin, rom_rodata_7BB10]
     - [0x7BBE0, .rodata, crash_screen]
     - [0x7BFA0, bin, rom_rodata_7BFA0]
-    - [0x7D230, .rodata, 373A0]
+    - [0x7D230, rodata, 373A0]
     - [0x7D340, bin, rom_rodata_7D340]
     - [0x7EE90, .rodata, libultra/gu/sinf]
     - [0x7EEE0, bin, rom_rodata_7EEE0]

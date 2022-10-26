@@ -12,7 +12,7 @@ ROM := $(TARGET).z64
 ELF := $(BUILD_DIR)/$(TARGET).elf
 LD_SCRIPT := $(TARGET).ld
 LD_MAP := $(BUILD_DIR)/$(TARGET).map
-ASM_DIRS := asm asm/os asm/libleo asm/libultra asm/libultra/os asm/libultra/io asm/libultra/gu asm/libultra/libc asm/libultra/al
+ASM_DIRS := asm asm/data asm/os asm/libleo asm/libultra asm/libultra/os asm/libultra/io asm/libultra/gu asm/libultra/libc asm/libultra/al
 DATA_DIRS := bin assets
 SRC_DIRS := $(shell find src -type d)
 
@@ -205,6 +205,11 @@ submodules:
 
 split:
 	rm -rf $(DATA_DIRS) $(ASM_DIRS) && ./tools/n64splat/split.py $(SPLAT_YAML)
+
+expected:
+	$(RM) -rf expected/
+	mkdir -p expected/
+	cp -r build expected/build
 
 setup: clean submodules split
 	
