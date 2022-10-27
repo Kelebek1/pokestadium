@@ -88,7 +88,7 @@ segments:
     - [0x33E30, asm]
     - [0x33FE0, asm]
     - [0x37370, asm]
-    - [0x373A0, c]  # battle code
+    - [0x373A0, asm]  # battle code
     - [0x38BB0, asm]  #
     - [0x3D140, asm]  # music code
     - [0x43520, c] # 
@@ -384,4 +384,6 @@ segments:
     
   # rest of the ROM
   - [0x7F980, bin]
+  - [0x15C0000, bin]
+  - [0x1FEC050, bin]
   - [0x2000000]

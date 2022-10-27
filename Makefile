@@ -206,11 +206,6 @@ submodules:
 split:
 	rm -rf $(DATA_DIRS) $(ASM_DIRS) && ./tools/n64splat/split.py $(SPLAT_YAML)
 
-expected:
-	$(RM) -rf expected/
-	mkdir -p expected/
-	cp -r build expected/build
-
 setup: clean submodules split
 	
 $(BUILD_DIR):

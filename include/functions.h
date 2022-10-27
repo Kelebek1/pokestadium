@@ -14,7 +14,7 @@ void func_800397BC(void*);
 void func_8003CADC(void);
 s32 func_800479C0(s32, s32, s32, s32);
 void func_8004AD40(s32 arg0);
-void func_8004ADB0(s32 devAddr, s32* dramAddr, s32 size);
+void func_8004ADB0(u32 devAddr, u8* dramAddr, u32 size_);
 void func_8004AE90(s32, s32);
 void func_80050B40(s32*, void*, s32);
 s32 func_800373D8(void);
