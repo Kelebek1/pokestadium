@@ -38,7 +38,14 @@ extern ALSeqFile* D_800FC700;
 extern ALSeqFile* D_800FC704;
 extern ALSeqFile* D_800FC708;
 extern ALSeqFile* D_800FC714;
-extern s32 (*D_800FC798)[8];
+
+typedef struct {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+} Struct_D_800FC798;
+extern Struct_D_800FC798* D_800FC798;
+
 extern ALHeap* D_800FC810;
 extern s32 D_800FC820;
 
@@ -80,40 +87,41 @@ typedef struct {
 } Struct_D_800FC6C0;
 extern Struct_D_800FC6C0 D_800FC6C0;
 
-extern char (*D_800FC6CC)[0x100];
+extern s32 (*D_800FC6CC)[32][2];
 extern char (*D_800FC6D0)[0x2328];
 extern char (*D_800FC6D4)[0x1388];
 extern u16 (*D_800FC6D8)[0xB80];
 
 //#pragma GLOBAL_ASM("asm/nonmatchings/373A0/func_800367A0.s")
 
-
 s32 func_800367A0(u32 arg0, s32 arg1, s32 arg2) {
-    u8* sp40;
-    s32 sp38;
-    s32 sp34;
-    s32 sp2C;
-    s32 sp20;
     u32 var_v0;
+    u8* sp40;
+    s32 pad2;   
+    s32 sp38 = 0x80;
     s32 temp;
 
-    sp20 = arg0 & 0xFFFF0000;
-    sp38 = 0x80;
-    if (D_80079014 != sp20) {
+    s32 sp30;
+    s32 sp2C;
+    s32 pad;
+    
+    if ((arg0 & 0xFFFF0000) != D_80079014) {
         sp40 = D_800FC6F4->seqArray[0].offset;
         func_8004ADB0(sp40, D_800FC798, 0xC);
-        func_80037360(*D_800FC798, sp40, 3);
-        var_v0 = D_800FC798[0][0];
-        func_8004ADB0(var_v0, D_800FC6DC, D_800FC798[0][1] - var_v0);
+        func_80037360(D_800FC798, sp40, 3);
+        pad = D_800FC798->unk_04 - D_800FC798->unk_00;
+        func_8004ADB0(D_800FC798->unk_00, D_800FC6DC, pad);
         func_80050B40(D_800FC6DC, D_800FC6A8, 0xBB8);
         func_800397BC(D_800FC6A8);
-        var_v0 = D_800FC798[0][1];
-        func_8004ADB0(var_v0, D_800FC6DC, D_800FC798[0][2] - var_v0);
+        pad = D_800FC798->unk_08 - D_800FC798->unk_04;
+        func_8004ADB0(D_800FC798->unk_04, D_800FC6DC,  pad);
         func_80050B40(D_800FC6DC, D_800FC6A4, 0x1388);
-        func_8003979C(D_800FC6A4, D_800FC798[0][2]);
+        func_8003979C(D_800FC6A4, D_800FC798->unk_08);
     }
 
-    D_80079014 = sp20;
+    D_80079014 = arg0 & 0xFFFF0000;
+
+    if(1){}
 
     switch (arg0) {
         case 0x0:
@@ -123,30 +131,31 @@ s32 func_800367A0(u32 arg0, s32 arg1, s32 arg2) {
 
             switch (arg1) {
                 case 1:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 1, 0x70, 0x80, -1);
-                    D_80077C64 = sp2C;
+                    temp=1;
                     break;
                     
                 case 2:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 2, 0x70, 0x80, -1);
-                    D_80077C64 = sp2C;
+                    temp=2;
                     break;
-
+                
                 default:
                     return 0;
             }
+            D_80077C64 = func_80039024(D_800FC6A4, D_800FC6A8, temp, 0x70, 0x80, -1); 
+            sp2C = D_80077C64;
             break;
 
         case 0x1:
             if (arg1 < -0x5A) {
                 arg1 = -0x5A;
-            } else if (arg1 >= 0x5B) {
+            } else if (arg1 > 0x5A) {
                 arg1 = 0x5A;
             }
             var_v0 = (arg1 + 0x5A) * 1.4111111f;
-            if (var_v0 >= 0xFF) {
-                var_v0 = 0xFE;
-            }
+            var_v0 = (var_v0 > 0xFE) ? 0xFE : var_v0; 
+            // if (var_v0 >= 0xFF) {
+            //     var_v0 = 0xFE;
+            // }
             sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 3, 0x80, var_v0, -1);
             break;
 
@@ -159,25 +168,25 @@ s32 func_800367A0(u32 arg0, s32 arg1, s32 arg2) {
             break;
 
         case 0x3:
-            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 5, 0x80, 0x80, -1);
-            D_80077C6C = sp2C;
+            D_80077C6C = func_80039024(D_800FC6A4, D_800FC6A8, 5, 0x80, 0x80, -1);
+            sp2C = D_80077C6C;
             break;
 
         case 0x4:
             switch (arg1) {
                 case 1:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 1, 0x80, 0x80, -1);
-                    D_80077C68 = sp2C;
+                    temp = 1;
                     break;
 
                 case 2:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 2, 0x80, 0x80, -1);
-                    D_80077C68 = sp2C;
+                    temp = 2;
                     break;
 
                 default:
                     return 0;
             }
+            D_80077C68 = func_80039024(D_800FC6A4, D_800FC6A8, temp, 0x80, 0x80, -1);
+            sp2C = D_80077C68;
             break;
 
         case 0x6:
@@ -192,114 +201,6 @@ s32 func_800367A0(u32 arg0, s32 arg1, s32 arg2) {
             return 0;
 
         case 0x12:
-            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xC, 0x80, 0x80, -1);
-            break;
-
-        case 0x13:
-            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xD, 0x80, 0x80, -1);
-            break;
-
-        case 0x14:
-            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xE, 0x80, 0x80, -1);
-            break;
-
-        case 0x15:
-            switch (arg1) {
-                case 1:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0x10, 0x80, 0x80, 0x80);
-                    break;
-
-                case 2:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0x11, 0x80, 0x80, 0x80);
-                    break;
-
-                default:
-                    return 0;
-            }
-            break;
-
-        case 0x16:
-            switch (arg1) {
-                case 1:
-                    if (func_80039354(D_80077C7C)) {
-                        D_80077C7C = 0;
-                    } else {
-                        D_80077C7C = func_80039024(D_800FC6A4, D_800FC6A8, 0x16, 0x80, 0x80, 0x80);
-                    }
-                    return D_80077C7C;
-
-                case 2:
-                    if (func_80039354(D_80077C7C)) {
-                        D_80077C7C = 0;
-                    } else {
-                        D_80077C7C = func_80039024(D_800FC6A4, D_800FC6A8, 0x17, 0x80, 0x80, 0x80);
-                    }
-                    return D_80077C7C;
-
-                default:
-                    return 0;
-            }
-            break;
-
-        case 0x1E:
-            sp2C = func_800479C0(0xA6, 1, 0, arg1);
-            break;
-
-        case 0x1F:
-            sp2C = func_800479C0(0xA6, 1, 1, arg1);
-            break;
-
-        case 0x20:
-            sp2C = func_800479C0(0xA6, 1, 2, arg1);
-            break;
-
-        case 0x21:
-            sp2C = func_800479C0(0xA6, 1, 3, arg1);
-            break;
-
-        case 0x22:
-            sp2C = func_800479C0(0xA6, 1, 4, arg1);
-            break;
-
-        case 0x23:
-            sp2C = func_800479C0(0xA6, 1, 5, arg1);
-            break;
-
-        case 0x28:
-            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xF, 0x80, 0x80, -1);
-            break;
-
-        case 0x32:
-            if (arg1 == 0xC8) {
-                return func_80039024(D_800FC6A4, D_800FC6A8, 0x20, 0x80, 0x80, -1);
-            }
-
-            if (arg1 >= 0x98) {
-                arg1 = 2;
-            }
-
-            if ((arg1 > 0) && (arg1 < 0x98)) {
-                arg1 -= 1;
-            } else {
-                arg1 = 0;
-            }
-
-            switch (D_80077970[arg1][1]) {
-                case 0:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xB, 0x80, 0x80, -1);
-                    break;
-
-                case 1:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xA, 0x80, 0x80, -1);
-                    break;
-
-                case 2:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 9, 0x80, 0x80, -1);
-                    break;
-            }
-            break;
-
-        case 0x33:
             if (arg1 >= 0x98) {
                 arg1 = 3;
             }
@@ -327,77 +228,198 @@ s32 func_800367A0(u32 arg0, s32 arg1, s32 arg2) {
             }
             break;
 
+
+        case 0x13:
+            if (arg1 == 0xC8) {
+                return func_80039024(D_800FC6A4, D_800FC6A8, 0x20, 0x80, 0x80, -1);
+            }
+
+            if (arg1 >= 0x98) {
+                arg1 = 2;
+            }
+
+            if ((arg1 > 0) && (arg1 < 0x98)) {
+                arg1 -= 1;
+            } else {
+                arg1 = 0;
+            }
+
+            switch (D_80077970[arg1][1]) {
+                default:
+                    break;
+
+                case 0:
+                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xB, 0x80, 0x80, -1);
+                    break;
+
+                case 1:
+                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xA, 0x80, 0x80, -1);
+                    break;
+
+                case 2:
+                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 9, 0x80, 0x80, -1);
+                    break;
+            }
+            break; 
+
+        case 0x14:
+            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xC, 0x80, 0x80, -1);
+            break;
+        case 0x9:
+            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xD, 0x80, 0x80, -1);
+            break;
+
+        case 0xA:
+            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xE, 0x80, 0x80, -1);
+            break;
+
+        case 0xB:
+            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0xF, 0x80, 0x80, -1); 
+            break;
+
+        case 0x5A:
+            switch (arg1) {
+                case 1:
+                    temp = 0x12;
+                    break;
+
+                case 2:
+                    temp = 0x13;
+                    break;
+
+                default:
+                    return 0;
+            }
+            D_80077C74 = func_80039024(D_800FC6A4, D_800FC6A8, temp, 0x80, 0x80, -1);
+            break;
+
+        case 0x5B:
+            switch (arg1) {
+                case 2:
+                    return 0;
+
+                default:
+                    return 0;
+
+                case 1:
+                    D_80077C78 = func_80039024(D_800FC6A4, D_800FC6A8, 0x14, 0x80, 0x80, -1);
+                    break;
+            }
+            break;
+
+        case 0xC:
+            switch (arg1) {
+                case 1:
+                    temp = 0x10;
+                    break;
+
+                case 2:
+                    temp = 0x11;
+                    break;
+
+                default:
+                    return 0;
+            }
+            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, temp, 0x80, 0x80, 0x80 ); 
+            break;
+
+        case 0xD:
+            switch (arg1) {
+                case 1:
+                    temp = 0x16;
+                    break;
+
+                case 2:
+                    temp = 0x17;
+                    break; 
+
+                default:
+                    return 0;
+            }
+
+            if (func_80039354(D_80077C7C)) {
+                D_80077C7C = sp2C = 0;
+                break; 
+            } else {
+                D_80077C7C = sp2C = func_80039024(D_800FC6A4, D_800FC6A8, temp, 0x80, 0x80, 0x80);
+                break;
+            }
+            break;
+
         case 0x3C:
             sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0x18, 0x80, 0x80, -1);
             break;
 
         case 0x3D:
             switch (arg1) {
-                case 0:
-                    sp38 = 0xFF;
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0x1C, sp38, 0x80, -1);
+                case 3:
+                    temp = 0x19;
                     break;
+                case 2:
+                    temp = 0x1A;
+                    break; 
 
                 case 1:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0x1B, sp38, 0x80, -1);
+                    temp = 0x1B;
                     break;
 
-                case 2:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0x1A, sp38, 0x80, -1);
-                    break;
-
-                case 3:
-                    sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0x19, sp38, 0x80, -1);
+                case 0:
+                    temp = 0x1C;
+                    sp38 = 0xFF;
                     break;
 
                 default:
                     return 0;
             }
+            
+            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, temp, sp38, 0x80, -1);
             break;
 
         case 0x3E:
             if (arg1 < 0xB) {
-                if ((arg1 == 1) || (arg1 == 2)) {
-                    arg1 = 0x1D;
+                if(arg1 == 1 || arg1 == 2) {
+                    temp = 0x1D;
                 } else {
-                    arg1 = 0x1E;
+                    temp = 0x1E;
                 }
-                sp2C = func_80039024(D_800FC6A4, D_800FC6A8, arg1, 0xFF, 0x80, -1);
-                break;
+            } else {
+                return 0;
             }
-            return 0;
-
-        case 0x3F:
-            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0x1F, 0x80, 0x80, -1);
+            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, temp, 0xFF, 0x80, -1);
             break;
 
-        case 0x5A:
-            switch (arg1) {
-                case 1:
-                    D_80077C74 = func_80039024(D_800FC6A4, D_800FC6A8, 0x12, 0x80, 0x80, -1);
-                    return D_80077C74;
-                case 2:
-                    D_80077C74 = func_80039024(D_800FC6A4, D_800FC6A8, 0x13, 0x80, 0x80, -1);
-                    return D_80077C74;
-                default:
-                    return 0;
-            }
-            return 0;
+        case 0x3F:
+            sp2C = func_80039024(D_800FC6A4, D_800FC6A8, 0x1F, 0x80, 0x80, -1); 
+            break;
 
-        case 0x5B:
-            switch (arg1) {
-                case 1:
-                    D_80077C78 = func_80039024(D_800FC6A4, D_800FC6A8, 0x14, 0x80, 0x80, -1);
-                    return D_80077C78;
-                case 2:
-                    return 0;
-            }
-            return 0;
+        case 0x1E:
+            sp2C = func_800479C0(0xA6, 1, 0, arg1);
+            break;
+
+        case 0x1F:
+            sp2C = func_800479C0(0xA6, 1, 1, arg1);
+            break;
+
+        case 0x20:
+            sp2C = func_800479C0(0xA6, 1, 2, arg1);
+            break;
+
+        case 0x21:
+            sp2C = func_800479C0(0xA6, 1, 3, arg1);
+            break;
+
+        case 0x22:
+            sp2C = func_800479C0(0xA6, 1, 4, arg1);
+            break;
+
+        case 0x23:
+            sp2C = func_800479C0(0xA6, 1, 5, arg1);
+            break;
 
         default:
             return 0;
     }
-
+    
     return sp2C;
 }
 
@@ -409,31 +431,40 @@ s32 func_80037234(s32 arg0, s32 arg1) {
             }
             func_800392A8(D_80077C64, arg1);
             D_80077C64 = 0;
-            return 1;
+            break;
+
         case 0x4:
             if (arg1 == 0) {
                 arg1 = 1;
             }
             func_800392A8(D_80077C68, arg1);
-            return 1;
+            break;
+
         case 0x3:
             func_800392A8(D_80077C6C, 0x3C);
             D_80077C6C = 0;
-            return 1;
+            break;
+
         case 0xA1:
             func_800392A8(D_80077C70, 0x78);
             D_80077C70 = 0;
-            return 1;
+            break;
+
         case 0x5A:
             func_800392A8(D_80077C74, 0x5A);
             D_80077C74 = 0;
-            return 1;
+            break;
+
         case 0x5B:
             func_800392A8(D_80077C78, 0x5A);
             D_80077C78 = 0;
-            return 1;
+            break;
+
+        default:
+            return 0;
     }
-    return 0;
+
+    return 1;
 }
 
 void func_80037338(void) {
@@ -447,8 +478,8 @@ void func_80037340(void) {
 void func_80037360(s32* addr, s32 value, s32 count) {
     s32 i;
 
-    for (i = 0; i < count; i++) {
-        addr[i] += value;
+    for (i = 0; i != count; i++, addr++) {
+        *addr += value;
     }
 }
 
@@ -468,17 +499,21 @@ typedef struct {
 } Struct_func_80038B68; // size >= 0x30
 
 typedef struct {
-    /* 0x00 */ u16 unk_00;
-    /* 0x02 */ u16 unk_02;
+    /* 0x00 */ s16 unk_00;
+    /* 0x02 */ s16 unk_02;
     /* 0x04 */ char unk_04[0x4];
     /* 0x08 */ s32 unk_08;
 } Struct_func_800373D8;
 
+//#pragma GLOBAL_ASM("asm/nonmatchings/373A0/func_800373D8.s")
+
 s32 func_800373D8(void) {
-    Struct_func_800373D8* sp78;
+    Struct_D_800FC798* sp78;
     Struct_func_80038B68 sp38;
     s32 sp34;
+    s32 sp30;
     s32 i;
+    s32 temp;
 
     sp38.unk_00 = 0x18;
     sp38.unk_04 = 0x34;
@@ -497,108 +532,144 @@ s32 func_800373D8(void) {
     D_800FC6DC = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(StructD_800FC6DC));
     D_800FC798 = alHeapDBAlloc(NULL, 0, D_800FC810, 8, 4);
     D_800FC6E0 = alHeapDBAlloc(NULL, 0, D_800FC810, 7, 4);
-    func_8004ADB0(D_15C0000, D_800FC6E0, 0x1C);
-    func_80037360(&D_800FC6E0[1], &D_15C0000, 6);
-    sp78 = (Struct_func_800373D8*)D_800FC798;
-    func_8004ADB0(&D_800FC6E0[1], sp78, 0xC);
-    D_800FC6E4 = alHeapDBAlloc(NULL, 0, D_800FC810, sp78->unk_08 + 3, 4);
-    func_8004ADB0(&D_800FC6E0[1], D_800FC6E4, 0xC + (sp78->unk_08 * 4));
-    func_80037360(D_800FC6E4, D_800FC6E0[1], 2);
-    func_80037360(&D_800FC6E4[3], D_800FC6E0[1], sp78->unk_08);
-    sp34 = D_800FC6E4[0];
-    func_8004ADB0(sp34, D_800FC6DC, D_800FC6E4[1] - sp34);
-    D_800FC684 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(D_800FC684));
-    func_80050B40(D_800FC6DC, D_800FC684, sizeof(D_800FC684));
+    func_8004ADB0(&D_15C0000, D_800FC6E0, 0x1C);
+    func_80037360(&(*D_800FC6E0)[1], &D_15C0000, 6);
+
+    sp78 = D_800FC798;
+    func_8004ADB0((*D_800FC6E0)[1], sp78, 0xC);
+    
+    temp = sp78->unk_08;
+    D_800FC6E4 = alHeapDBAlloc(NULL, 0, D_800FC810, temp + 3, 4);
+
+    func_8004ADB0((*D_800FC6E0)[1], D_800FC6E4, 0xC + (temp * 4));
+
+    func_80037360(D_800FC6E4, (*D_800FC6E0)[1], 2);
+    func_80037360(&D_800FC6E4[3], (*D_800FC6E0)[1], temp);
+    sp30 = D_800FC6E4[0];
+    func_8004ADB0(sp30, D_800FC6DC, D_800FC6E4[1] - sp30);
+
+    D_800FC684 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(*D_800FC684));
+    func_80050B40(D_800FC6DC, D_800FC684, sizeof(*D_800FC684));
+
     func_8003979C(D_800FC684, D_800FC6E4[1]);
-    D_800FC680 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(D_800FC680));
-    func_8004ADB0(&D_800FC6E0[2], sp78, 8);
-    // 0x20 * 8
-    sp34 = (sp78->unk_02 * 8) + 4;
+    D_800FC680 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(*D_800FC680));
+    func_8004ADB0((*D_800FC6E0)[2], sp78, 8);
+
+    sp34 = ((s16)sp78->unk_00 * 8) + 4;
     D_800FC6E8 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sp34);
-    func_8004ADB0(&D_800FC6E0[2], D_800FC6E8, sp34);
-    alSeqFileNew(D_800FC6E8, D_800FC6E0[2]);
+
+
+    func_8004ADB0((*D_800FC6E0)[2], D_800FC6E8, sp34);
+    alSeqFileNew(D_800FC6E8, (*D_800FC6E0)[2]);
     D_800FC6EC = alHeapDBAlloc(NULL, 0, D_800FC810, 3, 4);
     func_8004ADB0(D_800FC6E8->seqArray[0].offset, D_800FC6EC, 0xC);
     func_80037360(D_800FC6EC, D_800FC6E8->seqArray[0].offset, 3);
-    func_8004ADB0(&D_800FC6EC[0], D_800FC6DC, D_800FC6EC[1] - D_800FC6EC[0]);
-    D_800FC688 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(D_800FC688));
-    func_80050B40(D_800FC6DC, D_800FC688, sizeof(D_800FC688));
+
+    sp30 = (*D_800FC6EC)[1] - (*D_800FC6EC)[0];
+    func_8004ADB0((*D_800FC6EC)[0], D_800FC6DC, sp30);
+    D_800FC688 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(*D_800FC688));
+    func_80050B40(D_800FC6DC, D_800FC688, sizeof(*D_800FC688));
     func_800397BC(D_800FC688);
-    func_8004ADB0(&D_800FC6EC[1], D_800FC6DC, D_800FC6EC[2] - D_800FC6EC[1]);
-    D_800FC68C = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(D_800FC68C));
-    func_80050B40(D_800FC6DC, D_800FC68C, sizeof(D_800FC68C));
-    func_8003979C(D_800FC68C, D_800FC6EC[2]);
-    func_8004ADB0(&D_800FC6E8[1], sp78, 0xC);
-    D_800FC6F0 = alHeapDBAlloc(NULL, 0, D_800FC810, 4, sp78->unk_00 + 3);
-    func_8004ADB0(&D_800FC6E8[1], D_800FC6F0, 0xC + (sp78->unk_00 * 4));
-    func_80037360(&D_800FC6F0[1], &D_800FC6E8[1], sp78->unk_00 + 2);
-    func_8004ADB0(&D_800FC6F0[1], D_800FC6DC, D_800FC6F0[2] - D_800FC6F0[1]);
-    D_800FC690 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(D_800FC690));
-    func_80050B40(D_800FC6DC, D_800FC690, sizeof(D_800FC690));
+
+    sp30 = (*D_800FC6EC)[1];
+    func_8004ADB0(sp30, D_800FC6DC, (*D_800FC6EC)[2] - sp30);
+    D_800FC68C = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(*D_800FC68C));
+    func_80050B40(D_800FC6DC, D_800FC68C, sizeof(*D_800FC68C));
+    
+    func_8003979C(D_800FC68C, (*D_800FC6EC)[2]);
+    func_8004ADB0(*(s32*)(D_800FC6E8 + 1), sp78, 0xC);
+
+    temp = sp78->unk_00;
+    D_800FC6F0 = alHeapDBAlloc(NULL, 0, D_800FC810, 4, temp + 3);
+    func_8004ADB0(*(s32*)(D_800FC6E8 + 1), D_800FC6F0, 0xC + (temp * 4));
+    
+    func_80037360(&D_800FC6F0[1], *(s32*)(D_800FC6E8 + 1), temp + 2);
+
+    sp30 = D_800FC6F0[2] - D_800FC6F0[1];
+    func_8004ADB0(D_800FC6F0[1], D_800FC6DC, sp30);
+    D_800FC690 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(*D_800FC690));
+    func_80050B40(D_800FC6DC, D_800FC690, sizeof(*D_800FC690));
     func_8003979C(D_800FC690, D_800FC6F0[2]);
     D_800FC698.unk_00 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(Struct_D_800FC698_sub));
     D_800FC698.unk_04 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(Struct_D_800FC698_sub));
     D_800FC698.unk_08 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(Struct_D_800FC698_sub));
-    func_8004ADB0(&D_800FC6E8[2], sp78, 0xC);
-    D_800FC6FC = alHeapDBAlloc(NULL, 0, D_800FC810, 4, sp78->unk_00 + 3);
-    func_8004ADB0(&D_800FC6E8[2], D_800FC6FC, 0xC + (sp78->unk_00 * 4));
-    func_80037360(&D_800FC6FC[1], &D_800FC6E8[2], sp78->unk_00 + 2);
-    func_8004ADB0(&D_800FC6FC[1], D_800FC6DC, D_800FC6FC[2] - D_800FC6FC[1]);
-    D_800FC6AC = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(D_800FC6AC));
-    func_80050B40(D_800FC6DC, D_800FC6AC, sizeof(D_800FC6AC));
+    func_8004ADB0(*((s32*)D_800FC6E8 + 5), sp78, 0xC);
+
+    temp = sp78->unk_00;
+    D_800FC6FC = alHeapDBAlloc(NULL, 0, D_800FC810, 4, temp + 3);
+    func_8004ADB0(*((s32*)D_800FC6E8 + 5), D_800FC6FC, 0xC + (temp * 4));
+    
+    func_80037360(&D_800FC6FC[1], *((s32*)D_800FC6E8 + 5), temp + 2);
+
+    sp30 = D_800FC6FC[2] - D_800FC6FC[1];
+    func_8004ADB0(D_800FC6FC[1], D_800FC6DC, sp30);
+    D_800FC6AC = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(*D_800FC6AC));
+    func_80050B40(D_800FC6DC, D_800FC6AC, sizeof(*D_800FC6AC));
     func_8003979C(D_800FC6AC, D_800FC6FC[2]);
     D_800FC6B0.unk_00 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(Struct_D_800FC6B0_sub));
     D_800FC6B0.unk_04 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(Struct_D_800FC6B0_sub));
     D_800FC6B0.unk_08 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(Struct_D_800FC6B0_sub));
-    func_8004ADB0(&D_800FC6E8[7], sp78, 8);
-    sp34 = (sp78->unk_02 * 8) + 4;
+    
+    func_8004ADB0(*((s32*)D_800FC6E8 + 7), sp78, 8);
+    
+    sp34 = ((s16)sp78->unk_00 * 8) + 4;
     D_800FC6F4 = alHeapDBAlloc(NULL, 0, D_800FC810, 4, sp34);
-    func_8004ADB0(&D_800FC6E8[7], D_800FC6F4, sp34);
-    alSeqFileNew(D_800FC6F4, &D_800FC6E8[7]);
-    func_8004ADB0(&D_800FC6F4[1], sp78, 8);
-    sp34 = (sp78->unk_02 * 8) + 4;
+    func_8004ADB0(*((s32*)D_800FC6E8 + 7), D_800FC6F4, sp34);
+    alSeqFileNew(D_800FC6F4, *((s32*)D_800FC6E8 + 7));
+    func_8004ADB0(*((s32*)D_800FC6F4 + 3), sp78, 8);
+    
+    sp34 = ((s16)sp78->unk_00 * 8) + 4;
     D_800FC6F8 = alHeapDBAlloc(NULL, 0, D_800FC810, 4, sp34);
-    func_8004ADB0(&D_800FC6F4[1], D_800FC6F8, sp34);
-    alSeqFileNew(D_800FC6F8, &D_800FC6F4[1]);
-    D_800FC6A4 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(D_800FC6A4));
-    D_800FC6A8 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(D_800FC6A8));
-    func_8004ADB0(D_800FC6E0[3], sp78, 8);
-    sp34 = (sp78->unk_02 * 8) + 4;
+    func_8004ADB0(*((s32*)D_800FC6F4 + 3), D_800FC6F8, sp34);
+    alSeqFileNew(D_800FC6F8, *((s32*)D_800FC6F4 + 3));
+    D_800FC6A4 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(*D_800FC6A4));
+    D_800FC6A8 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(*D_800FC6A8));
+    func_8004ADB0((*D_800FC6E0)[3], sp78, 8);
+    
+    sp34 = ((s16)sp78->unk_00 * 8) + 4;
     D_800FC700 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sp34);
-    func_8004ADB0(&D_800FC6E0[3], D_800FC700, sp34);
-    alSeqFileNew(D_800FC700, D_800FC6E0[3]);
-    func_8004ADB0(&D_800FC6E0[4], sp78, 8);
-    sp34 = (sp78->unk_02 * 8) + 4;
+    func_8004ADB0((*D_800FC6E0)[3], D_800FC700, sp34);
+    alSeqFileNew(D_800FC700, (*D_800FC6E0)[3]);
+    func_8004ADB0((*D_800FC6E0)[4], sp78, 8);
+
+    sp34 = ((s16)sp78->unk_00 * 8) + 4;
     D_800FC704 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sp34);
-    func_8004ADB0(&D_800FC6E0[4], D_800FC704, sp34);
-    alSeqFileNew(D_800FC704, D_800FC6E0[4]);
+    func_8004ADB0((*D_800FC6E0)[4], D_800FC704, sp34);
+    alSeqFileNew(D_800FC704, (*D_800FC6E0)[4]);
+    
     D_800FC6C0.unk_00 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(Struct_D_800FC6C0_sub));
     D_800FC6C0.unk_04 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(Struct_D_800FC6C0_sub));
     D_800FC6C0.unk_08 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sizeof(Struct_D_800FC6C0_sub));
-    func_8004ADB0(&D_800FC704->seqArray[0].offset, sp78, 8);
-    sp34 = (sp78->unk_02 * 8) + 4;
+
+    func_8004ADB0(D_800FC704->seqArray[0].offset, sp78, 8);
+    
+    sp34 = ((s16)sp78->unk_00 * 8) + 4;
     D_800FC708 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sp34);
-    func_8004ADB0(&D_800FC704->seqArray[0].offset, D_800FC708, sp34);
+    func_8004ADB0(D_800FC704->seqArray[0].offset, D_800FC708, sp34);
     alSeqFileNew(D_800FC708, D_800FC704->seqArray[0].offset);
     D_80079364 = 0;
-    func_8004ADB0(&D_800FC704[2], sp78, 8);
-    sp34 = (sp78->unk_02 * 8) + 4;
+    func_8004ADB0(*((s32*)D_800FC704 + 5), sp78, 8);
+    
+    sp34 = ((s16)sp78->unk_00 * 8) + 4;
     D_800FC714 = alHeapDBAlloc(NULL, 0, D_800FC810, 1, sp34);
-    func_8004ADB0(&D_800FC704[2], D_800FC714, sp34);
-    alSeqFileNew(D_800FC714, &D_800FC704[2]);
+    func_8004ADB0(*((s32*)D_800FC704 + 5), D_800FC714, sp34);
+    alSeqFileNew(D_800FC714, *((s32*)D_800FC704 + 5));
     D_800FC6D8 = alHeapDBAlloc(NULL, 0, D_800FC810, 0xB80, 2);
-    D_800FC6D4 = alHeapDBAlloc(NULL, 0, D_800FC810, sizeof(D_800FC6D4), 1);
-    func_8004ADB0(&D_800FC6E0[5], D_800FC6D4, D_800FC6E0[6] - D_800FC6E0[5]);
-    D_800FC6CC = alHeapDBAlloc(NULL, 0, D_800FC810, sizeof(D_800FC6CC), 1);
-    func_8004ADB0(&D_800FC6E0[6], D_800FC6CC, sizeof(D_800FC6CC));
+    D_800FC6D4 = alHeapDBAlloc(NULL, 0, D_800FC810, sizeof(*D_800FC6D4), 1);
 
-    for (i = 0; i < 8; i++) {
-        (*D_800FC6CC)[i] += (*D_800FC6E0)[6];
+    sp30 = (*D_800FC6E0)[6] - (*D_800FC6E0)[5];
+    func_8004ADB0((*D_800FC6E0)[5], D_800FC6D4, sp30);
+    D_800FC6CC = alHeapDBAlloc(NULL, 0, D_800FC810, 0x100, 1);
+    func_8004ADB0((*D_800FC6E0)[6], D_800FC6CC, 0x100);
+
+    for (i = 0; i < 32; i++) {
+        (*D_800FC6CC)[i][0] += (*D_800FC6E0)[6];
     }
 
-    D_800FC6D0 = alHeapDBAlloc(NULL, 0, D_800FC810, sizeof(D_800FC6D0), 1);
+    D_800FC6D0 = alHeapDBAlloc(NULL, 0, D_800FC810, sizeof(*D_800FC6D0), 1);
     func_8004AE90(2, 2);
     func_8004AE90(1, 3);
     D_800FC820 = 0;
+    
     return D_800FC810->cur - D_800FC810->base;
 }
