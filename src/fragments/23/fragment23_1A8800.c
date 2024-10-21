@@ -1,27 +1,454 @@
-#include "global.h"
+#include "fragment23.h"
+#include "src/1CF30.h"
+#include "src/20330.h"
+#include "src/29BA0.h"
+#include "src/2D340.h"
+#include "src/2E110.h"
+#include "src/2E460.h"
+#include "src/49790.h"
+#include "src/memmap.h"
+#include "src/memory.h"
+#include "src/stage_loader.h"
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_88200290.s")
+static char** D_88224F90;
+static char** D_88224F94;
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_882004BC.s")
+static u16 D_88217BF0[4] = { 6, 7, 8, 9 };
+static Color_RGBA8 D_88217BF8 = { 0xA0, 0x96, 0x64, 0xFF };
+static u16 D_88217BFC[4] = { 2, 3, 4, 5 };
+static Color_RGBA8 D_88217C04 = { 0x64, 0x96, 0xB4, 0xFF };
+static Color_RGBA8 D_88217C08 = { 0x3C, 0x64, 0x78, 0xFF };
+static Color_RGBA8 D_88217C0C = { 0xA0, 0x96, 0x64, 0xFF };
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_882004C8.s")
+void func_88200290(unk_func_88503298* arg0, s32 arg1, s32 arg2, MemoryPool* arg3) {
+    s32 i;
+    s32 temp_v0;
+    s32 var_s1;
+    unk_func_885012A4* temp_s0;
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_88200968.s")
+    var_s1 = 0;
+    for (i = 0; i < 4; i++) {
+        temp_v0 = func_8001F5B0(0x10, 0, func_8002D7C0(NULL, 0, D_88224F94, D_88217BF0[i]));
+        if (var_s1 < temp_v0) {
+            var_s1 = temp_v0;
+        }
+    }
+    var_s1 += 0x10;
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_882009B4.s")
+    ((func885007CC)Memmap_GetFragmentVaddr(func_885007CC))(arg0, sizeof(unk_func_88503298));
+    arg0->unk_00.unk_10 = ((0x280 - var_s1) / 2) - arg1;
+    arg0->unk_00.unk_12 = arg2;
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_88200A30.s")
+    arg0->unk_2C = mem_pool_alloc(arg3, sizeof(unk_func_88001300_038));
+    ((func88502274)Memmap_GetFragmentVaddr(func_88502274))(arg0->unk_2C, 0, 0, var_s1, 0x68);
+    arg0->unk_2C->unk_28 |= 0x200;
+    arg0->unk_2C->unk_28 |= 0x400;
+    arg0->unk_2C->unk_28 &= ~1;
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(arg0, arg0->unk_2C);
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_88200ACC.s")
+    temp_s0 = mem_pool_alloc(arg3, sizeof(unk_func_885012A4));
+    ((func885012A4)Memmap_GetFragmentVaddr(func_885012A4))(temp_s0, 0, 0, var_s1, 0x68, D_88217BF8);
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(arg0->unk_2C, temp_s0);
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_88200AF4.s")
+    arg0->unk_30 = mem_pool_alloc(arg3, sizeof(unk_func_8850878C));
+    ((func8850878C)Memmap_GetFragmentVaddr(func_8850878C))(arg0->unk_30, 8, 8, 0, 0x10);
+    arg0->unk_30->unk_3C = 0x20;
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(temp_s0, arg0->unk_30);
+}
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_88200B60.s")
+void func_882004BC(unk_func_88503298* arg0, s8* arg1) {
+    arg0->unk_30->unk_40 = arg1;
+}
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_88200C44.s")
+void func_882004C8(unk_func_88200FA0_030* arg0, s32 arg1, s32 arg2, unk_func_88001300_000* arg3, MemoryPool* arg4) {
+    s32 i;
+    s32 j;
+    char* temp_s0;
+    s32 temp_v0;
+    s32 var_s2;
+    unk_func_885012A4* temp_s0_2;
+    unk_func_8850B254* sp6C;
+    UNUSED s32 pad1[3];
+    unk_func_88503298* temp_s0_3;
+    unk_func_8850878C* temp_s1;
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_88200F00.s")
+    if ((arg2 <= 0) || (arg2 >= 5)) {
+        arg2 = 0;
+    } else {
+        arg2--;
+    }
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_88200FA0.s")
+    var_s2 = func_8001F5B0(0x10, 0, func_8002D7C0(NULL, 0, D_88224F94, 1));
 
-#pragma GLOBAL_ASM("asm/us/nonmatchings/fragments/23/fragment23_1A8800/func_8820104C.s")
+    for (j = 0; j < 4; j++) {
+        temp_v0 = func_8001F5B0(0x10, 0, func_8002D7C0(NULL, 0, D_88224F94, D_88217BFC[j]));
+        if (var_s2 < temp_v0) {
+            var_s2 = temp_v0;
+        }
+    }
+    var_s2 += 0x10;
+
+    ((func885007CC)Memmap_GetFragmentVaddr(func_885007CC))(arg0, sizeof(unk_func_88200FA0_030));
+    arg0->unk_00.unk_20 = func_88200A30;
+    arg0->unk_00.unk_10 = (0x280 - var_s2) / 2;
+    arg0->unk_00.unk_12 = arg1;
+
+    arg0->unk_2C = mem_pool_alloc(arg4, sizeof(unk_func_88001300_038));
+    ((func88502274)Memmap_GetFragmentVaddr(func_88502274))(arg0->unk_2C, 0, 0, var_s2, 0xA4);
+    arg0->unk_2C->unk_28 |= 0x200;
+    arg0->unk_2C->unk_28 |= 0x400;
+    arg0->unk_2C->unk_28 &= ~1;
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(arg0, arg0->unk_2C);
+
+    sp6C = mem_pool_alloc(arg4, sizeof(unk_func_8850B254));
+    ((func8850B254)Memmap_GetFragmentVaddr(func_8850B254))(sp6C, 0, 0, var_s2, 0x18, D_88217C04, D_88217C08);
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(arg0->unk_2C, sp6C);
+
+    temp_s1 = mem_pool_alloc(arg4, sizeof(unk_func_8850878C));
+    temp_s0 = func_8002D7C0(NULL, 0, D_88224F94, 1);
+    ((func8850878C)Memmap_GetFragmentVaddr(func_8850878C))(temp_s1, (var_s2 - func_8001F5B0(0x10, 0, temp_s0)) / 2, 0,
+                                                           temp_s0, 0x10);
+    temp_s1->unk_3C = 0x1C;
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(sp6C, temp_s1);
+
+    func_8002CBC0(&arg0->unk_38, 4, arg4);
+
+    for (i = 0; i < 4; i++) {
+        func_8002CC2C(&arg0->unk_38, func_8002D7C0(NULL, 0, D_88224F94, D_88217BFC[i]), i);
+    }
+
+    temp_s0_2 = mem_pool_alloc(arg4, sizeof(unk_func_885012A4));
+    ((func885012A4)Memmap_GetFragmentVaddr(func_885012A4))(temp_s0_2, 0, 0x1C, var_s2, 0x88, D_88217C0C);
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(arg0->unk_2C, temp_s0_2);
+
+    arg0->unk_30 = mem_pool_alloc(arg4, sizeof(unk_func_88200FA0_030_030));
+    ((func885060BC)Memmap_GetFragmentVaddr(func_885060BC))(arg0->unk_30, 0, 4, func_882009B4, var_s2, 0x20, 4, 1, arg4);
+    ((func88506384)Memmap_GetFragmentVaddr(func_88506384))(arg0->unk_30, &arg0->unk_38, arg4);
+    ((func88506BFC)Memmap_GetFragmentVaddr(func_88506BFC))(arg0->unk_30, arg2);
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(temp_s0_2, arg0->unk_30);
+
+    arg0->unk_34 = mem_pool_alloc(arg4, sizeof(unk_func_88503298));
+    func_88200290(arg0->unk_34, arg0->unk_00.unk_10, 0xB4, arg4);
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(arg0, arg0->unk_34);
+    func_88200968(arg0, arg2);
+
+    temp_s0_3 = mem_pool_alloc(arg4, sizeof(unk_func_88503298));
+    ((func88503298)Memmap_GetFragmentVaddr(func_88503298))(temp_s0_3, arg0->unk_2C, arg3);
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(arg0, temp_s0_3);
+}
+
+void func_88200968(unk_func_88200FA0_030* arg0, s32 arg1) {
+    func_882004BC(arg0->unk_34, func_8002D7C0(NULL, 0, D_88224F94, arg1 + 6));
+}
+
+void func_882009B4(s32 arg0, s32 arg1, char* arg2, s32 arg3) {
+    static Color_RGBA8 D_88217C10 = { 0xF0, 0xF0, 0xF0, 0xFF };
+
+    func_8001F3F4();
+    func_8001F324(D_88217C10.r, D_88217C10.g, D_88217C10.b, D_88217C10.a);
+    func_8001EBE0(0x10, 0);
+    func_8001F1E8(arg0 + 8, arg1 + 4, arg2);
+    func_8001F444();
+}
+
+s32 func_88200A30(unk_func_88200FA0_030* arg0, Controller* arg1) {
+    s32 sp1C;
+
+    if (arg0->unk_2C->unk_30 & 2) {
+        sp1C = arg0->unk_30->unk_00.unk_20(arg0->unk_30, arg1);
+        if ((sp1C & 1) && (sp1C & 8)) {
+            func_88200968(arg0, arg0->unk_30->unk_38);
+        }
+    } else if (!(arg0->unk_2C->unk_28 & 1)) {
+        sp1C = 2;
+    } else {
+        sp1C = 1;
+    }
+    return sp1C;
+}
+
+void func_88200ACC(unk_func_88200FA0_030* arg0) {
+    arg0->unk_2C->unk_28 |= 1;
+    arg0->unk_34->unk_2C->unk_28 |= 1;
+}
+
+void func_88200AF4(unk_func_88200FA0_030* arg0) {
+    arg0->unk_2C->unk_2C = 0xB;
+    arg0->unk_34->unk_2C->unk_2C = 0xB;
+    while (arg0->unk_2C->unk_28 & 1) {
+        func_8002EEA8(NULL);
+    }
+}
+
+s32 func_88200B60(unk_func_88200FA0_030* arg0, Controller* arg1) {
+    s32 var_s0;
+    s32 var_s1 = 0;
+
+    func_88200ACC(arg0);
+
+    while (var_s1 == 0) {
+        func_8002EEA8(NULL);
+        var_s0 = func_88200A30(arg0, arg1);
+        if (!(var_s0 & 1)) {
+            if (arg1->buttonPressed & 0x4000) {
+                var_s0 = 0x80000003;
+                var_s1 = 1;
+            } else if (arg1->buttonPressed & 0x8000) {
+                func_80048B90(0x1C);
+                var_s0 = 1;
+                var_s1 = arg0->unk_30->unk_38 + 2;
+            }
+        }
+        ((func8850BC94)Memmap_GetFragmentVaddr(func_8850BC94))(var_s0);
+    }
+    func_88200AF4(arg0);
+    return var_s1;
+}
+
+void func_88200C44(unk_func_88200FA0* arg0, s32 arg1, s32 arg2, s32 arg3, MemoryPool* arg4) {
+    static Color_RGBA8 D_88217C14 = { 0x1E, 0x50, 0x50, 0xFF };
+    static Color_RGBA8 D_88217C18 = { 0x00, 0x0A, 0x0A, 0xFF };
+
+    unk_func_88001300_000* sp4C;
+    unk_func_88500EE4* sp48;
+    unk_func_88509A2C* sp44;
+    unk_func_88509E34* sp40;
+
+    ((func885007CC)Memmap_GetFragmentVaddr(func_885007CC))(arg0, 0x34);
+    arg0->unk_00.unk_10 = arg1;
+    arg0->unk_00.unk_12 = arg2;
+
+    sp4C = mem_pool_alloc(arg4, sizeof(unk_func_88001300_000));
+    ((func885031E8)Memmap_GetFragmentVaddr(func_885031E8))(sp4C, 0, 0, 0x280, 0x1E0);
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(arg0, sp4C);
+
+    sp48 = mem_pool_alloc(arg4, sizeof(unk_func_88500EE4));
+    ((func88500EE4)Memmap_GetFragmentVaddr(func_88500EE4))(sp48, 0, 0, 0x280, 0x1E0, D_88223E48, D_88217C14,
+                                                           D_88217C18);
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(sp4C, sp48);
+
+    arg0->unk_2C = mem_pool_alloc(arg4, sizeof(unk_func_885088F4));
+    ((func885088F4)Memmap_GetFragmentVaddr(func_885088F4))(arg0->unk_2C, 0x41, 0x15C, 0xDC);
+    if (func_80007604() == 0) {
+        arg0->unk_2C->unk_2C = 5;
+    }
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(sp4C, arg0->unk_2C);
+
+    sp44 = mem_pool_alloc(arg4, sizeof(unk_func_88509A2C));
+    ((func88509A2C)Memmap_GetFragmentVaddr(func_88509A2C))(sp44, 0x38, 0x22, func_80029080(),
+                                                           func_8002D7C0(NULL, 0, D_88224F90, 0));
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(arg0->unk_2C, sp44);
+
+    sp40 = mem_pool_alloc(arg4, sizeof(unk_func_88509E34));
+    ((func88509E34)Memmap_GetFragmentVaddr(func_88509E34))(sp40, 0, 0, func_8002D7C0(NULL, 0, D_88224F94, 0));
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(arg0->unk_2C, sp40);
+
+    arg0->unk_30 = mem_pool_alloc(arg4, sizeof(unk_func_88200FA0_030));
+    func_882004C8(arg0->unk_30, 0x78, arg3, sp4C, arg4);
+    ((func8850068C)Memmap_GetFragmentVaddr(func_8850068C))(arg0, arg0->unk_30);
+
+    arg0->unk_00.unk_24(&arg0->unk_00, 1);
+}
+
+s32 func_88200F00(unk_func_88200FA0* arg0) {
+    s32 sp34 = 0;
+
+    while (sp34 == 0) {
+        func_800079C4();
+        ((func885008C4)Memmap_GetFragmentVaddr(func_885008C4))(arg0);
+        ((func88500828)Memmap_GetFragmentVaddr(func_88500828))(arg0, 0, 0);
+        func_80007778();
+        func_8002EF18(&sp34);
+    }
+    return sp34;
+}
+
+void func_88200FA0(unk_func_88200FA0* arg0) {
+    s32 sp24;
+    s32 i;
+
+    while (func_80007604() != 0) {
+        func_8002EEA8(NULL);
+    }
+
+    func_8001F738(gPlayer1Controller);
+
+    sp24 = func_88200B60(arg0->unk_30, gPlayer1Controller);
+    if (sp24 == 1) {
+        arg0->unk_2C->unk_2C = 9;
+        func_80006CB4(8);
+
+        i = 10;
+        while (i-- > 0) {
+            func_8002EEA8(NULL);
+        }
+    }
+    func_8002EEA8(sp24);
+
+    osStopThread(NULL);
+}
+
+s32 func_8820104C(s32 arg0, UNUSED s32 arg1) {
+    MemoryPool* sp34;
+    void* sp30;
+    u8* sp2C;
+    func_88002628_sp38* sp28;
+    UNUSED s32 pad;
+    s32 sp20;
+
+    main_pool_push_state('SLTM');
+
+    sp2C = main_pool_alloc(0x1000, 0);
+    sp34 = mem_pool_try_init(0x8000, 0);
+
+    func_8002D510();
+    D_88224F90 = func_8002D5AC(0x2A);
+    D_88224F94 = func_8002D5AC(1);
+
+    sp30 = mem_pool_alloc(sp34, sizeof(unk_func_88200FA0));
+    func_88200C44(sp30, 0, 0, arg0, sp34);
+
+    sp28 = ALIGN16((u32)mem_pool_alloc(sp34, sizeof(func_88002628_sp38)));
+    osCreateThread(&sp28->thread, 0x32, func_88200FA0, sp30, sp2C + 0x1000, osGetThreadPri(NULL) - 1);
+
+    func_8002EE78();
+    func_8001F738(gPlayer1Controller);
+
+    osStartThread(&sp28->thread);
+
+    func_80006C6C(8);
+    sp20 = func_88200F00(sp30);
+
+    osDestroyThread(&sp28->thread);
+
+    main_pool_pop_state('SLTM');
+
+    if (sp20 == 1) {
+        FRAGMENT_LOAD_AND_CALL2(fragment22, 1, 0);
+        return 0;
+    }
+
+    if (sp20 == 5) {
+        FRAGMENT_LOAD_AND_CALL2(fragment24, 1, 0);
+        return 0;
+    }
+
+    return sp20 - 1;
+}
+
+u32 D_88223E48[] = {
+    0xAA99A989, 0x9998AAAA, 0xBA9B9899, 0x99A99AA9, 0x88998999, 0x9A98A988, 0x9989989A, 0x98989989, 0x999A98A9,
+    0x88000000, 0x00000000, 0x0007AB99, 0x98575000, 0x00000000, 0x00000000, 0x01458999, 0x98899A9A, 0xABA89999,
+    0x9888A9AA, 0x999898A9, 0x99AA8888, 0x99788989, 0x99888888, 0x9999AA89, 0x88997889, 0x99233333, 0x33222220,
+    0x0004A977, 0x85674000, 0x00000000, 0x00000000, 0x01358A98, 0x999AA999, 0xB99A98AA, 0x9989A89A, 0x99999A99,
+    0x8A989989, 0x98988988, 0x99989999, 0x888A8899, 0x89999899, 0x8BCCCDDC, 0xCCCCCBB6, 0x00008975, 0x56660000,
+    0x13222222, 0x22333331, 0x00357999, 0x8AAA98AA, 0xA8999899, 0x9BAAA9A9, 0x889BAA89, 0x99888888, 0x98A99A99,
+    0x9878AAA8, 0x8A998888, 0x8999A9AA, 0x8BBCCCCC, 0xCCBBBBB9, 0x00002887, 0x76510000, 0x23222222, 0x23333331,
+    0x00257998, 0xAA989A9A, 0xA899AAB9, 0xA999989A, 0x89BA98A9, 0x9988899A, 0x99989888, 0x988AA879, 0x98997889,
+    0x9A998988, 0x89BBBBBB, 0xBBBBAAAA, 0x30000045, 0x52000000, 0x22222222, 0x33333330, 0x00246999, 0xBBA79AAB,
+    0xAAB99AA9, 0xAA98879A, 0xA9BB979A, 0xAA9A9899, 0x99988778, 0x9A8AA978, 0x99AA9A89, 0x9A8A9887, 0x79AABBBB,
+    0xBAAAAA99, 0x81000000, 0x00000002, 0x22222223, 0x33333320, 0x001369A9, 0xAB99999A, 0x9AB99AAB, 0xBA9A99A9,
+    0x9AAB9999, 0x989A98A9, 0xAAA99989, 0x9999A889, 0x98989A88, 0xA9AAA8A9, 0x999AAAAA, 0xAAA99998, 0x87100000,
+    0x00000022, 0x22222223, 0x33333320, 0x0024799A, 0xA989A9A9, 0x89ABBBBB, 0xABB8ABAA, 0xABA989A9, 0x9889A9AA,
+    0xB9AA89AA, 0xA9B98889, 0x99989ABA, 0xAAB9AA8A, 0xAA899999, 0x99999888, 0x87610000, 0x00000222, 0x22222233,
+    0x33333300, 0x00258AAB, 0x88AAA9A9, 0xAA9BBA9A, 0xAB9AAAA9, 0xA9899754, 0x66679999, 0x99A989AA, 0x999779A9,
+    0x9A8999AA, 0x9999B99A, 0xAA888999, 0x98888877, 0x77664210, 0x00122222, 0x22222333, 0x33333300, 0x002589A9,
+    0x8A9A9A99, 0xAA99ABA8, 0xA99ABA89, 0x85422222, 0x22222478, 0x999799A9, 0x99979999, 0x9889999A, 0xA979989A,
+    0xAA878888, 0x88877777, 0x66655544, 0x33222222, 0x22223333, 0x33334100, 0x002589AA, 0x9BB98999, 0x9ABBBA99,
+    0xAA9A9984, 0x22222222, 0x22222111, 0x36999AA9, 0x8899AA87, 0x89889AAA, 0xA88AA99B, 0xAA867777, 0x77777666,
+    0x65554443, 0x32222222, 0x22233333, 0x33343000, 0x01368989, 0xAA9BAA99, 0x9A89AA9A, 0xBA997322, 0x22222222,
+    0x22222211, 0x11279999, 0x9A99A999, 0x99999899, 0x989A9999, 0x99985666, 0x66666655, 0x55444333, 0x22222222,
+    0x22333333, 0x33441000, 0x013689BA, 0x9BABAAAA, 0x99A9899A, 0xBA842222, 0x22222222, 0x22222111, 0x11113789,
+    0xA99999AA, 0x99A88988, 0x889AAA97, 0x899A6555, 0x66555555, 0x44433322, 0x22222222, 0x22333333, 0x34430000,
+    0x023689AB, 0xAA99AA99, 0x9A98AA99, 0x97322222, 0x22222222, 0x22222211, 0x11111159, 0xAB9A9999, 0x98889989,
+    0x999A98A9, 0x89998445, 0x55554444, 0x33332222, 0x22222222, 0x23333333, 0x34300000, 0x02579A99, 0x99999A9A,
+    0xAAB9A889, 0x62222222, 0x22222222, 0x22222221, 0x11111116, 0x9AA99988, 0xA99AAA89, 0x88998889, 0x89A99733,
+    0x44444333, 0x32222222, 0x22222222, 0x33333333, 0x44100000, 0x13679AA9, 0x9AAAA999, 0xAA9A8896, 0x22222222,
+    0x22222222, 0x22222211, 0x11111110, 0x489A9899, 0x898A8899, 0x89999899, 0x89998962, 0x33333222, 0x22222222,
+    0x22222223, 0x33333334, 0x42000000, 0x24779A99, 0x9BBA98AA, 0xA8998972, 0x22222222, 0x33322222, 0x22222111,
+    0x11111100, 0x15899899, 0x9A997989, 0x8989A9A9, 0x8A9889A6, 0x12222211, 0x11122222, 0x22222233, 0x33333344,
+    0x30000001, 0x36899A98, 0xBB98999A, 0xA9999822, 0x22222333, 0x44433222, 0x22222211, 0x11111110, 0x005998A9,
+    0x98A98899, 0xAA998988, 0x78989A98, 0x41111111, 0x11222222, 0x22222333, 0x33333442, 0x00000012, 0x46788999,
+    0xBBAAAAAB, 0xA9BA8322, 0x22223346, 0x67654322, 0x22222211, 0x11111100, 0x001789AA, 0xA9AAAA89, 0x999A9888,
+    0x79A99AA9, 0x77211111, 0x12222222, 0x22223333, 0x33334310, 0x00000024, 0x57889AB9, 0xAB9A999A, 0x8AA94222,
+    0x2223357A, 0xCCA85422, 0x22222111, 0x11111100, 0x000388AA, 0x9A989A99, 0xA9AAA9A9, 0x99999AA8, 0x99831111,
+    0x22222222, 0x22233333, 0x33343000, 0x00000246, 0x79A9A99A, 0xA9999AA9, 0x89A72222, 0x223358CF, 0xFFEA6432,
+    0x22111111, 0x11111100, 0x00004688, 0x88989ABA, 0xAAB9AA8A, 0xAAAAA988, 0x9A995212, 0x22222222, 0x22233333,
+    0x33310000, 0x00002458, 0x99ABBAAB, 0x88A998A9, 0x88932222, 0x22347CFF, 0xFFFA7432, 0x22211111, 0x11111000,
+    0x00001678, 0x889998AA, 0xA999A89A, 0xAA99878A, 0xA9998853, 0x22222222, 0x22333333, 0x21000000, 0x00123569,
+    0x99AABAA9, 0x8B99AA9A, 0x8A722222, 0x22359FFF, 0xFFEA6422, 0x22111111, 0x11111000, 0x00000358, 0x9AA9989A,
+    0xA979989A, 0xAA9A88A9, 0x99988986, 0x43222222, 0x23333210, 0x00000000, 0x01245579, 0x8ABBAAAA, 0x9A999998,
+    0x89522222, 0x2346BFFF, 0xFFC84100, 0x00011111, 0x11111000, 0x00000046, 0x89989ABA, 0xA89AA99B, 0xAA899AA9,
+    0x88998999, 0x96522111, 0x11100000, 0x00000001, 0x235677AA, 0xA9BBBA9A, 0xAA8B9987, 0x78222222, 0x2347AEFF,
+    0xFD832100, 0x00000111, 0x11110000, 0x00000025, 0x68788789, 0x989AA999, 0x99AB999A, 0xA9999987, 0x88654321,
+    0x10000000, 0x00000122, 0x346789BA, 0xA999AABA, 0xAAAAAAA9, 0x86222222, 0x23469CDD, 0xB7421000, 0x00000011,
+    0x11100000, 0x00000014, 0x68A89998, 0x999AAA97, 0x899A9AA9, 0xA9A9A899, 0x88877654, 0x32211111, 0x11222344,
+    0x67789ABB, 0xAA88A9AB, 0xAAB9AA89, 0xA5222222, 0x22356898, 0x63210000, 0x00000000, 0x11100000, 0x00000002,
+    0x578A9989, 0x99999899, 0x99998988, 0x8A898998, 0x89988876, 0x55443333, 0x33344567, 0x879A99AA, 0x9AA9AAA9,
+    0x999AA99A, 0xA3222222, 0x22334555, 0x21100169, 0x86200000, 0x11000000, 0x00000001, 0x358AAA99, 0x89998899,
+    0x89A99989, 0x99A89AA9, 0x9989A887, 0x87666565, 0x56677799, 0xA9A99AA9, 0x89A99AAA, 0xA98BA89A, 0x92222222,
+    0x22233332, 0x10003CBB, 0xBA920000, 0x00000000, 0x00000000, 0x24799898, 0x8999A999, 0x899989A9, 0xA8899A88,
+    0x988999A9, 0x98898778, 0x889788AA, 0x89999A9A, 0xA9A99A99, 0xA99AA9AB, 0x82222222, 0x22222221, 0x0001BBBD,
+    0xCA980000, 0x00000000, 0x00000000, 0x147A9989, 0x8989A999, 0x8A9889AA, 0x988A9979, 0x99898AA9, 0xAA9A988A,
+    0xBA989AA9, 0x89A9999B, 0xAAAAAB98, 0x99989999, 0x97000000, 0x00000000, 0x0006BCEA, 0x98884000, 0x00000000,
+    0x00000000, 0x13689999, 0xAB898887, 0x78999A98, 0x7999A989, 0x99BA9989, 0x878899AB, 0x978A9AB9, 0x99AACAA9,
+    0x998889AA, 0x8998AAA8, 0xA8000000, 0x00000000, 0x0008BDB9, 0x98586000, 0x00000000, 0x00000000, 0x02479A89,
+    0x999AA888, 0x89A98AB9, 0x799AA9AA, 0x8A999B98, 0x988AA99B, 0xB889ABAA, 0xB99B9AAB, 0x99989AB9, 0x99999889,
+    0x88000000, 0x00000000, 0x0007AB99, 0x98575000, 0x00000000, 0x00000000, 0x01458AA9, 0xAAA99999, 0xA999AA98,
+    0x9989889A, 0x9AAAAA99, 0x99A99AAA, 0x89998989, 0xAA9BAAAA, 0x999A9A9A, 0x88998899, 0x99233333, 0x33222220,
+    0x0004A977, 0x85773000, 0x00000000, 0x00000000, 0x013589B9, 0x99A9A98A, 0xA9999888, 0x9999888A, 0xB99A9AA9,
+    0x9AA99A98, 0x8999A988, 0x9AA99A9A, 0xA89AA9A9, 0x89999899, 0x9BCCCDDC, 0xCCCCCBB6, 0x00008975, 0x56750000,
+    0x13222222, 0x22333331, 0x0035799A, 0xA989A89A, 0x9A9A8799, 0x99999AA9, 0x9AA88998, 0x9AAA9A77, 0x9A99999A,
+    0x99AA989A, 0x98A9AA99, 0x8999A999, 0x8BBCCCCC, 0xCCBBBBB9, 0x00002887, 0x76510000, 0x23222222, 0x23333331,
+    0x0025789A, 0x988998AA, 0xAA9988A9, 0x78887999, 0x9A988A99, 0xAB9A9979, 0xA879888A, 0x99AA989A, 0x89AAA998,
+    0x9A998988, 0x8ABBBBBB, 0xBBBBAAAA, 0x30000045, 0x52000000, 0x22222222, 0x33333330, 0x002479AA, 0x989A999A,
+    0x9A999A99, 0x9999899A, 0xB998AA99, 0x9AAA9A9A, 0x9A999989, 0xAAA998A9, 0x99A9A999, 0x9AAA9887, 0x89AABBBB,
+    0xBAAAAA99, 0x81000000, 0x00000002, 0x22222223, 0x33333320, 0x00246888, 0x879AAA88, 0x899B99AA, 0x99999888,
+    0x8888AAA9, 0x8899AA99, 0xAA999998, 0x889888AA, 0xA98899B9, 0xAA9AA9A9, 0x999AAAAA, 0xAAA99998, 0x87100000,
+    0x00000022, 0x22222223, 0x33333320, 0x00247989, 0x999A99A8, 0x89899AA9, 0xAA999899, 0x89A9AA99, 0xA789899A,
+    0x99AA9999, 0xA999A9AA, 0x9A979999, 0xAA999989, 0xAA899999, 0x99999888, 0x87610000, 0x00000222, 0x22222233,
+    0x33333300, 0x00258989, 0x88998889, 0x99A98888, 0x79899AA8, 0x89889988, 0x999AA888, 0x888A899A, 0xA8998998,
+    0x88999AA9, 0x9999A99A, 0xA9888999, 0x98888877, 0x77664210, 0x00122222, 0x22222333, 0x33333300, 0x00257999,
+    0x89998899, 0x88A99989, 0x99989A99, 0x99899754, 0x65679999, 0x999998A9, 0x99A89AA9, 0x88A8899A, 0x8989989A,
+    0xAA878888, 0x88877777, 0x66655544, 0x33222222, 0x22223333, 0x33334100, 0x01356888, 0x8899A999, 0x899878A9,
+    0x988A9979, 0x85422222, 0x22222347, 0xA99799A9, 0x7988899A, 0xA9A99997, 0x9999999B, 0xAA867777, 0x77777666,
+    0x65554443, 0x32222222, 0x22233333, 0x33343000, 0x0135688A, 0x89899999, 0x899789A9, 0x99999954, 0x22222222,
+    0x22222111, 0x26999998, 0x88A9999A, 0x99999A88, 0xAA999999, 0x99985666, 0x66666655, 0x55444333, 0x22222222,
+    0x22333333, 0x33441000, 0x01467999, 0xAA898887, 0x77999A98, 0x69997322, 0x22222222, 0x22222111, 0x11179AA9,
+    0x9999A999, 0x897778A9, 0x9B9A9998, 0x899A6555, 0x66555555, 0x44433322, 0x22222222, 0x22333333, 0x34430000,
+    0x02569A78, 0x999AA899, 0x89998AA8, 0x89842222, 0x22222222, 0x22222111, 0x11112899, 0xA88A99AA, 0x999899A8,
+    0xA98A99A9, 0x89998445, 0x55554444, 0x33332222, 0x22222222, 0x23333333, 0x34300000, 0x12569AAA, 0xBAB9A989,
+    0xAAA9A988, 0x97322222, 0x22222222, 0x22222111, 0x11111159, 0xABABABAA, 0xA99AAA9B, 0x98998899, 0x89999733,
+    0x44444333, 0x32222222, 0x22222222, 0x33333333, 0x44100000, 0x145789BA, 0x999AA99A, 0xA9999889, 0x62222222,
+    0x22222222, 0x22222111, 0x11111104, 0x8AA99AAA, 0xA9AAA9A9, 0x79999999, 0x89998972, 0x33333222, 0x22222222,
+    0x22222223, 0x33333334, 0x42000001, 0x2469A99A, 0xA989989A, 0x9A9A8796, 0x22222222, 0x22222222, 0x22222111,
+    0x11111100, 0x38AA989A, 0x98AAAAAA, 0x8AA8A989, 0x8A988AA6, 0x12222211, 0x11122222, 0x22222233, 0x33333344,
+    0x30000001, 0x3568999A, 0xA98998AB, 0xAA898972, 0x22222222, 0x33332222, 0x22222111, 0x11111100, 0x039A989A,
+    0x99BBA999, 0xAA9A9999, 0x78989A98, 0x54111111, 0x11222222, 0x22222333, 0x33333442, 0x00000013, 0x568899AA,
+    0x989A9999, 0x9A9A9822, 0x22222333, 0x44433222, 0x22221111, 0x11111100, 0x005899A9, 0x99A9A9AA, 0x9AAA9999,
+    0x79999AA9, 0x9A211111, 0x12222222, 0x22223333, 0x33334310, 0x00000124, 0x67988888, 0x889AAA88, 0x899B8322,
+    0x22223346, 0x77654322, 0x22221111, 0x11111100, 0x000578AB, 0xA98899BA, 0xAA99A999, 0x99999AA8, 0xAA831111,
+    0x22222222, 0x22233333, 0x33342000, 0x00001246, 0x77989989, 0x999A98A8, 0x89994222, 0x2223358B, 0xCCA85322,
+    0x22211111, 0x11111100, 0x000078AA, 0x9A989999, 0x98888A9A, 0xAAAAA988, 0x98886212, 0x22222222, 0x22233333,
+    0x33310000, 0x00001346, 0x8899A989, 0x88998889, 0x99A72222, 0x223359DF, 0xFFEA6432, 0x22111111, 0x11111100,
+    0x00003788, 0x88999AA8, 0x9999A989, 0xAA99879A, 0xA9899853, 0x22222222, 0x22333333, 0x21000000, 0x00123578,
+    0x889A9999, 0x89998899, 0x88932222, 0x22348DFF, 0xFFFA6422, 0x22111111, 0x11111000, 0x00000578, 0x88A88A99,
+    0x8AAA97A9, 0xA99A88A9, 0x9A988886, 0x53222222, 0x23333210, 0x00000000, 0x01236788, 0x7A998888, 0x8899A99A,
+    0x89722222, 0x2236AFFF, 0xFFEA6322, 0x21111111, 0x11111000, 0x00000259, 0x9AA99A97, 0xAA98999A, 0x98899AA9,
+    0x88998999, 0x76522111, 0x10000000, 0x00000001, 0x22467879, 0x98997889, 0x9A899998, 0x89522222, 0x2347BFFF,
+    0xFFC83100, 0x00011111, 0x11111000, 0x00000046, 0x89989A88, 0xAB978AAB, 0xA9AA99A9, 0xA9998888, 0x98764321,
+    0x10000000, 0x00000112, 0x45689868, 0x99AA9A99, 0x9A899887, 0x77222222, 0x2347BFFF, 0xFD832000, 0x00000111,
+    0x11110000, 0x00000025, 0x687789A9, 0xAB98999A, 0x9AB89A9A, 0xAA999899, 0x88987654, 0x32211111, 0x11223345,
+    0x6779A988, 0x9898AA88, 0xA9AAA8A9, 0x86222222, 0x23469CDD, 0xB7421000, 0x00000011, 0x11100000, 0x00000014,
+    0x68A899A9, 0xA989A999, 0x89ABABBB, 0xAA9999A9, 0x99988876, 0x54443334, 0x43455578, 0x98A98889, 0x99989AAA,
+    0xBAB9AA89, 0xA5222222, 0x22356888, 0x63210000, 0x00000000, 0x11100000, 0x00000002, 0x578BAA9B, 0x889A99A9,
+    0x999BA99A, 0xABA9AAA9, 0x9989A987, 0x77666655, 0x66777889, 0x99988999, 0x9A8999AA, 0x999AA99A, 0xA2222222,
+    0x22334555, 0x21100169, 0x86200000, 0x11000000, 0x00000001, 0x358AA9A9, 0x799A9A99, 0xAA99AA98, 0x9989AAB9,
+    0x998A99A9, 0x98987888, 0x7788899A, 0xA9979999, 0x9889A999, 0xA989989A, 0x92222222, 0x22233332, 0x10003CCB,
+    0xBA920000, 0x00000000, 0x00000000, 0x2479AAAA, 0x8AA88998, 0x9AAABA98, 0xAA9ABBA9, 0x989AA889, 0x88999A99,
+    0x89A99BAA, 0x9888AA87, 0x888899AA, 0xA989A9AB, 0x82222222, 0x22222221, 0x0001CCCD, 0xCA981000, 0x00000000,
+    0x00000000, 0x147AA989, 0xAA9AAA99, 0x9A9AA99A, 0xAA9999AA, 0xBAAA9AA9, 0x98999998, 0x9A999999, 0x9AA999A9,
+    0x99999899, 0x989A9999, 0x87000000, 0x00000000, 0x0006BCEA, 0x98784000, 0x00000000, 0x00000000, 0x135799AA,
+    0x9AAA9A9A, 0x9999889A, 0xBBA989A9, 0xBA9BAA9A, 0x98888888, 0x9AAA9889, 0x9AA8AAA9, 0x99988888, 0x889AAA88,
+    0x88000000, 0x00000000, 0x0008BDB9, 0x99586000, 0x00000000, 0x00000000, 0x024699BA, 0x00000000, 0x00000000,
+};

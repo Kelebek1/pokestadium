@@ -51,6 +51,17 @@ typedef struct unk_D_800AE4E8_004_1_000_010 {
     /* 0x2C */ u8 unk_2C[11];
 } unk_D_800AE4E8_004_1_000_010; // size = 0x37
 
+typedef struct unk_func_80022C28_ret {
+    /* 0x00 */ s8 unk_00;
+    /* 0x01 */ s8 unk_01;
+    /* 0x02 */ s8 unk_02;
+    /* 0x03 */ s8 unk_03;
+    /* 0x04 */ s8 unk_04;
+    /* 0x05 */ char unk05[0x3];
+    /* 0x08 */ s16 unk_08;
+    /* 0x0A */ s16 unk_0A;
+} unk_func_80022C28_ret; // size = 0xC
+
 u16 func_80021A30(u8* arg0);
 u32 func_80021A48(u8* arg0);
 void func_80021A68(u8* arg0, s32 arg1);
@@ -73,9 +84,9 @@ u32 func_800224B8(s32 arg0, u16 arg1);
 u16 func_800226C0(s32 arg0, u32 arg1);
 u8 func_80022A38(s32 arg0);
 u8 func_80022A60(s32 arg0);
-s32 func_80022C28(s32, s32, s32, s32);
-void func_80022D8C(void*);
-s32 func_80022E18(unk_func_80026268_arg0*, s32, void*);
+unk_func_80022C28_ret* func_80022C28(s32, s32, s32, s32);
+void func_80022D8C(unk_func_80022C28_ret*);
+s32 func_80022E18(unk_func_80026268_arg0*, s32, unk_func_80022C28_ret*);
 void func_80023068(void);
 char* func_8002311C(s32 arg0);
 s32 func_80023130(u8* arg0);
@@ -90,12 +101,16 @@ void func_80023D60(s32);
 void func_80023F78(s32 arg0);
 void func_80024040(s32 arg0);
 s32 func_800240A0(void);
+void func_80024208(s32);
 s32 func_80024A48(s32, s32, s32);
 s32 func_80024EF4(void);
 s32 func_80024F00(s32);
+s32 func_80024F68(s32);
 s32 func_80024FB0(s32 arg0);
+s32 func_8002513C(s32);
 void func_800251B0(s32, s8*);
 s32 func_80025370(s32);
 s32 func_8002539C(s32);
+
 
 #endif // _6BC0_H_

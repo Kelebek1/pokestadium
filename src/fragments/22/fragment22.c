@@ -3079,11 +3079,6 @@ s32 func_880025D8(unk_func_88001300* arg0) {
     return sp24 - 1;
 }
 
-typedef struct func_88002628_sp38 {
-    /* 0x000 */ OSThread thread;
-    /* 0x1B0 */ char unk1B0[0x10];
-} func_88002628_sp38; // size = 0x1C0
-
 s32 func_88002628(s32 arg0, UNUSED s32 arg1) {
     MemoryPool* sp44;
     u8* sp40;

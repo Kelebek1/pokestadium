@@ -212,4 +212,6 @@ typedef struct unk_D_70B10 {
     /* 0x00 */ char unk00[0x20];
 } unk_D_70B10; // size = 0x20
 
+extern unk_func_88500020 D_800758E0;
+
 #endif
