@@ -29,6 +29,7 @@ options:
 
   cache_path: ver/us/.splat_cache
   extensions_path: tools/splat_ext
+  hasm_in_src_path: True
 
   mips_abi_float_regs: o32
 
