@@ -130,8 +130,8 @@ def write_ninja_rules(
 
     ninja.rule(
         "as",
-        description="as $in",
-        command=f"{cross}as -32 -G0 -march=vr4300 -mtune=vr4300 -Iinclude -o $out",
+        description="as $out $in",
+        command=f"{cross}as -32 -G0 -march=vr4300 -Iinclude -o $out $in",
     )
 
     ninja.rule(
@@ -544,22 +544,14 @@ class Configure:
                 raise Exception(f"don't know how to build {seg.__class__.__name__} '{seg.name}'")
 
         # Run undefined_syms through cpp
-        sym_lists = [
-            Path(self.version_path / "undefined_syms.txt"),
-            Path(self.version_path / "symbol_addrs.txt"),
-            Path(self.version_path / "symbol_addrs_code.txt"),
-            Path(self.version_path / "symbol_addrs_ultralib.txt"),
-        ]
-        for sym_list in sym_lists:
-            ninja.build(
-                str(sym_list.parent / "build" / sym_list.name),
-                "cpp",
-                str(f"{sym_list}"),
-            )
+        ninja.build(
+            str(self.undefined_syms_path()),
+            "cpp",
+            str(self.version_path / "undefined_syms.txt"),
+        )
 
         # Build elf, z64, ok
-        additional_objects = [f"lib/ultralib/build/I_P/libultra_rom/libultra_rom.a"]
-        additional_objects.extend([str(s) for s in sym_lists]);
+        additional_objects = [str(self.build_path() / f"lib/libultra.a"), str(self.undefined_syms_path())]
 
         ninja.build(
             str(self.elf_path()),
