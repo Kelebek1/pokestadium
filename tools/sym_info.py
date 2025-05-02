@@ -15,11 +15,11 @@ def symInfoMain():
 
     args = parser.parse_args()
 
-    BUILTMAP = Path(f"build") / f"pokestadium-{args.version}.map"
+    BUILTMAP = Path(f"ver/{args.version}/build") / f"pokestadium.map"
 
     mapPath = BUILTMAP
     if args.use_expected:
-        mapPath = "expected" / BUILTMAP
+        mapPath = Path(f"ver/{args.version}/expected") / BUILTMAP
 
     mapfile_parser.frontends.sym_info.doSymInfo(mapPath, args.symname)
 

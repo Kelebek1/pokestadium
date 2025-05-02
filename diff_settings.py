@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
 def apply(config, args):
-    config['baseimg'] = 'baseroms/us/baserom.z64'
-    config['myimg'] = 'build/pokestadium-us.z64'
-    config['mapfile'] = 'build/pokestadium-us.map'
+    config['baseimg'] = 'ver/current/baserom.z64'
+    config['myimg'] = 'ver/us/build/pokestadium.z64'
+    config['mapfile'] = 'ver/us/build/pokestadium.map'
     config['source_directories'] = ['.']
-    config["objdump_flags"] = ["-Mreg-names=32"]
+    config["make_command"] = ["ninja"]
+    config["objdump_flags"] = ["-M", "reg-names=32"]
+    config["expected_dir"] = f"expected/ver/us/"

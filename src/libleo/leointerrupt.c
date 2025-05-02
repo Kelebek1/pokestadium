@@ -1,7 +1,7 @@
 #include "global.h"
 #include "libleo/internal.h"
 #include "PR/os_system.h"
-#include "../../../lib/ultralib/src/os/osint.h" // haaaack
+#include "lib/ultralib/src/os/osint.h" // haaaack
 
 extern OSThread* __osRunQueue;
 extern OSThread* __osPopThread(OSThread**);
@@ -10,7 +10,7 @@ extern OSIntMask __OSGlobalIntMask;
 void __osLeoAbnormalResume(void);
 void __osLeoResume(void);
 extern s32 osEPiRawStartDma(OSPiHandle*, s32, u32, void*, u32);
-
+/*
 s32 __osLeoInterrupt(void) {
     u32 stat = 0;
     volatile u32 pi_stat;
@@ -164,7 +164,6 @@ s32 __osLeoInterrupt(void) {
         return 1;
     }
 }
-
 void __osLeoAbnormalResume(void) {
     __OSTranxInfo* info;
     u32 pi_stat;
@@ -186,6 +185,7 @@ void __osLeoAbnormalResume(void) {
     HW_REG(PI_STATUS_REG, u32) = 2;
     __OSGlobalIntMask |= 0x100401;
 }
+*/
 
 void __osLeoResume(void) {
     __OSEventState* es;

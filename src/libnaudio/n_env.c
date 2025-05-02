@@ -406,7 +406,7 @@ static Acmd* _pullSubFrame(N_PVoice* filter, s16* inp, s16* outp, s32 outCount, 
         aSetVolume(ptr++, A_AUX, e->em_dryamt, 0, e->em_wetamt);
         aEnvMixer(ptr++, A_INIT | A_AUX, osVirtualToPhysical(e->em_state));
     } else {
-        EnvMixer(ptr++, A_CONTINUE | A_AUX, osVirtualToPhysical(e->em_state));
+        aEnvMixer(ptr++, A_CONTINUE | A_AUX, osVirtualToPhysical(e->em_state));
     }
 #else
         // clang-format off

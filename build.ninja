@@ -1,0 +1,2817 @@
+python = /usr/bin/python3
+rule ld
+  command = mips-linux-gnu-ld -T ver/$version/symbol_addrs_ld.txt -Map $mapfile --no-check-sections -T $in -o $out
+  description = link($version) $out
+rule z64
+  command = mips-linux-gnu-objcopy $in $out -O binary && tools/build/rom/n64crc $out
+  description = rom $out
+rule sha1sum
+  command = sha1sum -c $in && touch $out
+  description = check $in
+rule cc_ido_53
+  command = tools/build/cc/ido/linux/5.3/cc -G0 -non_shared -Xcpluscomm -nostdinc -Wab,-r4300_mul  -fullwarn -verbose -woff 624,649,838,712,516,513,596,564,594 -w -Iver/$version/include -Iver/$version/build/include -Iinclude -Isrc/libnaudio -Isrc -I. -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/ultralib/include/ido -Iassets/$version -D_LANGUAGE_C -D_FINALROM -DVERSION=$version -DF3DEX_GBI_2 -D_MIPS_SZLONG=32 -DBUILD_VERSION=VERSION_I_P -DNDEBUG -DN_MICRO -c -mips1 -O0 -G0 -non_shared -Xfullwarn -Xcpluscomm -o $out $in
+  description = ido $in
+rule cc_ido_71
+  command = tools/build/cc/ido/linux/7.1/cc -G0 -non_shared -Xcpluscomm -nostdinc -Wab,-r4300_mul  -fullwarn -verbose -woff 624,649,838,712,516,513,596,564,594 -w -Iver/$version/include -Iver/$version/build/include -Iinclude -Isrc/libnaudio -Isrc -I. -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/ultralib/include/ido -Iassets/$version -D_LANGUAGE_C -D_FINALROM -DVERSION=$version -DF3DEX_GBI_2 -D_MIPS_SZLONG=32 -DBUILD_VERSION=VERSION_I_P -DNDEBUG -DN_MICRO -c -mips2 -O2 -G0 -non_shared -Xfullwarn -Xcpluscomm -o $out $in
+  description = ido $in
+rule bin
+  command = mips-linux-gnu-objcopy -I binary -O elf32-tradbigmips --set-section-alignment .data=8 $in $out
+  description = bin $in
+rule cp
+  command = cp $in $out
+  description = cp $in $out
+rule as
+  command = mips-linux-gnu-as -32 -G0 -march=vr4300 -mtune=vr4300 -Iinclude -o $out
+  description = as $in
+rule yay0
+  command = crunch64 compress yay0 $in $out
+  description = yay0 $in
+rule cc_tool
+  command = cc -w $in -O3 -o $out
+  description = cc_tool $in
+build tools/build/rom/n64crc: cc_tool tools/build/rom/n64crc.c
+build tools/vtxdis: cc_tool tools/vtxdis.c
+build ver/us/build/lib/libultra.a: cp lib/ultralib/build/I_P/libultra_rom/libultra_rom.a
+  version = us
+build ver/us/build/asm/us/header.o: as asm/us/header.s
+  version = us
+build ver/us/build/asm/us/boot.o: as asm/us/boot.s
+  version = us
+build ver/us/build/assets/us/bootcode_font.o: bin assets/us/bootcode_font.bin
+  version = us
+build ver/us/build/asm/us/entry.o: as asm/us/entry.s
+  version = us
+build ver/us/build/src/main.o: cc_ido_71 src/main.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/rsp.o: cc_ido_71 src/rsp.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/dma.o: cc_ido_71 src/dma.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/dp_intro.o: cc_ido_71 src/dp_intro.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/memmap.o: cc_ido_71 src/memmap.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/memory_main.o: cc_ido_71 src/memory_main.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/memory.o: cc_ido_71 src/memory.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/util.o: cc_ido_71 src/util.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/3FB0.o: cc_ido_71 src/3FB0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/5580.o: cc_ido_71 src/5580.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/reset.o: cc_ido_71 src/reset.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/controller.o: cc_ido_71 src/controller.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/6A40.o: cc_ido_71 src/6A40.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/6BC0.o: cc_ido_71 src/6BC0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/stage_loader.o: cc_ido_71 src/stage_loader.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/8EB0.o: cc_ido_71 src/8EB0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/crash_screen.o: cc_ido_71 src/crash_screen.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/profiler.o: cc_ido_71 src/profiler.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/math_util.o: cc_ido_71 src/math_util.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/hal_libc.o: cc_ido_71 src/hal_libc.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/gb_tower.o: cc_ido_71 src/gb_tower.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/C030.o: cc_ido_71 src/C030.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/exception_set.o: as asm/us/exception_set.s
+  version = us
+build ver/us/build/asm/us/yay0.o: as asm/us/yay0.s
+  version = us
+build ver/us/build/asm/us/abs.o: as asm/us/abs.s
+  version = us
+build ver/us/build/src/libleo/bootdisk.o: cc_ido_53 src/libleo/bootdisk.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/bootstrap.o: as src/libleo/bootstrap.s
+  version = us
+build ver/us/build/src/C970.o: cc_ido_71 src/C970.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/CE80.o: cc_ido_71 src/CE80.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/D470.o: cc_ido_71 src/D470.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/DDC0.o: cc_ido_71 src/DDC0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/E1C0.o: cc_ido_71 src/E1C0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/E570.o: cc_ido_71 src/E570.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/E890.o: cc_ido_71 src/E890.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/F420.o: cc_ido_71 src/F420.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/11BA0.o: cc_ido_71 src/11BA0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/12D80.o: cc_ido_71 src/12D80.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/17300.o: cc_ido_71 src/17300.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/18140.o: cc_ido_71 src/18140.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/geo_layout.o: cc_ido_71 src/geo_layout.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/19840.o: cc_ido_71 src/19840.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/1AB70.o: cc_ido_71 src/1AB70.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/1C720.o: cc_ido_71 src/1C720.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/1CF30.o: cc_ido_71 src/1CF30.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/20330.o: cc_ido_71 src/20330.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/20470.o: cc_ido_71 src/20470.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/225A0.o: cc_ido_71 src/225A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/22630.o: cc_ido_71 src/22630.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/232C0.o: cc_ido_71 src/232C0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/26820.o: cc_ido_71 src/26820.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/29BA0.o: cc_ido_71 src/29BA0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/2C1C0.o: cc_ido_71 src/2C1C0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/2D340.o: cc_ido_71 src/2D340.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/2E110.o: cc_ido_71 src/2E110.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/2E460.o: cc_ido_71 src/2E460.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/2FEA0.o: cc_ido_71 src/2FEA0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/30640.o: cc_ido_71 src/30640.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/32D10.o: cc_ido_71 src/32D10.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/334D0.o: cc_ido_71 src/334D0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/33E30.o: cc_ido_71 src/33E30.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/33FE0.o: cc_ido_71 src/33FE0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/37370.o: cc_ido_71 src/37370.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/373A0.o: cc_ido_71 src/373A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/38BB0.o: cc_ido_71 src/38BB0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/3D140.o: cc_ido_71 src/3D140.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_sl.o: cc_ido_71 src/libnaudio/n_sl.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synsetpriority.o: cc_ido_71 src/libnaudio/n_synsetpriority.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/435D0.o: cc_ido_71 src/435D0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/45720.o: cc_ido_71 src/45720.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/46680.o: cc_ido_71 src/46680.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synstopvoice.o: cc_ido_71 src/libnaudio/n_synstopvoice.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_env.o: cc_ido_71 src/libnaudio/n_env.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/485C0.o: cc_ido_71 src/485C0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/48C60.o: cc_ido_71 src/48C60.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/490A0.o: cc_ido_71 src/490A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/unk_49190.o: as src/unk_49190.s
+  version = us
+build ver/us/build/src/49790.o: cc_ido_71 src/49790.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synallocvoice.o: cc_ido_71 src/libnaudio/n_synallocvoice.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synthesizer.o: cc_ido_71 src/libnaudio/n_synthesizer.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synsetpan.o: cc_ido_71 src/libnaudio/n_synsetpan.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/4A3E0.o: cc_ido_71 src/4A3E0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/4B940.o: cc_ido_71 src/4B940.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/4BA90.o: cc_ido_71 src/4BA90.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/4BDC0.o: cc_ido_71 src/4BDC0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/4CBC0.o: cc_ido_71 src/4CBC0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/4F410.o: cc_ido_71 src/4F410.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synsetpitch.o: cc_ido_71 src/libnaudio/n_synsetpitch.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_drvrNew.o: cc_ido_71 src/libnaudio/n_drvrNew.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_auxbus.o: cc_ido_71 src/libnaudio/n_auxbus.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synsetfxmix.o: cc_ido_71 src/libnaudio/n_synsetfxmix.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synaddplayer.o: cc_ido_71 src/libnaudio/n_synaddplayer.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_resample.o: cc_ido_71 src/libnaudio/n_resample.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_load.o: cc_ido_71 src/libnaudio/n_load.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/50860.o: cc_ido_71 src/50860.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_syndelete.o: cc_ido_71 src/libnaudio/n_syndelete.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synallocfx.o: cc_ido_71 src/libnaudio/n_synallocfx.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/50A00.o: cc_ido_71 src/50A00.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synstartvoiceparam.o: cc_ido_71 src/libnaudio/n_synstartvoiceparam.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synfreevoice.o: cc_ido_71 src/libnaudio/n_synfreevoice.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_reverb.o: cc_ido_71 src/libnaudio/n_reverb.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/51740.o: cc_ido_71 src/51740.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/517A0.o: cc_ido_71 src/517A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_save.o: cc_ido_71 src/libnaudio/n_save.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_mainbus.o: cc_ido_71 src/libnaudio/n_mainbus.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libnaudio/n_synsetvol.o: cc_ido_71 src/libnaudio/n_synsetvol.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/readwrite.o: cc_ido_53 src/libleo/readwrite.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leofunc.o: cc_ido_53 src/libleo/leofunc.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leoint.o: cc_ido_53 src/libleo/leoint.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leocmdex.o: cc_ido_53 src/libleo/leocmdex.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leoread.o: cc_ido_53 src/libleo/leoread.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/lbatobyte.o: cc_ido_53 src/libleo/lbatobyte.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/driverominit.o: cc_ido_53 src/libleo/driverominit.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leoinquiry.o: cc_ido_53 src/libleo/leoinquiry.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leodiskinit.o: cc_ido_53 src/libleo/leodiskinit.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/readdiskid.o: cc_ido_53 src/libleo/readdiskid.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leord_diskid.o: cc_ido_53 src/libleo/leord_diskid.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leomecha.o: cc_ido_53 src/libleo/leomecha.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/spdlmotor.o: cc_ido_53 src/libleo/spdlmotor.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leoc2ecc.o: cc_ido_53 src/libleo/leoc2ecc.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/setrtc.o: cc_ido_53 src/libleo/setrtc.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leomseq_tbl.o: cc_ido_53 src/libleo/leomseq_tbl.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leomotor.o: cc_ido_53 src/libleo/leomotor.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leomode_sel.o: cc_ido_53 src/libleo/leomode_sel.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leord_capa.o: cc_ido_53 src/libleo/leord_capa.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leoutil.o: cc_ido_53 src/libleo/leoutil.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leorezero.o: cc_ido_53 src/libleo/leorezero.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/bytetolba.o: cc_ido_53 src/libleo/bytetolba.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leoreset.o: cc_ido_53 src/libleo/leoreset.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leotranslat.o: cc_ido_53 src/libleo/leotranslat.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leotimer.o: cc_ido_53 src/libleo/leotimer.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leowrite.o: cc_ido_53 src/libleo/leowrite.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/cjcreateleomanager.o: cc_ido_53 src/libleo/cjcreateleomanager.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leointerrupt.o: cc_ido_53 src/libleo/leointerrupt.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/driveexist.o: cc_ido_53 src/libleo/driveexist.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/testunitready.o: cc_ido_53 src/libleo/testunitready.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leotestunit.o: cc_ido_53 src/libleo/leotestunit.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/readrtc.o: cc_ido_53 src/libleo/readrtc.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/leoseek.o: cc_ido_53 src/libleo/leoseek.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/libleo/seek.o: cc_ido_53 src/libleo/seek.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/lib/libultra.a$:piacs.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:setcause.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sendmesg.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:stopthread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:recvmesg.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:setintmask.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:thread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:scale.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sinf.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sl.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sptask.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:destroythread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:ll.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:exceptasm.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:bzero.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:bnkf.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:gbpakcheckconnector.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:gbpakpower.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:controller.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:siacs.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:createthread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:contreaddata.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:setcount.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:conteeplongread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:virtualtophysical.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:setsr.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:writebackdcache.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:initialize.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:getsr.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:gbpakinit.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:pfsgetstatus.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:reverb.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:perspective.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sprawdma.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sirawdma.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:epilinkhandle.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:viblack.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sirawread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sptaskyield.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:lookatref.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:mtxutil.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:visetmode.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:virepeatline.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:pfsisplug.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:probetlb.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:pimgr.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:devmgr.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:pirawdma.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:getcount.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:conteepprobe.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:conteepwrite.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:getmemsize.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:contpfs.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:seteventmesg.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sqrtf.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:afterprenmi.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:mtxcatf.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:mtxcatl.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:random.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:xprintf.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:gbpakgetstatus.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sprintf.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:unmaptlball.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:epidma.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:heapinit.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:syncprintf.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:string.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:invaldcache.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:createmesgqueue.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:invalicache.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:conteeplongwrite.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sp.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:si.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:translate.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:jammesg.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:setthreadpri.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:getthreadpri.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:epirawread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:viswapbuf.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:epirawdma.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sptaskyielded.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:rotaterpy.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:bcmp.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:rotate.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:gettime.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:timerintr.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:synthesizer.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:drvrnew.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:mainbus.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:auxbus.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:env.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:resample.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:load.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:filter.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:save.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:setglobalintmask.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:aisetfreq.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:dpctr.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:getactivequeue.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:normalize.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:setcompare.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:aigetstat.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:dpsetstat.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:copy.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:bcopy.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:resetglobalintmask.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:ortho.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:interrupt.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:vi.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:viswapcontext.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:pigetcmdq.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:cosf.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:epiread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:visetspecial.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:settime.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:visetevent.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:gbpakreadid.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:cartrominit.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:pfsselectbank.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:setfpccsr.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:aigetlen.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:epiwrite.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:maptlbrdb.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:yieldthread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:contramwrite.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:contramread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:crc.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:getcause.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:epirawwrite.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:settimer.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:xldtob.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:ldiv.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:xlitob.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sirawwrite.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:spsetstat.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:spgetstat.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:vimgr.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:vigetcurrcontext.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:writebackdcacheall.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:heapalloc.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:startthread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:visetxscale.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:visetyscale.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:llcvt.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:synallocfx.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:syndelete.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:gbpakreadwrite.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:gbpaksetbank.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:aisetnextbuf.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:ai.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:conteepread.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:vigetcurrframebuf.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:spsetpc.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:sethwinterrupt.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/asm/us/data/66BC0.data.o: as asm/us/data/66BC0.data.s
+  version = us
+build ver/us/build/asm/us/data/F3DEX2.data.o: as asm/us/data/F3DEX2.data.s
+  version = us
+build ver/us/build/asm/us/data/unk_F3DEX2_68020.data.o: as asm/us/data/unk_F3DEX2_68020.data.s
+  version = us
+build ver/us/build/asm/us/data/unk_F3DEX2_68C80.data.o: as asm/us/data/unk_F3DEX2_68C80.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_69770.data.o: as asm/us/data/rom_data_69770.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_6A3E0.data.o: as asm/us/data/rom_data_6A3E0.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_6FC10.data.o: as asm/us/data/rom_data_6FC10.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_703E0.data.o: as asm/us/data/rom_data_703E0.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_74260.data.o: as asm/us/data/rom_data_74260.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_76A40.data.o: as asm/us/data/rom_data_76A40.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_76FB0.data.o: as asm/us/data/rom_data_76FB0.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_78990.data.o: as asm/us/data/rom_data_78990.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_79300.data.o: as asm/us/data/rom_data_79300.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_79660.data.o: as asm/us/data/rom_data_79660.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_7A110.data.o: as asm/us/data/rom_data_7A110.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_7A190.data.o: as asm/us/data/rom_data_7A190.data.s
+  version = us
+build ver/us/build/asm/us/data/rom_data_7A2E0.data.o: as asm/us/data/rom_data_7A2E0.data.s
+  version = us
+build ver/us/build/lib/libultra.a$:vimodentsclpn1.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:vimodempallpn1.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:vimodepallan1.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:vimodentsclan1.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:vimodempallan1.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/asm/us/data/7BB10.rodata.o: as asm/us/data/7BB10.rodata.s
+  version = us
+build ver/us/build/asm/us/data/rom_rodata_7C1C0.rodata.o: as asm/us/data/rom_rodata_7C1C0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/rom_rodata_7C220.rodata.o: as asm/us/data/rom_rodata_7C220.rodata.s
+  version = us
+build ver/us/build/asm/us/data/rom_rodata_7C750.rodata.o: as asm/us/data/rom_rodata_7C750.rodata.s
+  version = us
+build ver/us/build/asm/us/data/rom_rodata_7D110.rodata.o: as asm/us/data/rom_rodata_7D110.rodata.s
+  version = us
+build ver/us/build/asm/us/data/rom_rodata_7D1B0.rodata.o: as asm/us/data/rom_rodata_7D1B0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/rom_rodata_7D3C0.rodata.o: as asm/us/data/rom_rodata_7D3C0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/rom_rodata_7D3E0.rodata.o: as asm/us/data/rom_rodata_7D3E0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/rom_rodata_7D8D0.rodata.o: as asm/us/data/rom_rodata_7D8D0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/rom_rodata_7DF80.rodata.o: as asm/us/data/rom_rodata_7DF80.rodata.s
+  version = us
+build ver/us/build/asm/us/data/rom_rodata_7E0D0.rodata.o: as asm/us/data/rom_rodata_7E0D0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/rom_rodata_7E6F0.rodata.o: as asm/us/data/rom_rodata_7E6F0.rodata.s
+  version = us
+build ver/us/build/src/libleo/leo_tbl.o: cc_ido_53 src/libleo/leo_tbl.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/lib/libultra.a$:libm_vals.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/asm/us/data/F3DEX2_data.rodata.o: as asm/us/data/F3DEX2_data.rodata.s
+  version = us
+build ver/us/build/asm/us/data/unk_bin_7F670.rodata.o: as asm/us/data/unk_bin_7F670.rodata.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss.bss.o: as asm/us/data/unk_bss.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_4.bss.o: as asm/us/data/unk_bss_4.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_3.bss.o: as asm/us/data/unk_bss_3.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_2.bss.o: as asm/us/data/unk_bss_2.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_17.bss.o: as asm/us/data/unk_bss_17.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_14.bss.o: as asm/us/data/unk_bss_14.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_11.bss.o: as asm/us/data/unk_bss_11.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_7.bss.o: as asm/us/data/unk_bss_7.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_12.bss.o: as asm/us/data/unk_bss_12.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_15.bss.o: as asm/us/data/unk_bss_15.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_10.bss.o: as asm/us/data/unk_bss_10.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_5.bss.o: as asm/us/data/unk_bss_5.bss.s
+  version = us
+build ver/us/build/asm/us/data/unk_bss_6.bss.o: as asm/us/data/unk_bss_6.bss.s
+  version = us
+build ver/us/build/lib/libultra.a$:leointerrupt.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:kdebugserver.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/lib/libultra.a$:leodiskinit.o: bin ver/us/build/lib/libultra.a
+  version = us
+build ver/us/build/src/heap.o: cc_ido_71 src/heap.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/fragments/1/fragment1_header.o: as asm/us/fragments/1/fragment1_header.s
+  version = us
+build ver/us/build/src/fragments/1/fragment1_7F9A0.o: cc_ido_71 src/fragments/1/fragment1_7F9A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/1/fragment1_86920.o: cc_ido_71 src/fragments/1/fragment1_86920.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/1/fragment1_86C30.o: cc_ido_71 src/fragments/1/fragment1_86C30.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/1/fragment1_86CB0.o: cc_ido_71 src/fragments/1/fragment1_86CB0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/fragments/1/fragment1_code_asm.o: as asm/us/fragments/1/fragment1_code_asm.s
+  version = us
+build ver/us/build/asm/us/data/fragments/1/fragment1_data.data.o: as asm/us/data/fragments/1/fragment1_data.data.s
+  version = us
+build ver/us/build/asm/us/data/fragments/1/fragment1_rodata_A8E80.rodata.o: as asm/us/data/fragments/1/fragment1_rodata_A8E80.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/1/fragment1_rodata_A8F00.rodata.o: as asm/us/data/fragments/1/fragment1_rodata_A8F00.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/1/fragment1_rodata_A9140.rodata.o: as asm/us/data/fragments/1/fragment1_rodata_A9140.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/1/fragment1_rodata_A9BE0.rodata.o: as asm/us/data/fragments/1/fragment1_rodata_A9BE0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/1/fragment1_rodata_AA6D0.rodata.o: as asm/us/data/fragments/1/fragment1_rodata_AA6D0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/1/fragment1_rodata_AA8F0.rodata.o: as asm/us/data/fragments/1/fragment1_rodata_AA8F0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/1/fragment1_bss.bss.o: as asm/us/data/fragments/1/fragment1_bss.bss.s
+  version = us
+build ver/us/build/asm/us/data/fragments/1/fragment1_reloc.o: as asm/us/data/fragments/1/fragment1_reloc.s
+  version = us
+build ver/us/build/assets/us/fragments/1/fragment1_yay0_0.o: bin assets/us/fragments/1/fragment1_yay0_0.bin
+  version = us
+build ver/us/build/assets/us/fragments/1/fragment1_yay0_1.o: bin assets/us/fragments/1/fragment1_yay0_1.bin
+  version = us
+build ver/us/build/assets/us/fragments/1/fragment1_yay0_2.o: bin assets/us/fragments/1/fragment1_yay0_2.bin
+  version = us
+build ver/us/build/assets/us/fragments/1/fragment1_yay0_3.o: bin assets/us/fragments/1/fragment1_yay0_3.bin
+  version = us
+build ver/us/build/assets/us/fragments/1/fragment1_yay0_4.o: bin assets/us/fragments/1/fragment1_yay0_4.bin
+  version = us
+build ver/us/build/asm/us/data/fragments/2/fragment2_header.o: as asm/us/data/fragments/2/fragment2_header.s
+  version = us
+build ver/us/build/src/fragments/2/fragment2.o: cc_ido_71 src/fragments/2/fragment2.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/2/fragment2_1.o: cc_ido_71 src/fragments/2/fragment2_1.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/2/fragment2_2.o: cc_ido_71 src/fragments/2/fragment2_2.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/2/fragment2_reloc.o: as asm/us/data/fragments/2/fragment2_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/3/fragment3_header.o: as asm/us/data/fragments/3/fragment3_header.s
+  version = us
+build ver/us/build/src/fragments/3/fragment3_1189B0.o: cc_ido_71 src/fragments/3/fragment3_1189B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/3/fragment3_1193E0.o: cc_ido_71 src/fragments/3/fragment3_1193E0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/3/fragment3_119FB0.o: cc_ido_71 src/fragments/3/fragment3_119FB0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/3/fragment3_11BBF0.o: cc_ido_71 src/fragments/3/fragment3_11BBF0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/3/fragment3_11BF90.o: cc_ido_71 src/fragments/3/fragment3_11BF90.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/3/fragment3_reloc.o: as asm/us/data/fragments/3/fragment3_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/4/fragment4_header.o: as asm/us/data/fragments/4/fragment4_header.s
+  version = us
+build ver/us/build/src/fragments/4/fragment4.o: cc_ido_71 src/fragments/4/fragment4.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/4/fragment4_reloc.o: as asm/us/data/fragments/4/fragment4_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/5/fragment5_header.o: as asm/us/data/fragments/5/fragment5_header.s
+  version = us
+build ver/us/build/src/fragments/5/fragment5.o: cc_ido_71 src/fragments/5/fragment5.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/5/fragment5_reloc.o: as asm/us/data/fragments/5/fragment5_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/6/fragment6_header.o: as asm/us/data/fragments/6/fragment6_header.s
+  version = us
+build ver/us/build/src/fragments/6/fragment6.o: cc_ido_71 src/fragments/6/fragment6.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/6/fragment6_reloc.o: as asm/us/data/fragments/6/fragment6_reloc.s
+  version = us
+build ver/us/build/assets/us/fragments/6/fragment6_misc.o: bin assets/us/fragments/6/fragment6_misc.bin
+  version = us
+build ver/us/build/asm/us/data/fragments/7/fragment7_header.o: as asm/us/data/fragments/7/fragment7_header.s
+  version = us
+build ver/us/build/src/fragments/7/fragment7.o: cc_ido_71 src/fragments/7/fragment7.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/7/fragment7_reloc.o: as asm/us/data/fragments/7/fragment7_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/8/fragment8_header.o: as asm/us/data/fragments/8/fragment8_header.s
+  version = us
+build ver/us/build/src/fragments/8/fragment8.o: cc_ido_71 src/fragments/8/fragment8.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/8/fragment8_reloc.o: as asm/us/data/fragments/8/fragment8_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/9/fragment9_header.o: as asm/us/data/fragments/9/fragment9_header.s
+  version = us
+build ver/us/build/src/fragments/9/fragment9.o: cc_ido_71 src/fragments/9/fragment9.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/9/fragment9_reloc.o: as asm/us/data/fragments/9/fragment9_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/10/fragment10_header.o: as asm/us/data/fragments/10/fragment10_header.s
+  version = us
+build ver/us/build/src/fragments/10/fragment10.o: cc_ido_71 src/fragments/10/fragment10.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/10/fragment10_1.o: cc_ido_71 src/fragments/10/fragment10_1.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/10/fragment10_reloc.o: as asm/us/data/fragments/10/fragment10_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/11/fragment11_header.o: as asm/us/data/fragments/11/fragment11_header.s
+  version = us
+build ver/us/build/src/fragments/11/fragment11.o: cc_ido_71 src/fragments/11/fragment11.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/11/fragment11_1.o: cc_ido_71 src/fragments/11/fragment11_1.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/11/fragment11_2.o: cc_ido_71 src/fragments/11/fragment11_2.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/11/fragment11_reloc.o: as asm/us/data/fragments/11/fragment11_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/12/fragment12_header.o: as asm/us/data/fragments/12/fragment12_header.s
+  version = us
+build ver/us/build/src/fragments/12/fragment12.o: cc_ido_71 src/fragments/12/fragment12.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/12/fragment12_reloc.o: as asm/us/data/fragments/12/fragment12_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/13/fragment13_header.o: as asm/us/data/fragments/13/fragment13_header.s
+  version = us
+build ver/us/build/src/fragments/13/fragment13.o: cc_ido_71 src/fragments/13/fragment13.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/13/fragment13_reloc.o: as asm/us/data/fragments/13/fragment13_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/14/fragment14_header.o: as asm/us/data/fragments/14/fragment14_header.s
+  version = us
+build ver/us/build/src/fragments/14/fragment14_144300.o: cc_ido_71 src/fragments/14/fragment14_144300.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/14/fragment14_1462A0.o: cc_ido_71 src/fragments/14/fragment14_1462A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/14/fragment14_14A030.o: cc_ido_71 src/fragments/14/fragment14_14A030.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/14/fragment14_reloc.o: as asm/us/data/fragments/14/fragment14_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/15/fragment15_header.o: as asm/us/data/fragments/15/fragment15_header.s
+  version = us
+build ver/us/build/src/fragments/15/fragment15_14CA70.o: cc_ido_71 src/fragments/15/fragment15_14CA70.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/15/fragment15_14EC80.o: cc_ido_71 src/fragments/15/fragment15_14EC80.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/15/fragment15_150AC0.o: cc_ido_71 src/fragments/15/fragment15_150AC0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/15/fragment15_reloc.o: as asm/us/data/fragments/15/fragment15_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/16/fragment16_header.o: as asm/us/data/fragments/16/fragment16_header.s
+  version = us
+build ver/us/build/src/fragments/16/fragment16_158A00.o: cc_ido_71 src/fragments/16/fragment16_158A00.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/16/fragment16_15A2A0.o: cc_ido_71 src/fragments/16/fragment16_15A2A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/16/fragment16_15A2B0.o: cc_ido_71 src/fragments/16/fragment16_15A2B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/16/fragment16_15AD80.o: cc_ido_71 src/fragments/16/fragment16_15AD80.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/16/fragment16_reloc.o: as asm/us/data/fragments/16/fragment16_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/17/fragment17_header.o: as asm/us/data/fragments/17/fragment17_header.s
+  version = us
+build ver/us/build/src/fragments/17/fragment17_15F9B0.o: cc_ido_71 src/fragments/17/fragment17_15F9B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_15FA60.o: cc_ido_71 src/fragments/17/fragment17_15FA60.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_160CB0.o: cc_ido_71 src/fragments/17/fragment17_160CB0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_161000.o: cc_ido_71 src/fragments/17/fragment17_161000.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_161590.o: cc_ido_71 src/fragments/17/fragment17_161590.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_161E60.o: cc_ido_71 src/fragments/17/fragment17_161E60.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_164B00.o: cc_ido_71 src/fragments/17/fragment17_164B00.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_165640.o: cc_ido_71 src/fragments/17/fragment17_165640.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_168110.o: cc_ido_71 src/fragments/17/fragment17_168110.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_1687E0.o: cc_ido_71 src/fragments/17/fragment17_1687E0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_169510.o: cc_ido_71 src/fragments/17/fragment17_169510.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_169A40.o: cc_ido_71 src/fragments/17/fragment17_169A40.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/17/fragment17_16A0E0.o: cc_ido_71 src/fragments/17/fragment17_16A0E0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/17/fragment17_reloc.o: as asm/us/data/fragments/17/fragment17_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/18/fragment18_header.o: as asm/us/data/fragments/18/fragment18_header.s
+  version = us
+build ver/us/build/src/fragments/18/fragment18.o: cc_ido_71 src/fragments/18/fragment18.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/18/fragment18_reloc.o: as asm/us/data/fragments/18/fragment18_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/19/fragment19_header.o: as asm/us/data/fragments/19/fragment19_header.s
+  version = us
+build ver/us/build/src/fragments/19/fragment19.o: cc_ido_71 src/fragments/19/fragment19.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/19/fragment19_reloc.o: as asm/us/data/fragments/19/fragment19_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/20/fragment20_header.o: as asm/us/data/fragments/20/fragment20_header.s
+  version = us
+build ver/us/build/src/fragments/20/fragment20.o: cc_ido_71 src/fragments/20/fragment20.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/20/fragment20_reloc.o: as asm/us/data/fragments/20/fragment20_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/21/fragment21_header.o: as asm/us/data/fragments/21/fragment21_header.s
+  version = us
+build ver/us/build/src/fragments/21/fragment21.o: cc_ido_71 src/fragments/21/fragment21.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/21/fragment21_reloc.o: as asm/us/data/fragments/21/fragment21_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/22/fragment22_header.o: as asm/us/data/fragments/22/fragment22_header.s
+  version = us
+build ver/us/build/src/fragments/22/fragment22.o: cc_ido_71 src/fragments/22/fragment22.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/22/fragment22_reloc.o: as asm/us/data/fragments/22/fragment22_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/23/fragment23_header.o: as asm/us/data/fragments/23/fragment23_header.s
+  version = us
+build ver/us/build/src/fragments/23/fragment23_1A8590.o: cc_ido_71 src/fragments/23/fragment23_1A8590.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/23/fragment23_1A8800.o: cc_ido_71 src/fragments/23/fragment23_1A8800.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/23/fragment23_1A9780.o: cc_ido_71 src/fragments/23/fragment23_1A9780.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/23/fragment23_1AE680.o: cc_ido_71 src/fragments/23/fragment23_1AE680.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/23/fragment23_1B4EA0.o: cc_ido_71 src/fragments/23/fragment23_1B4EA0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/23/fragment23_1BCF10.o: cc_ido_71 src/fragments/23/fragment23_1BCF10.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/23/fragment23_882181B0.o: cc_ido_71 src/fragments/23/fragment23_882181B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/23/fragment23_reloc.o: as asm/us/data/fragments/23/fragment23_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/24/fragment24_header.o: as asm/us/data/fragments/24/fragment24_header.s
+  version = us
+build ver/us/build/src/fragments/24/fragment24_1CEA00.o: cc_ido_71 src/fragments/24/fragment24_1CEA00.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/24/fragment24_1D7B40.o: cc_ido_71 src/fragments/24/fragment24_1D7B40.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/24/fragment24_1E46B0.o: cc_ido_71 src/fragments/24/fragment24_1E46B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/24/fragment24_reloc.o: as asm/us/data/fragments/24/fragment24_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/25/fragment25_header.o: as asm/us/data/fragments/25/fragment25_header.s
+  version = us
+build ver/us/build/src/fragments/25/fragment25.o: cc_ido_71 src/fragments/25/fragment25.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/25/fragment25_data.data.o: as asm/us/data/fragments/25/fragment25_data.data.s
+  version = us
+build ver/us/build/asm/us/data/fragments/25/fragment25_bss.bss.o: as asm/us/data/fragments/25/fragment25_bss.bss.s
+  version = us
+build ver/us/build/asm/us/data/fragments/25/fragment25_reloc.o: as asm/us/data/fragments/25/fragment25_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/26/fragment26_header.o: as asm/us/data/fragments/26/fragment26_header.s
+  version = us
+build ver/us/build/src/fragments/26/fragment26.o: cc_ido_71 src/fragments/26/fragment26.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/26/fragment26_reloc.o: as asm/us/data/fragments/26/fragment26_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/27/fragment27_header.o: as asm/us/data/fragments/27/fragment27_header.s
+  version = us
+build ver/us/build/src/fragments/27/fragment27.o: cc_ido_71 src/fragments/27/fragment27.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/27/fragment27_reloc.o: as asm/us/data/fragments/27/fragment27_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/28/fragment28_header.o: as asm/us/data/fragments/28/fragment28_header.s
+  version = us
+build ver/us/build/src/fragments/28/fragment28_214920.o: cc_ido_71 src/fragments/28/fragment28_214920.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/28/fragment28_2190D0.o: cc_ido_71 src/fragments/28/fragment28_2190D0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/28/fragment28_reloc.o: as asm/us/data/fragments/28/fragment28_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/29/fragment29_header.o: as asm/us/data/fragments/29/fragment29_header.s
+  version = us
+build ver/us/build/src/fragments/29/fragment29.o: cc_ido_71 src/fragments/29/fragment29.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/29/fragment29_reloc.o: as asm/us/data/fragments/29/fragment29_reloc.s
+  version = us
+build ver/us/build/assets/us/fragments/29/fragment29_unk_bin_1.o: bin assets/us/fragments/29/fragment29_unk_bin_1.bin
+  version = us
+build ver/us/build/assets/us/fragments/29/fragment29_unk_bin_2.o: bin assets/us/fragments/29/fragment29_unk_bin_2.bin
+  version = us
+build ver/us/build/assets/us/fragments/29/fragment29_unk_bin_3.o: bin assets/us/fragments/29/fragment29_unk_bin_3.bin
+  version = us
+build ver/us/build/asm/us/data/fragments/30/fragment30_header.o: as asm/us/data/fragments/30/fragment30_header.s
+  version = us
+build ver/us/build/src/fragments/30/fragment30.o: cc_ido_71 src/fragments/30/fragment30.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/30/fragment30_bss.bss.o: as asm/us/data/fragments/30/fragment30_bss.bss.s
+  version = us
+build ver/us/build/asm/us/data/fragments/30/fragment30_reloc.o: as asm/us/data/fragments/30/fragment30_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/31/fragment31_header.o: as asm/us/data/fragments/31/fragment31_header.s
+  version = us
+build ver/us/build/asm/us/data/fragments/31/fragment31_unk_table.o: as asm/us/data/fragments/31/fragment31_unk_table.s
+  version = us
+build ver/us/build/src/fragments/31/fragment31_2554C0.o: cc_ido_71 src/fragments/31/fragment31_2554C0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/31/fragment31_2557A0.o: cc_ido_71 src/fragments/31/fragment31_2557A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/31/fragment31_2558B0.o: cc_ido_71 src/fragments/31/fragment31_2558B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/31/fragment31_257750.o: cc_ido_71 src/fragments/31/fragment31_257750.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/31/fragment31_2577F0.o: cc_ido_71 src/fragments/31/fragment31_2577F0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/31/fragment31_257AF0.o: cc_ido_71 src/fragments/31/fragment31_257AF0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/31/fragment31_257DE0.o: cc_ido_71 src/fragments/31/fragment31_257DE0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/31/fragment31_257EC0.o: cc_ido_71 src/fragments/31/fragment31_257EC0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/31/fragment31_257FA0.o: cc_ido_71 src/fragments/31/fragment31_257FA0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/31/fragment31_258080.o: cc_ido_71 src/fragments/31/fragment31_258080.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/31/fragment31_259030.o: cc_ido_71 src/fragments/31/fragment31_259030.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/31/fragment31_2590C0.o: cc_ido_71 src/fragments/31/fragment31_2590C0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/31/fragment31_data.data.o: as asm/us/data/fragments/31/fragment31_data.data.s
+  version = us
+build ver/us/build/asm/us/data/fragments/31/fragment31_rodata_259480.rodata.o: as asm/us/data/fragments/31/fragment31_rodata_259480.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/31/fragment31_rodata_259490.rodata.o: as asm/us/data/fragments/31/fragment31_rodata_259490.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/31/fragment31_rodata_2594E0.rodata.o: as asm/us/data/fragments/31/fragment31_rodata_2594E0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/31/fragment31_rodata_259A90.rodata.o: as asm/us/data/fragments/31/fragment31_rodata_259A90.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/31/fragment31_bss.bss.o: as asm/us/data/fragments/31/fragment31_bss.bss.s
+  version = us
+build ver/us/build/asm/us/data/fragments/31/fragment31_reloc.o: as asm/us/data/fragments/31/fragment31_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/32/fragment32_header.o: as asm/us/data/fragments/32/fragment32_header.s
+  version = us
+build ver/us/build/src/fragments/32/fragment32.o: cc_ido_71 src/fragments/32/fragment32.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/32/fragment32_reloc.o: as asm/us/data/fragments/32/fragment32_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/33/fragment33_header.o: as asm/us/data/fragments/33/fragment33_header.s
+  version = us
+build ver/us/build/src/fragments/33/fragment33.o: cc_ido_71 src/fragments/33/fragment33.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/33/fragment33_reloc.o: as asm/us/data/fragments/33/fragment33_reloc.s
+  version = us
+build ver/us/build/assets/us/fragments/33/fragment33_unk_bin_1.o: bin assets/us/fragments/33/fragment33_unk_bin_1.bin
+  version = us
+build ver/us/build/asm/us/data/fragments/34/fragment34_header.o: as asm/us/data/fragments/34/fragment34_header.s
+  version = us
+build ver/us/build/src/fragments/34/fragment34_261F90.o: cc_ido_71 src/fragments/34/fragment34_261F90.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/34/fragment34_264380.o: cc_ido_71 src/fragments/34/fragment34_264380.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/34/fragment34_269820.o: cc_ido_71 src/fragments/34/fragment34_269820.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/34/fragment34_26E540.o: cc_ido_71 src/fragments/34/fragment34_26E540.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/34/fragment34_26E6D0.o: cc_ido_71 src/fragments/34/fragment34_26E6D0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/34/fragment34_26F9B0.o: cc_ido_71 src/fragments/34/fragment34_26F9B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/34/fragment34_reloc.o: as asm/us/data/fragments/34/fragment34_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/35/fragment35_header.o: as asm/us/data/fragments/35/fragment35_header.s
+  version = us
+build ver/us/build/src/fragments/35/fragment35.o: cc_ido_71 src/fragments/35/fragment35.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/35/fragment35_bss.bss.o: as asm/us/data/fragments/35/fragment35_bss.bss.s
+  version = us
+build ver/us/build/asm/us/data/fragments/35/fragment35_reloc.o: as asm/us/data/fragments/35/fragment35_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/36/fragment36_header.o: as asm/us/data/fragments/36/fragment36_header.s
+  version = us
+build ver/us/build/src/fragments/36/fragment36.o: cc_ido_71 src/fragments/36/fragment36.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/36/fragment36_reloc.o: as asm/us/data/fragments/36/fragment36_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/37/fragment37_header.o: as asm/us/data/fragments/37/fragment37_header.s
+  version = us
+build ver/us/build/src/fragments/37/fragment37.o: cc_ido_71 src/fragments/37/fragment37.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/37/fragment37_reloc.o: as asm/us/data/fragments/37/fragment37_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/38/fragment38_header.o: as asm/us/data/fragments/38/fragment38_header.s
+  version = us
+build ver/us/build/src/fragments/38/fragment38.o: cc_ido_71 src/fragments/38/fragment38.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/38/fragment38_reloc.o: as asm/us/data/fragments/38/fragment38_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/39/fragment39_header.o: as asm/us/data/fragments/39/fragment39_header.s
+  version = us
+build ver/us/build/src/fragments/39/fragment39_27BCC0.o: cc_ido_71 src/fragments/39/fragment39_27BCC0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/39/fragment39_2804C0.o: cc_ido_71 src/fragments/39/fragment39_2804C0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/39/fragment39_281C40.o: cc_ido_71 src/fragments/39/fragment39_281C40.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/39/fragment39_reloc.o: as asm/us/data/fragments/39/fragment39_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/40/fragment40_header.o: as asm/us/data/fragments/40/fragment40_header.s
+  version = us
+build ver/us/build/src/fragments/40/fragment40.o: cc_ido_71 src/fragments/40/fragment40.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/40/fragment40_reloc.o: as asm/us/data/fragments/40/fragment40_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/41/fragment41_header.o: as asm/us/data/fragments/41/fragment41_header.s
+  version = us
+build ver/us/build/src/fragments/41/fragment41_287ED0.o: cc_ido_71 src/fragments/41/fragment41_287ED0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/41/fragment41_289240.o: cc_ido_71 src/fragments/41/fragment41_289240.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/41/fragment41_28D1A0.o: cc_ido_71 src/fragments/41/fragment41_28D1A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/41/fragment41_28ED00.o: cc_ido_71 src/fragments/41/fragment41_28ED00.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/41/fragment41_291D60.o: cc_ido_71 src/fragments/41/fragment41_291D60.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/41/fragment41_2942C0.o: cc_ido_71 src/fragments/41/fragment41_2942C0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/41/fragment41_reloc.o: as asm/us/data/fragments/41/fragment41_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/42/fragment42_header.o: as asm/us/data/fragments/42/fragment42_header.s
+  version = us
+build ver/us/build/src/fragments/42/fragment42.o: cc_ido_71 src/fragments/42/fragment42.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/42/fragment42_reloc.o: as asm/us/data/fragments/42/fragment42_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/43/fragment43_header.o: as asm/us/data/fragments/43/fragment43_header.s
+  version = us
+build ver/us/build/src/fragments/43/fragment43_2A1B50.o: cc_ido_71 src/fragments/43/fragment43_2A1B50.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/43/fragment43_2A3E70.o: cc_ido_71 src/fragments/43/fragment43_2A3E70.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/43/fragment43_2A3F60.o: cc_ido_71 src/fragments/43/fragment43_2A3F60.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/43/fragment43_reloc.o: as asm/us/data/fragments/43/fragment43_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/44/fragment44_header.o: as asm/us/data/fragments/44/fragment44_header.s
+  version = us
+build ver/us/build/src/fragments/44/fragment44.o: cc_ido_71 src/fragments/44/fragment44.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/44/fragment44_reloc.o: as asm/us/data/fragments/44/fragment44_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/45/fragment45_header.o: as asm/us/data/fragments/45/fragment45_header.s
+  version = us
+build ver/us/build/src/fragments/45/fragment45.o: cc_ido_71 src/fragments/45/fragment45.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/45/fragment45_reloc.o: as asm/us/data/fragments/45/fragment45_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/46/fragment46_header.o: as asm/us/data/fragments/46/fragment46_header.s
+  version = us
+build ver/us/build/src/fragments/46/fragment46.o: cc_ido_71 src/fragments/46/fragment46.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/46/fragment46_reloc.o: as asm/us/data/fragments/46/fragment46_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/47/fragment47_header.o: as asm/us/data/fragments/47/fragment47_header.s
+  version = us
+build ver/us/build/src/fragments/47/fragment47_2AD910.o: cc_ido_71 src/fragments/47/fragment47_2AD910.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/47/fragment47_2AE1F0.o: cc_ido_71 src/fragments/47/fragment47_2AE1F0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/47/fragment47_2AFDB0.o: cc_ido_71 src/fragments/47/fragment47_2AFDB0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/47/fragment47_reloc.o: as asm/us/data/fragments/47/fragment47_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/48/fragment48_header.o: as asm/us/data/fragments/48/fragment48_header.s
+  version = us
+build ver/us/build/src/fragments/48/fragment48.o: cc_ido_71 src/fragments/48/fragment48.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/48/fragment48_reloc.o: as asm/us/data/fragments/48/fragment48_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/49/fragment49_header.o: as asm/us/data/fragments/49/fragment49_header.s
+  version = us
+build ver/us/build/src/fragments/49/fragment49.o: cc_ido_71 src/fragments/49/fragment49.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/49/fragment49_reloc.o: as asm/us/data/fragments/49/fragment49_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/50/fragment50_header.o: as asm/us/data/fragments/50/fragment50_header.s
+  version = us
+build ver/us/build/src/fragments/50/fragment50.o: cc_ido_71 src/fragments/50/fragment50.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/50/fragment50_reloc.o: as asm/us/data/fragments/50/fragment50_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/51/fragment51_header.o: as asm/us/data/fragments/51/fragment51_header.s
+  version = us
+build ver/us/build/src/fragments/51/fragment51.o: cc_ido_71 src/fragments/51/fragment51.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/51/fragment51_reloc.o: as asm/us/data/fragments/51/fragment51_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/52/fragment52_header.o: as asm/us/data/fragments/52/fragment52_header.s
+  version = us
+build ver/us/build/src/fragments/52/fragment52.o: cc_ido_71 src/fragments/52/fragment52.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/52/fragment52_reloc.o: as asm/us/data/fragments/52/fragment52_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/53/fragment53_header.o: as asm/us/data/fragments/53/fragment53_header.s
+  version = us
+build ver/us/build/src/fragments/53/fragment53.o: cc_ido_71 src/fragments/53/fragment53.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/53/fragment53_reloc.o: as asm/us/data/fragments/53/fragment53_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/54/fragment54_header.o: as asm/us/data/fragments/54/fragment54_header.s
+  version = us
+build ver/us/build/src/fragments/54/fragment54.o: cc_ido_71 src/fragments/54/fragment54.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/54/fragment54_reloc.o: as asm/us/data/fragments/54/fragment54_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/55/fragment55_header.o: as asm/us/data/fragments/55/fragment55_header.s
+  version = us
+build ver/us/build/src/fragments/55/fragment55_2BED40.o: cc_ido_71 src/fragments/55/fragment55_2BED40.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/55/fragment55_2C0F90.o: cc_ido_71 src/fragments/55/fragment55_2C0F90.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/55/fragment55_2C13F0.o: cc_ido_71 src/fragments/55/fragment55_2C13F0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/55/fragment55_reloc.o: as asm/us/data/fragments/55/fragment55_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/56/fragment56_header.o: as asm/us/data/fragments/56/fragment56_header.s
+  version = us
+build ver/us/build/src/fragments/56/fragment56.o: cc_ido_71 src/fragments/56/fragment56.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/56/fragment56_reloc.o: as asm/us/data/fragments/56/fragment56_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/57/fragment57_header.o: as asm/us/data/fragments/57/fragment57_header.s
+  version = us
+build ver/us/build/src/fragments/57/fragment57.o: cc_ido_71 src/fragments/57/fragment57.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/57/fragment57_reloc.o: as asm/us/data/fragments/57/fragment57_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/58/fragment58_header.o: as asm/us/data/fragments/58/fragment58_header.s
+  version = us
+build ver/us/build/src/fragments/58/fragment58.o: cc_ido_71 src/fragments/58/fragment58.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/58/fragment58_reloc.o: as asm/us/data/fragments/58/fragment58_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/59/fragment59_header.o: as asm/us/data/fragments/59/fragment59_header.s
+  version = us
+build ver/us/build/src/fragments/59/fragment59.o: cc_ido_71 src/fragments/59/fragment59.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/59/fragment59_reloc.o: as asm/us/data/fragments/59/fragment59_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/60/fragment60_header.o: as asm/us/data/fragments/60/fragment60_header.s
+  version = us
+build ver/us/build/src/fragments/60/fragment60.o: cc_ido_71 src/fragments/60/fragment60.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/60/fragment60_reloc.o: as asm/us/data/fragments/60/fragment60_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/61/fragment61_header.o: as asm/us/data/fragments/61/fragment61_header.s
+  version = us
+build ver/us/build/src/fragments/61/fragment61_2D78B0.o: cc_ido_71 src/fragments/61/fragment61_2D78B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/61/fragment61_2DB900.o: cc_ido_71 src/fragments/61/fragment61_2DB900.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/61/fragment61_2DD710.o: cc_ido_71 src/fragments/61/fragment61_2DD710.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/61/fragment61_2DFB60.o: cc_ido_71 src/fragments/61/fragment61_2DFB60.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/61/fragment61_2E2C20.o: cc_ido_71 src/fragments/61/fragment61_2E2C20.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/61/fragment61_2E4040.o: cc_ido_71 src/fragments/61/fragment61_2E4040.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/61/fragment61_2E5430.o: cc_ido_71 src/fragments/61/fragment61_2E5430.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/61/fragment61_reloc.o: as asm/us/data/fragments/61/fragment61_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_header.o: as asm/us/data/fragments/62/fragment62_header.s
+  version = us
+build ver/us/build/src/fragments/62/fragment62_2EA8E0.o: cc_ido_71 src/fragments/62/fragment62_2EA8E0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_2EC3C0.o: cc_ido_71 src/fragments/62/fragment62_2EC3C0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_2F1D60.o: cc_ido_71 src/fragments/62/fragment62_2F1D60.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_2F23A0.o: cc_ido_71 src/fragments/62/fragment62_2F23A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_2F3CB0.o: cc_ido_71 src/fragments/62/fragment62_2F3CB0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_2F6930.o: cc_ido_71 src/fragments/62/fragment62_2F6930.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_2F74E0.o: cc_ido_71 src/fragments/62/fragment62_2F74E0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_2FA4D0.o: cc_ido_71 src/fragments/62/fragment62_2FA4D0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_304060.o: cc_ido_71 src/fragments/62/fragment62_304060.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_3055E0.o: cc_ido_71 src/fragments/62/fragment62_3055E0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_309ED0.o: cc_ido_71 src/fragments/62/fragment62_309ED0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_313250.o: cc_ido_71 src/fragments/62/fragment62_313250.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_315830.o: cc_ido_71 src/fragments/62/fragment62_315830.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_315D50.o: cc_ido_71 src/fragments/62/fragment62_315D50.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_317E70.o: cc_ido_71 src/fragments/62/fragment62_317E70.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_31A7E0.o: cc_ido_71 src/fragments/62/fragment62_31A7E0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_31AA30.o: cc_ido_71 src/fragments/62/fragment62_31AA30.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_31C660.o: cc_ido_71 src/fragments/62/fragment62_31C660.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_3223B0.o: cc_ido_71 src/fragments/62/fragment62_3223B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_3274D0.o: cc_ido_71 src/fragments/62/fragment62_3274D0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_328F10.o: cc_ido_71 src/fragments/62/fragment62_328F10.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_32A640.o: cc_ido_71 src/fragments/62/fragment62_32A640.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_32B680.o: cc_ido_71 src/fragments/62/fragment62_32B680.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_3438B0.o: cc_ido_71 src/fragments/62/fragment62_3438B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_343BA0.o: cc_ido_71 src/fragments/62/fragment62_343BA0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_34E1A0.o: cc_ido_71 src/fragments/62/fragment62_34E1A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_34F1A0.o: cc_ido_71 src/fragments/62/fragment62_34F1A0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_3502D0.o: cc_ido_71 src/fragments/62/fragment62_3502D0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_3512D0.o: cc_ido_71 src/fragments/62/fragment62_3512D0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_351F20.o: cc_ido_71 src/fragments/62/fragment62_351F20.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_352570.o: cc_ido_71 src/fragments/62/fragment62_352570.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_353370.o: cc_ido_71 src/fragments/62/fragment62_353370.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_3540B0.o: cc_ido_71 src/fragments/62/fragment62_3540B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_355A00.o: cc_ido_71 src/fragments/62/fragment62_355A00.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_356730.o: cc_ido_71 src/fragments/62/fragment62_356730.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_357C30.o: cc_ido_71 src/fragments/62/fragment62_357C30.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_3597B0.o: cc_ido_71 src/fragments/62/fragment62_3597B0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_359F80.o: cc_ido_71 src/fragments/62/fragment62_359F80.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_359F90.o: cc_ido_71 src/fragments/62/fragment62_359F90.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_35DF70.o: cc_ido_71 src/fragments/62/fragment62_35DF70.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/62/fragment62_361050.o: cc_ido_71 src/fragments/62/fragment62_361050.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/62/fragment62_data.data.o: as asm/us/data/fragments/62/fragment62_data.data.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3759C0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3759C0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375A60.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_375A60.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375BA0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_375BA0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375BB0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_375BB0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375C50.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_375C50.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375D50.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_375D50.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375EA0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_375EA0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3764E0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3764E0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_376650.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_376650.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3768B0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3768B0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3768E0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3768E0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3769B0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3769B0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_376A10.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_376A10.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_376A40.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_376A40.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_376AE0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_376AE0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_376B40.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_376B40.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3778A0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3778A0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_377C90.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_377C90.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_377DA0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_377DA0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_377E40.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_377E40.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_377FA0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_377FA0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_378000.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_378000.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_378040.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_378040.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3780B0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3780B0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_378140.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_378140.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_378170.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_378170.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3781A0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3781A0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3781B0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3781B0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3781D0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3781D0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3784C0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3784C0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_378540.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_378540.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3786B0.rodata.o: as asm/us/data/fragments/62/fragment62_rodata_3786B0.rodata.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_bss.bss.o: as asm/us/data/fragments/62/fragment62_bss.bss.s
+  version = us
+build ver/us/build/asm/us/data/fragments/62/fragment62_reloc.o: as asm/us/data/fragments/62/fragment62_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/63/fragment63_header.o: as asm/us/data/fragments/63/fragment63_header.s
+  version = us
+build ver/us/build/src/fragments/63/fragment63_394120.o: cc_ido_71 src/fragments/63/fragment63_394120.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/63/fragment63_3974E0.o: cc_ido_71 src/fragments/63/fragment63_3974E0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/63/fragment63_397B10.o: cc_ido_71 src/fragments/63/fragment63_397B10.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/63/fragment63_39AC50.o: cc_ido_71 src/fragments/63/fragment63_39AC50.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/63/fragment63_39BFB0.o: cc_ido_71 src/fragments/63/fragment63_39BFB0.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/63/fragment63_39ED60.o: cc_ido_71 src/fragments/63/fragment63_39ED60.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/63/fragment63_3A0010.o: cc_ido_71 src/fragments/63/fragment63_3A0010.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/63/fragment63_3A1970.o: cc_ido_71 src/fragments/63/fragment63_3A1970.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/63/fragment63_3A1C30.o: cc_ido_71 src/fragments/63/fragment63_3A1C30.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/src/fragments/63/fragment63_data.o: cc_ido_71 src/fragments/63/fragment63_data.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/63/fragment63_reloc.o: as asm/us/data/fragments/63/fragment63_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/64/fragment64_header.o: as asm/us/data/fragments/64/fragment64_header.s
+  version = us
+build ver/us/build/src/fragments/64/fragment64.o: cc_ido_71 src/fragments/64/fragment64.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/64/fragment64_reloc.o: as asm/us/data/fragments/64/fragment64_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/65/fragment65_header.o: as asm/us/data/fragments/65/fragment65_header.s
+  version = us
+build ver/us/build/src/fragments/65/fragment65.o: cc_ido_71 src/fragments/65/fragment65.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/65/fragment65_reloc.o: as asm/us/data/fragments/65/fragment65_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/66/fragment66_header.o: as asm/us/data/fragments/66/fragment66_header.s
+  version = us
+build ver/us/build/src/fragments/66/fragment66.o: cc_ido_71 src/fragments/66/fragment66.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/66/fragment66_reloc.o: as asm/us/data/fragments/66/fragment66_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/67/fragment67_header.o: as asm/us/data/fragments/67/fragment67_header.s
+  version = us
+build ver/us/build/src/fragments/67/fragment67.o: cc_ido_71 src/fragments/67/fragment67.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/67/fragment67_reloc.o: as asm/us/data/fragments/67/fragment67_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/68/fragment68_header.o: as asm/us/data/fragments/68/fragment68_header.s
+  version = us
+build ver/us/build/src/fragments/68/fragment68.o: cc_ido_71 src/fragments/68/fragment68.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/68/fragment68_reloc.o: as asm/us/data/fragments/68/fragment68_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/69/fragment69_header.o: as asm/us/data/fragments/69/fragment69_header.s
+  version = us
+build ver/us/build/src/fragments/69/fragment69.o: cc_ido_71 src/fragments/69/fragment69.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/69/fragment69_reloc.o: as asm/us/data/fragments/69/fragment69_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/70/fragment70_header.o: as asm/us/data/fragments/70/fragment70_header.s
+  version = us
+build ver/us/build/src/fragments/70/fragment70.o: cc_ido_71 src/fragments/70/fragment70.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/70/fragment70_reloc.o: as asm/us/data/fragments/70/fragment70_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/71/fragment71_header.o: as asm/us/data/fragments/71/fragment71_header.s
+  version = us
+build ver/us/build/src/fragments/71/fragment71.o: cc_ido_71 src/fragments/71/fragment71.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/71/fragment71_reloc.o: as asm/us/data/fragments/71/fragment71_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/72/fragment72_header.o: as asm/us/data/fragments/72/fragment72_header.s
+  version = us
+build ver/us/build/src/fragments/72/fragment72.o: cc_ido_71 src/fragments/72/fragment72.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/72/fragment72_reloc.o: as asm/us/data/fragments/72/fragment72_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/73/fragment73_header.o: as asm/us/data/fragments/73/fragment73_header.s
+  version = us
+build ver/us/build/src/fragments/73/fragment73.o: cc_ido_71 src/fragments/73/fragment73.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/73/fragment73_reloc.o: as asm/us/data/fragments/73/fragment73_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/74/fragment74_header.o: as asm/us/data/fragments/74/fragment74_header.s
+  version = us
+build ver/us/build/src/fragments/74/fragment74.o: cc_ido_71 src/fragments/74/fragment74.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/74/fragment74_reloc.o: as asm/us/data/fragments/74/fragment74_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/75/fragment75_header.o: as asm/us/data/fragments/75/fragment75_header.s
+  version = us
+build ver/us/build/src/fragments/75/fragment75.o: cc_ido_71 src/fragments/75/fragment75.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/75/fragment75_reloc.o: as asm/us/data/fragments/75/fragment75_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/76/fragment76_header.o: as asm/us/data/fragments/76/fragment76_header.s
+  version = us
+build ver/us/build/src/fragments/76/fragment76.o: cc_ido_71 src/fragments/76/fragment76.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/76/fragment76_reloc.o: as asm/us/data/fragments/76/fragment76_reloc.s
+  version = us
+build ver/us/build/asm/us/data/fragments/77/fragment77_header.o: as asm/us/data/fragments/77/fragment77_header.s
+  version = us
+build ver/us/build/src/fragments/77/fragment77.o: cc_ido_71 src/fragments/77/fragment77.c
+  version = us
+  cflags = 
+  cppflags = 
+  iconv = iconv --from UTF-8 --to euc-jp
+build ver/us/build/asm/us/data/fragments/77/fragment77_reloc.o: as asm/us/data/fragments/77/fragment77_reloc.s
+  version = us
+build ver/us/build/assets/us/n64_logo_texture.o: bin assets/us/n64_logo_texture.bin
+  version = us
+build ver/us/build/assets/us/fonts.o: bin assets/us/fonts.bin
+  version = us
+build ver/us/build/assets/us/backgrounds.o: bin assets/us/backgrounds.bin
+  version = us
+build ver/us/build/assets/us/battle_headers.o: bin assets/us/battle_headers.bin
+  version = us
+build ver/us/build/assets/us/common_menu0_ui.o: bin assets/us/common_menu0_ui.bin
+  version = us
+build ver/us/build/assets/us/common_menu1_ui.o: bin assets/us/common_menu1_ui.bin
+  version = us
+build ver/us/build/assets/us/common_menu2_ui.o: bin assets/us/common_menu2_ui.bin
+  version = us
+build ver/us/build/assets/us/area_select_ui.o: bin assets/us/area_select_ui.bin
+  version = us
+build ver/us/build/assets/us/menu_select_ui.o: bin assets/us/menu_select_ui.bin
+  version = us
+build ver/us/build/assets/us/stadium_select_ui.o: bin assets/us/stadium_select_ui.bin
+  version = us
+build ver/us/build/assets/us/title_ui.o: bin assets/us/title_ui.bin
+  version = us
+build ver/us/build/assets/us/52F6D0.o: bin assets/us/52F6D0.bin
+  version = us
+build ver/us/build/assets/us/battle_portraits.o: bin assets/us/battle_portraits.bin
+  version = us
+build ver/us/build/assets/us/stadium_models.o: bin assets/us/stadium_models.bin
+  version = us
+build ver/us/build/assets/us/5C7A70.o: bin assets/us/5C7A70.bin
+  version = us
+build ver/us/build/assets/us/pokedex_area_model.o: bin assets/us/pokedex_area_model.bin
+  version = us
+build ver/us/build/assets/us/sushi_go_round.o: bin assets/us/sushi_go_round.bin
+  version = us
+build ver/us/build/assets/us/order_select_ui.o: bin assets/us/order_select_ui.bin
+  version = us
+build ver/us/build/assets/us/cup_ball_select_ui.o: bin assets/us/cup_ball_select_ui.bin
+  version = us
+build ver/us/build/assets/us/trade_select_ui.o: bin assets/us/trade_select_ui.bin
+  version = us
+build ver/us/build/assets/us/kids_club_select_ui.o: bin assets/us/kids_club_select_ui.bin
+  version = us
+build ver/us/build/assets/us/gym_leader_castle_clear_gfx.o: bin assets/us/gym_leader_castle_clear_gfx.bin
+  version = us
+build ver/us/build/assets/us/rental_rules_ui.o: bin assets/us/rental_rules_ui.bin
+  version = us
+build ver/us/build/assets/us/sushi_go_round_sprites.o: bin assets/us/sushi_go_round_sprites.bin
+  version = us
+build ver/us/build/assets/us/kids_club_game_ui.o: bin assets/us/kids_club_game_ui.bin
+  version = us
+build ver/us/build/assets/us/gallery_ui.o: bin assets/us/gallery_ui.bin
+  version = us
+build ver/us/build/assets/us/album_ui.o: bin assets/us/album_ui.bin
+  version = us
+build ver/us/build/assets/us/6A9750.o: bin assets/us/6A9750.bin
+  version = us
+build ver/us/build/assets/us/snap_select_ui.o: bin assets/us/snap_select_ui.bin
+  version = us
+build ver/us/build/assets/us/cup_clear_ui.o: bin assets/us/cup_clear_ui.bin
+  version = us
+build ver/us/build/assets/us/gb_pak_select_ui.o: bin assets/us/gb_pak_select_ui.bin
+  version = us
+build ver/us/build/assets/us/victory_palace_plate_text.o: bin assets/us/victory_palace_plate_text.bin
+  version = us
+build ver/us/build/assets/us/run_rattata_run_flag_gfx.o: bin assets/us/run_rattata_run_flag_gfx.bin
+  version = us
+build ver/us/build/assets/us/kanto_gb_map.o: bin assets/us/kanto_gb_map.bin
+  version = us
+build ver/us/build/assets/us/6CA730.o: bin assets/us/6CA730.bin
+  version = us
+build ver/us/build/assets/us/6E2F90.o: bin assets/us/6E2F90.bin
+  version = us
+build ver/us/build/assets/us/battle_ui.o: bin assets/us/battle_ui.bin
+  version = us
+build ver/us/build/assets/us/transfer_pak_error_ui.o: bin assets/us/transfer_pak_error_ui.bin
+  version = us
+build ver/us/build/assets/us/6EB340.o: bin assets/us/6EB340.bin
+  version = us
+build ver/us/build/assets/us/6EC4D0.o: bin assets/us/6EC4D0.bin
+  version = us
+build ver/us/build/assets/us/badge_ui.o: bin assets/us/badge_ui.bin
+  version = us
+build ver/us/build/assets/us/gym_leader_castle_ui.o: bin assets/us/gym_leader_castle_ui.bin
+  version = us
+build ver/us/build/assets/us/70D3A0.o: bin assets/us/70D3A0.bin
+  version = us
+build ver/us/build/assets/us/7820E0.o: bin assets/us/7820E0.bin
+  version = us
+build ver/us/build/assets/us/textdata.o: bin assets/us/textdata.bin
+  version = us
+build ver/us/build/assets/us/798CD0.o: bin assets/us/798CD0.bin
+  version = us
+build ver/us/build/assets/us/snap_mode_ui.o: bin assets/us/snap_mode_ui.bin
+  version = us
+build ver/us/build/assets/us/copyright.o: bin assets/us/copyright.bin
+  version = us
+build ver/us/build/assets/us/rom_part_0.o: bin assets/us/rom_part_0.bin
+  version = us
+build ver/us/build/assets/us/rom_part_1.o: bin assets/us/rom_part_1.bin
+  version = us
+build ver/us/build/assets/us/rom_part_2.o: bin assets/us/rom_part_2.bin
+  version = us
+build ver/us/build/assets/us/rom_part_3.o: bin assets/us/rom_part_3.bin
+  version = us
+build ver/us/build/assets/us/rom_part_4.o: bin assets/us/rom_part_4.bin
+  version = us
+build ver/us/build/assets/us/rom_part_5.o: bin assets/us/rom_part_5.bin
+  version = us
+build ver/us/build/assets/us/rom_part_6.o: bin assets/us/rom_part_6.bin
+  version = us
+build ver/us/build/assets/us/rom_part_7.o: bin assets/us/rom_part_7.bin
+  version = us
+build ver/us/build/assets/us/rom_part_8.o: bin assets/us/rom_part_8.bin
+  version = us
+build ver/us/build/assets/us/rom_part_9.o: bin assets/us/rom_part_9.bin
+  version = us
+build ver/us/build/assets/us/rom_part_10.o: bin assets/us/rom_part_10.bin
+  version = us
+build ver/us/build/assets/us/rom_part_11.o: bin assets/us/rom_part_11.bin
+  version = us
+build ver/us/build/assets/us/rom_part_12.o: bin assets/us/rom_part_12.bin
+  version = us
+build ver/us/build/assets/us/rom_part_13.o: bin assets/us/rom_part_13.bin
+  version = us
+build ver/us/build/assets/us/rom_part_14.o: bin assets/us/rom_part_14.bin
+  version = us
+build ver/us/build/assets/us/rom_part_15.o: bin assets/us/rom_part_15.bin
+  version = us
+build ver/us/build/assets/us/rom_part_16.o: bin assets/us/rom_part_16.bin
+  version = us
+build ver/us/build/assets/us/rom_part_17.o: bin assets/us/rom_part_17.bin
+  version = us
+build ver/us/build/assets/us/rom_part_18.o: bin assets/us/rom_part_18.bin
+  version = us
+build ver/us/build/assets/us/rom_part_19.o: bin assets/us/rom_part_19.bin
+  version = us
+build ver/us/build/assets/us/rom_part_20.o: bin assets/us/rom_part_20.bin
+  version = us
+build ver/us/build/assets/us/rom_part_21.o: bin assets/us/rom_part_21.bin
+  version = us
+build ver/us/build/assets/us/rom_part_22.o: bin assets/us/rom_part_22.bin
+  version = us
+build ver/us/build/assets/us/rom_part_23.o: bin assets/us/rom_part_23.bin
+  version = us
+build ver/us/build/assets/us/rom_part_24.o: bin assets/us/rom_part_24.bin
+  version = us
+build ver/us/build/assets/us/rom_part_25.o: bin assets/us/rom_part_25.bin
+  version = us
+build ver/us/build/assets/us/rom_part_26.o: bin assets/us/rom_part_26.bin
+  version = us
+build ver/us/build/assets/us/rom_part_27.o: bin assets/us/rom_part_27.bin
+  version = us
+build ver/us/build/assets/us/rom_part_28.o: bin assets/us/rom_part_28.bin
+  version = us
+build ver/us/build/assets/us/rom_part_29.o: bin assets/us/rom_part_29.bin
+  version = us
+build ver/us/build/assets/us/rom_part_30.o: bin assets/us/rom_part_30.bin
+  version = us
+build ver/us/build/assets/us/rom_part_31.o: bin assets/us/rom_part_31.bin
+  version = us
+build ver/us/build/assets/us/rom_part_32.o: bin assets/us/rom_part_32.bin
+  version = us
+build ver/us/build/assets/us/rom_part_33.o: bin assets/us/rom_part_33.bin
+  version = us
+build ver/us/build/assets/us/rom_part_34.o: bin assets/us/rom_part_34.bin
+  version = us
+build ver/us/build/assets/us/rom_part_35.o: bin assets/us/rom_part_35.bin
+  version = us
+build ver/us/build/assets/us/rom_part_36.o: bin assets/us/rom_part_36.bin
+  version = us
+build ver/us/build/assets/us/rom_part_37.o: bin assets/us/rom_part_37.bin
+  version = us
+build ver/us/build/assets/us/rom_part_38.o: bin assets/us/rom_part_38.bin
+  version = us
+build ver/us/build/assets/us/rom_part_39.o: bin assets/us/rom_part_39.bin
+  version = us
+build ver/us/build/assets/us/rom_part_40.o: bin assets/us/rom_part_40.bin
+  version = us
+build ver/us/build/assets/us/rom_part_41.o: bin assets/us/rom_part_41.bin
+  version = us
+build ver/us/build/assets/us/rom_part_42.o: bin assets/us/rom_part_42.bin
+  version = us
+build ver/us/build/assets/us/rom_part_43.o: bin assets/us/rom_part_43.bin
+  version = us
+build ver/us/build/assets/us/rom_part_44.o: bin assets/us/rom_part_44.bin
+  version = us
+build ver/us/build/assets/us/rom_part_45.o: bin assets/us/rom_part_45.bin
+  version = us
+build ver/us/build/assets/us/rom_part_46.o: bin assets/us/rom_part_46.bin
+  version = us
+build ver/us/build/assets/us/rom_part_47.o: bin assets/us/rom_part_47.bin
+  version = us
+build ver/us/build/assets/us/rom_part_48.o: bin assets/us/rom_part_48.bin
+  version = us
+build ver/us/build/assets/us/rom_part_49.o: bin assets/us/rom_part_49.bin
+  version = us
+build ver/us/build/assets/us/rom_part_50.o: bin assets/us/rom_part_50.bin
+  version = us
+build ver/us/build/assets/us/rom_part_51.o: bin assets/us/rom_part_51.bin
+  version = us
+build ver/us/build/assets/us/rom_part_52.o: bin assets/us/rom_part_52.bin
+  version = us
+build ver/us/build/assets/us/pokemon_icons.o: bin assets/us/pokemon_icons.bin
+  version = us
+build ver/us/build/assets/us/898000.o: bin assets/us/898000.bin
+  version = us
+build ver/us/build/assets/us/8CC000.o: bin assets/us/8CC000.bin
+  version = us
+build ver/us/build/assets/us/pokemon_models.o: bin assets/us/pokemon_models.bin
+  version = us
+build ver/us/build/assets/us/15C0000.o: bin assets/us/15C0000.bin
+  version = us
+build ver/us/build/assets/us/1FEC050.o: bin assets/us/1FEC050.bin
+  version = us
+build ver/us/build/pokestadium.elf: ld ver/us/pokestadium.ld | ver/us/build/assets/us/rom_part_15.o ver/us/build/assets/us/gym_leader_castle_clear_gfx.o ver/us/build/asm/us/data/fragments/31/fragment31_data.data.o ver/us/build/asm/us/data/fragments/22/fragment22_header.o ver/us/build/src/fragments/62/fragment62_2F23A0.o ver/us/build/asm/us/data/fragments/41/fragment41_header.o ver/us/build/assets/us/album_ui.o ver/us/build/asm/us/data/fragments/1/fragment1_bss.bss.o ver/us/build/assets/us/6EB340.o ver/us/build/asm/us/data/fragments/49/fragment49_header.o ver/us/build/src/fragments/15/fragment15_150AC0.o ver/us/build/asm/us/data/fragments/70/fragment70_reloc.o ver/us/build/assets/us/n64_logo_texture.o ver/us/build/lib/libultra.a$:xlitob.o ver/us/build/asm/us/entry.o ver/us/build/asm/us/data/fragments/44/fragment44_reloc.o ver/us/build/assets/us/fonts.o ver/us/build/lib/libultra.a$:timerintr.o ver/us/build/src/fragments/62/fragment62_3540B0.o ver/us/build/src/fragments/62/fragment62_317E70.o ver/us/build/asm/us/data/fragments/25/fragment25_data.data.o ver/us/build/asm/us/data/fragments/26/fragment26_header.o ver/us/build/src/2FEA0.o ver/us/build/lib/libultra.a$:bzero.o ver/us/build/src/rsp.o ver/us/build/src/libleo/leomseq_tbl.o ver/us/build/assets/us/fragments/1/fragment1_yay0_2.o ver/us/build/src/fragments/62/fragment62_3512D0.o ver/us/build/asm/us/data/fragments/11/fragment11_header.o ver/us/build/lib/libultra.a$:epirawread.o ver/us/build/asm/us/data/fragments/52/fragment52_reloc.o ver/us/build/src/fragments/12/fragment12.o ver/us/build/src/libleo/leotimer.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_377DA0.rodata.o ver/us/build/src/8EB0.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3778A0.rodata.o ver/us/build/assets/us/rom_part_16.o ver/us/build/src/fragments/11/fragment11_1.o ver/us/build/lib/libultra.a$:spsetstat.o ver/us/build/src/fragments/41/fragment41_287ED0.o ver/us/build/assets/us/kids_club_select_ui.o ver/us/build/asm/us/data/fragments/54/fragment54_header.o ver/us/build/lib/libultra.a$:contreaddata.o ver/us/build/lib/libultra.a$:gettime.o ver/us/build/lib/libultra.a$:sirawread.o ver/us/build/src/fragments/59/fragment59.o ver/us/build/src/fragments/16/fragment16_15A2B0.o ver/us/build/asm/us/data/fragments/46/fragment46_header.o ver/us/build/src/fragments/23/fragment23_1AE680.o ver/us/build/asm/us/data/fragments/77/fragment77_header.o ver/us/build/src/fragments/17/fragment17_169510.o ver/us/build/src/libleo/leointerrupt.o ver/us/build/src/fragments/24/fragment24_1D7B40.o ver/us/build/asm/us/data/rom_data_76FB0.data.o ver/us/build/asm/us/data/fragments/29/fragment29_reloc.o ver/us/build/src/fragments/62/fragment62_357C30.o ver/us/build/src/fragments/17/fragment17_160CB0.o ver/us/build/asm/us/data/fragments/75/fragment75_header.o ver/us/build/assets/us/run_rattata_run_flag_gfx.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3769B0.rodata.o ver/us/build/src/libleo/driveexist.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375BB0.rodata.o ver/us/build/asm/us/data/fragments/22/fragment22_reloc.o ver/us/build/assets/us/trade_select_ui.o ver/us/build/src/fragments/41/fragment41_28ED00.o ver/us/build/lib/libultra.a$:virepeatline.o ver/us/build/asm/us/data/fragments/8/fragment8_reloc.o ver/us/build/src/fragments/35/fragment35.o ver/us/build/asm/us/data/fragments/57/fragment57_header.o ver/us/build/src/stage_loader.o ver/us/build/lib/libultra.a$:viswapbuf.o ver/us/build/assets/us/pokemon_icons.o ver/us/build/src/fragments/2/fragment2_1.o ver/us/build/lib/libultra.a$:settime.o ver/us/build/lib/libultra.a$:llcvt.o ver/us/build/asm/us/boot.o ver/us/build/lib/libultra.a$:visetyscale.o ver/us/build/src/232C0.o ver/us/build/asm/us/data/fragments/31/fragment31_reloc.o ver/us/build/src/fragments/43/fragment43_2A3E70.o ver/us/build/asm/us/data/fragments/66/fragment66_reloc.o ver/us/build/lib/libultra.a$:pfsselectbank.o ver/us/build/src/fragments/62/fragment62_355A00.o ver/us/build/src/373A0.o ver/us/build/assets/us/gym_leader_castle_ui.o ver/us/build/lib/libultra.a$:synthesizer.o ver/us/build/asm/us/data/fragments/60/fragment60_header.o ver/us/build/lib/libultra.a$:createthread.o ver/us/build/lib/libultra.a$:spgetstat.o ver/us/build/assets/us/rom_part_14.o ver/us/build/src/fragments/7/fragment7.o ver/us/build/asm/us/data/fragments/8/fragment8_header.o ver/us/build/src/main.o ver/us/build/src/libleo/leomotor.o ver/us/build/src/2E110.o ver/us/build/lib/libultra.a$:gbpaksetbank.o ver/us/build/assets/us/rom_part_25.o ver/us/build/asm/us/data/fragments/36/fragment36_header.o ver/us/build/lib/libultra.a$:initialize.o ver/us/build/src/fragments/22/fragment22.o ver/us/build/src/fragments/17/fragment17_168110.o ver/us/build/assets/us/common_menu2_ui.o ver/us/build/asm/us/data/fragments/37/fragment37_header.o ver/us/build/asm/us/data/fragments/77/fragment77_reloc.o ver/us/build/lib/libultra.a$:kdebugserver.o ver/us/build/asm/us/data/fragments/16/fragment16_reloc.o ver/us/build/asm/us/data/rom_rodata_7D3C0.rodata.o ver/us/build/src/fragments/2/fragment2_2.o ver/us/build/src/fragments/47/fragment47_2AE1F0.o ver/us/build/lib/libultra.a$:getthreadpri.o ver/us/build/asm/us/data/fragments/6/fragment6_header.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3759C0.rodata.o ver/us/build/lib/libultra.a$:exceptasm.o ver/us/build/lib/libultra.a$:getcount.o ver/us/build/asm/us/data/fragments/48/fragment48_header.o ver/us/build/src/fragments/31/fragment31_259030.o ver/us/build/assets/us/kanto_gb_map.o ver/us/build/src/fragments/63/fragment63_39AC50.o ver/us/build/src/fragments/14/fragment14_144300.o ver/us/build/src/fragments/15/fragment15_14CA70.o ver/us/build/src/libnaudio/n_synsetpitch.o ver/us/build/asm/us/data/unk_bss_7.bss.o ver/us/build/src/fragments/1/fragment1_86920.o ver/us/build/src/libnaudio/n_drvrNew.o ver/us/build/assets/us/rom_part_36.o ver/us/build/lib/libultra.a$:destroythread.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_377E40.rodata.o ver/us/build/src/fragments/17/fragment17_1687E0.o ver/us/build/asm/us/data/fragments/64/fragment64_header.o ver/us/build/assets/us/gb_pak_select_ui.o ver/us/build/src/fragments/62/fragment62_3274D0.o ver/us/build/src/fragments/14/fragment14_1462A0.o ver/us/build/lib/libultra.a$:sprawdma.o ver/us/build/asm/us/data/fragments/35/fragment35_header.o ver/us/build/src/libnaudio/n_sl.o ver/us/build/asm/us/data/fragments/63/fragment63_header.o ver/us/build/asm/us/data/fragments/15/fragment15_header.o ver/us/build/src/libleo/bootstrap.o ver/us/build/assets/us/common_menu1_ui.o ver/us/build/assets/us/rom_part_6.o ver/us/build/asm/us/data/fragments/1/fragment1_data.data.o ver/us/build/lib/libultra.a$:si.o ver/us/build/assets/us/battle_headers.o ver/us/build/src/libnaudio/n_synsetpan.o ver/us/build/asm/us/data/fragments/20/fragment20_reloc.o ver/us/build/src/libleo/leoinquiry.o ver/us/build/src/libnaudio/n_synfreevoice.o ver/us/build/asm/us/data/fragments/52/fragment52_header.o ver/us/build/asm/us/data/fragments/33/fragment33_header.o ver/us/build/asm/us/data/fragments/62/fragment62_header.o ver/us/build/src/fragments/62/fragment62_34E1A0.o ver/us/build/lib/libultra.a$:leodiskinit.o ver/us/build/assets/us/snap_select_ui.o ver/us/build/assets/us/title_ui.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3781B0.rodata.o ver/us/build/assets/us/8CC000.o ver/us/build/src/fragments/61/fragment61_2E2C20.o ver/us/build/src/fragments/58/fragment58.o ver/us/build/asm/us/data/F3DEX2.data.o ver/us/build/assets/us/rom_part_28.o ver/us/build/src/fragments/16/fragment16_15A2A0.o ver/us/build/asm/us/data/fragments/10/fragment10_reloc.o ver/us/build/src/memory_main.o ver/us/build/lib/libultra.a$:setsr.o ver/us/build/lib/libultra.a$:viblack.o ver/us/build/asm/us/data/unk_bss_4.bss.o ver/us/build/src/fragments/3/fragment3_11BBF0.o ver/us/build/asm/us/data/fragments/53/fragment53_reloc.o ver/us/build/src/libleo/leowrite.o ver/us/build/src/libnaudio/n_save.o ver/us/build/assets/us/rom_part_18.o ver/us/build/lib/libultra.a$:gbpakreadid.o ver/us/build/assets/us/rom_part_19.o ver/us/build/src/fragments/23/fragment23_1B4EA0.o ver/us/build/asm/us/data/fragments/28/fragment28_reloc.o ver/us/build/asm/us/data/fragments/23/fragment23_reloc.o ver/us/build/asm/us/data/fragments/2/fragment2_header.o ver/us/build/assets/us/rom_part_52.o ver/us/build/src/fragments/31/fragment31_2590C0.o ver/us/build/lib/libultra.a$:gbpakgetstatus.o ver/us/build/assets/us/fragments/1/fragment1_yay0_3.o ver/us/build/asm/us/data/fragments/7/fragment7_reloc.o ver/us/build/assets/us/rom_part_2.o ver/us/build/src/fragments/62/fragment62_361050.o ver/us/build/asm/us/data/rom_rodata_7C1C0.rodata.o ver/us/build/asm/us/data/unk_bss_15.bss.o ver/us/build/asm/us/data/fragments/32/fragment32_header.o ver/us/build/src/fragments/45/fragment45.o ver/us/build/src/32D10.o ver/us/build/lib/libultra.a$:getcause.o ver/us/build/assets/us/rom_part_17.o ver/us/build/asm/us/data/fragments/9/fragment9_header.o ver/us/build/asm/us/data/fragments/42/fragment42_header.o ver/us/build/asm/us/data/fragments/31/fragment31_rodata_2594E0.rodata.o ver/us/build/assets/us/rom_part_26.o ver/us/build/src/fragments/31/fragment31_2557A0.o ver/us/build/lib/libultra.a$:resample.o ver/us/build/lib/libultra.a$:xprintf.o ver/us/build/src/libleo/leocmdex.o ver/us/build/src/fragments/73/fragment73.o ver/us/build/assets/us/stadium_select_ui.o ver/us/build/lib/libultra.a$:conteeplongwrite.o ver/us/build/src/38BB0.o ver/us/build/asm/us/data/fragments/4/fragment4_reloc.o ver/us/build/src/fragments/50/fragment50.o ver/us/build/asm/us/data/fragments/64/fragment64_reloc.o ver/us/build/asm/us/data/fragments/26/fragment26_reloc.o ver/us/build/lib/libultra.a$:cosf.o ver/us/build/asm/us/data/rom_data_76A40.data.o ver/us/build/asm/us/data/fragments/45/fragment45_reloc.o ver/us/build/lib/libultra.a$:yieldthread.o ver/us/build/lib/libultra.a$:visetxscale.o ver/us/build/asm/us/data/fragments/66/fragment66_header.o $
+    ver/us/build/src/fragments/48/fragment48.o ver/us/build/src/fragments/61/fragment61_2E5430.o ver/us/build/lib/libultra.a$:sl.o ver/us/build/asm/us/data/fragments/38/fragment38_header.o ver/us/build/asm/us/data/F3DEX2_data.rodata.o ver/us/build/src/fragments/62/fragment62_352570.o ver/us/build/src/4B940.o ver/us/build/lib/libultra.a$:viswapcontext.o ver/us/build/assets/us/rom_part_34.o ver/us/build/asm/us/data/fragments/19/fragment19_header.o ver/us/build/assets/us/6EC4D0.o ver/us/build/lib/libultra.a$:getactivequeue.o ver/us/build/lib/libultra.a$:vimodepallan1.o ver/us/build/src/6A40.o ver/us/build/src/334D0.o ver/us/build/asm/us/data/fragments/1/fragment1_rodata_A8F00.rodata.o ver/us/build/asm/us/data/fragments/5/fragment5_reloc.o ver/us/build/src/libleo/leo_tbl.o ver/us/build/assets/us/order_select_ui.o ver/us/build/asm/us/data/fragments/62/fragment62_reloc.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3786B0.rodata.o ver/us/build/src/libnaudio/n_synaddplayer.o ver/us/build/lib/libultra.a$:sprintf.o ver/us/build/src/fragments/62/fragment62_34F1A0.o ver/us/build/src/fragments/17/fragment17_164B00.o ver/us/build/src/fragments/62/fragment62_353370.o ver/us/build/lib/libultra.a$:vimodempallpn1.o ver/us/build/src/libleo/leoc2ecc.o ver/us/build/lib/libultra.a$:siacs.o ver/us/build/src/memory.o ver/us/build/src/48C60.o ver/us/build/lib/libultra.a$:aigetstat.o ver/us/build/src/fragments/37/fragment37.o ver/us/build/src/fragments/23/fragment23_1A9780.o ver/us/build/src/fragments/17/fragment17_161590.o ver/us/build/src/fragments/44/fragment44.o ver/us/build/src/fragments/56/fragment56.o ver/us/build/src/17300.o ver/us/build/asm/us/data/fragments/69/fragment69_reloc.o ver/us/build/asm/us/data/fragments/31/fragment31_bss.bss.o ver/us/build/lib/libultra.a$:dpctr.o ver/us/build/asm/us/data/fragments/51/fragment51_reloc.o ver/us/build/asm/us/data/fragments/3/fragment3_reloc.o ver/us/build/src/libleo/leorezero.o ver/us/build/assets/us/rom_part_43.o ver/us/build/src/fragments/62/fragment62_2FA4D0.o ver/us/build/assets/us/rom_part_41.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_376AE0.rodata.o ver/us/build/lib/libultra.a$:cartrominit.o ver/us/build/asm/us/data/unk_bss_6.bss.o ver/us/build/asm/us/data/fragments/39/fragment39_reloc.o ver/us/build/asm/us/data/fragments/71/fragment71_reloc.o ver/us/build/asm/us/data/fragments/16/fragment16_header.o ver/us/build/asm/us/data/fragments/74/fragment74_header.o ver/us/build/src/fragments/17/fragment17_15FA60.o ver/us/build/src/517A0.o ver/us/build/lib/libultra.a$:sirawdma.o ver/us/build/src/fragments/62/fragment62_31AA30.o ver/us/build/src/37370.o ver/us/build/asm/us/data/fragments/57/fragment57_reloc.o ver/us/build/src/libleo/cjcreateleomanager.o ver/us/build/src/fragments/28/fragment28_2190D0.o ver/us/build/src/E1C0.o ver/us/build/src/fragments/2/fragment2.o ver/us/build/src/485C0.o ver/us/build/lib/libultra.a$:contramwrite.o ver/us/build/assets/us/fragments/33/fragment33_unk_bin_1.o ver/us/build/assets/us/rom_part_1.o ver/us/build/assets/us/badge_ui.o ver/us/build/asm/us/data/rom_data_7A2E0.data.o ver/us/build/src/libleo/lbatobyte.o ver/us/build/asm/us/data/fragments/74/fragment74_reloc.o ver/us/build/src/libleo/leoseek.o ver/us/build/src/libleo/spdlmotor.o ver/us/build/assets/us/battle_ui.o ver/us/build/asm/us/data/rom_data_6A3E0.data.o ver/us/build/src/fragments/63/fragment63_39BFB0.o ver/us/build/assets/us/gallery_ui.o ver/us/build/src/crash_screen.o ver/us/build/lib/libultra.a$:sendmesg.o ver/us/build/assets/us/rom_part_40.o ver/us/build/lib/libultra.a$:ai.o ver/us/build/lib/libultra.a$:maptlbrdb.o ver/us/build/src/fragments/15/fragment15_14EC80.o ver/us/build/src/20330.o ver/us/build/src/3FB0.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_378170.rodata.o ver/us/build/asm/us/data/fragments/21/fragment21_reloc.o ver/us/build/asm/us/data/fragments/44/fragment44_header.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_378540.rodata.o ver/us/build/asm/us/data/fragments/4/fragment4_header.o ver/us/build/assets/us/rom_part_50.o ver/us/build/asm/us/data/7BB10.rodata.o ver/us/build/asm/us/data/fragments/5/fragment5_header.o ver/us/build/src/fragments/5/fragment5.o ver/us/build/src/fragments/34/fragment34_26E540.o ver/us/build/asm/us/header.o ver/us/build/assets/us/pokemon_models.o ver/us/build/asm/us/data/fragments/17/fragment17_header.o ver/us/build/src/fragments/46/fragment46.o ver/us/build/asm/us/data/fragments/65/fragment65_header.o ver/us/build/assets/us/copyright.o ver/us/build/asm/us/data/fragments/12/fragment12_header.o ver/us/build/src/fragments/33/fragment33.o ver/us/build/src/fragments/36/fragment36.o ver/us/build/lib/libultra.a$:conteeplongread.o ver/us/build/src/fragments/17/fragment17_16A0E0.o ver/us/build/asm/us/data/fragments/76/fragment76_reloc.o ver/us/build/src/fragments/13/fragment13.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_376A10.rodata.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_378000.rodata.o ver/us/build/src/51740.o ver/us/build/lib/libultra.a$:pigetcmdq.o ver/us/build/src/fragments/10/fragment10.o ver/us/build/lib/libultra.a$:stopthread.o ver/us/build/asm/us/data/fragments/18/fragment18_reloc.o ver/us/build/asm/us/data/fragments/73/fragment73_reloc.o ver/us/build/src/225A0.o ver/us/build/src/fragments/40/fragment40.o ver/us/build/lib/libultra.a$:sethwinterrupt.o ver/us/build/assets/us/area_select_ui.o ver/us/build/src/fragments/3/fragment3_1189B0.o ver/us/build/asm/us/data/fragments/13/fragment13_reloc.o ver/us/build/assets/us/textdata.o ver/us/build/asm/us/data/fragments/14/fragment14_reloc.o ver/us/build/asm/us/data/fragments/19/fragment19_reloc.o ver/us/build/asm/us/data/rom_data_78990.data.o ver/us/build/src/fragments/30/fragment30.o ver/us/build/asm/us/data/fragments/72/fragment72_reloc.o ver/us/build/lib/libultra.a$:libm_vals.o ver/us/build/lib/libultra.a$:resetglobalintmask.o ver/us/build/src/fragments/62/fragment62_309ED0.o ver/us/build/src/4BDC0.o ver/us/build/asm/us/data/fragments/31/fragment31_header.o ver/us/build/src/hal_libc.o ver/us/build/src/libnaudio/n_reverb.o ver/us/build/asm/us/data/fragments/67/fragment67_reloc.o ver/us/build/assets/us/rom_part_35.o ver/us/build/src/fragments/17/fragment17_161000.o ver/us/build/asm/us/data/fragments/43/fragment43_header.o ver/us/build/assets/us/rom_part_33.o ver/us/build/lib/libultra.a$:sptaskyield.o ver/us/build/src/libnaudio/n_synallocfx.o ver/us/build/src/libnaudio/n_env.o ver/us/build/lib/libultra.a$:scale.o ver/us/build/src/fragments/63/fragment63_data.o ver/us/build/lib/libultra.a$:invaldcache.o ver/us/build/assets/us/common_menu0_ui.o ver/us/build/src/heap.o ver/us/build/src/fragments/19/fragment19.o ver/us/build/src/fragments/61/fragment61_2D78B0.o ver/us/build/asm/us/data/fragments/30/fragment30_reloc.o ver/us/build/src/fragments/65/fragment65.o ver/us/build/assets/us/rom_part_11.o ver/us/build/lib/libultra.a$:filter.o ver/us/build/asm/us/data/fragments/11/fragment11_reloc.o ver/us/build/asm/us/data/fragments/69/fragment69_header.o ver/us/build/asm/us/data/fragments/28/fragment28_header.o ver/us/build/assets/us/5C7A70.o ver/us/build/asm/us/data/fragments/1/fragment1_rodata_AA8F0.rodata.o ver/us/build/asm/us/data/fragments/20/fragment20_header.o ver/us/build/src/2D340.o ver/us/build/src/libleo/readwrite.o ver/us/build/lib/libultra.a$:getsr.o ver/us/build/asm/us/data/fragments/31/fragment31_unk_table.o ver/us/build/assets/us/cup_ball_select_ui.o ver/us/build/assets/us/70D3A0.o ver/us/build/assets/us/rom_part_51.o ver/us/build/asm/us/data/fragments/40/fragment40_header.o ver/us/build/assets/us/rom_part_38.o ver/us/build/assets/us/rom_part_37.o ver/us/build/src/libleo/leofunc.o ver/us/build/asm/us/data/fragments/24/fragment24_header.o ver/us/build/assets/us/rom_part_22.o ver/us/build/src/fragments/62/fragment62_2F6930.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_376A40.rodata.o ver/us/build/asm/us/data/fragments/9/fragment9_reloc.o ver/us/build/asm/us/data/fragments/1/fragment1_rodata_A8E80.rodata.o ver/us/build/lib/libultra.a$:visetmode.o ver/us/build/src/fragments/41/fragment41_2942C0.o ver/us/build/src/fragments/52/fragment52.o ver/us/build/src/fragments/34/fragment34_264380.o ver/us/build/asm/us/data/fragments/53/fragment53_header.o ver/us/build/lib/libultra.a$:writebackdcacheall.o ver/us/build/src/2C1C0.o ver/us/build/lib/libultra.a$:syndelete.o ver/us/build/lib/libultra.a$:perspective.o ver/us/build/assets/us/rom_part_32.o ver/us/build/lib/libultra.a$:copy.o ver/us/build/asm/us/data/fragments/23/fragment23_header.o ver/us/build/src/4F410.o ver/us/build/src/util.o ver/us/build/assets/us/rom_part_13.o ver/us/build/asm/us/data/fragments/25/fragment25_bss.bss.o ver/us/build/src/libleo/leoread.o ver/us/build/src/fragments/31/fragment31_257AF0.o ver/us/build/src/19840.o ver/us/build/assets/us/rom_part_12.o ver/us/build/assets/us/rom_part_39.o ver/us/build/src/fragments/43/fragment43_2A1B50.o ver/us/build/asm/us/data/rom_rodata_7D3E0.rodata.o ver/us/build/asm/us/data/fragments/59/fragment59_header.o ver/us/build/src/fragments/39/fragment39_2804C0.o ver/us/build/asm/us/data/fragments/75/fragment75_reloc.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375D50.rodata.o ver/us/build/src/fragments/66/fragment66.o ver/us/build/src/E890.o ver/us/build/assets/us/rom_part_0.o ver/us/build/lib/libultra.a$:sqrtf.o ver/us/build/src/12D80.o ver/us/build/assets/us/798CD0.o ver/us/build/assets/us/rom_part_42.o ver/us/build/lib/libultra.a$:devmgr.o ver/us/build/lib/libultra.a$:gbpakpower.o ver/us/build/src/fragments/23/fragment23_1BCF10.o ver/us/build/asm/us/data/rom_rodata_7C220.rodata.o ver/us/build/lib/libultra.a$:interrupt.o ver/us/build/lib/libultra.a$:setglobalintmask.o ver/us/build/lib/libultra.a$:contramread.o ver/us/build/lib/libultra.a$:setintmask.o ver/us/build/lib/libultra.a$:epilinkhandle.o ver/us/build/lib/libultra.a$:settimer.o ver/us/build/src/fragments/1/fragment1_86C30.o $
+    ver/us/build/assets/us/rom_part_20.o ver/us/build/src/fragments/34/fragment34_26F9B0.o ver/us/build/assets/us/rom_part_24.o ver/us/build/lib/libultra.a$:controller.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3784C0.rodata.o ver/us/build/lib/libultra.a$:bcmp.o ver/us/build/lib/libultra.a$:setfpccsr.o ver/us/build/asm/us/data/fragments/51/fragment51_header.o ver/us/build/src/fragments/61/fragment61_2DFB60.o ver/us/build/asm/us/data/rom_data_7A190.data.o ver/us/build/src/50860.o ver/us/build/asm/us/data/fragments/31/fragment31_rodata_259490.rodata.o ver/us/build/asm/us/data/fragments/21/fragment21_header.o ver/us/build/src/fragments/41/fragment41_28D1A0.o ver/us/build/src/fragments/63/fragment63_3A0010.o ver/us/build/lib/libultra.a$:env.o ver/us/build/asm/us/data/fragments/41/fragment41_reloc.o ver/us/build/lib/libultra.a$:heapinit.o ver/us/build/src/dma.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3768B0.rodata.o ver/us/build/src/fragments/4/fragment4.o ver/us/build/src/fragments/62/fragment62_32A640.o ver/us/build/src/libleo/bytetolba.o ver/us/build/src/fragments/62/fragment62_3055E0.o ver/us/build/assets/us/fragments/29/fragment29_unk_bin_3.o ver/us/build/assets/us/rom_part_49.o ver/us/build/assets/us/rom_part_21.o ver/us/build/src/2E460.o ver/us/build/src/fragments/23/fragment23_1A8590.o ver/us/build/src/45720.o ver/us/build/src/fragments/14/fragment14_14A030.o ver/us/build/src/fragments/62/fragment62_2EC3C0.o ver/us/build/src/fragments/24/fragment24_1CEA00.o ver/us/build/src/fragments/61/fragment61_2DB900.o ver/us/build/asm/us/data/fragments/13/fragment13_header.o ver/us/build/src/fragments/17/fragment17_161E60.o ver/us/build/src/libnaudio/n_auxbus.o ver/us/build/lib/libultra.a$:piacs.o ver/us/build/src/libnaudio/n_synstopvoice.o ver/us/build/src/490A0.o ver/us/build/src/libnaudio/n_synsetpriority.o ver/us/build/src/libnaudio/n_synsetvol.o ver/us/build/assets/us/cup_clear_ui.o ver/us/build/asm/us/data/fragments/43/fragment43_reloc.o ver/us/build/src/fragments/62/fragment62_3438B0.o ver/us/build/lib/libultra.a$:conteepwrite.o ver/us/build/src/F420.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_376B40.rodata.o ver/us/build/src/fragments/31/fragment31_258080.o ver/us/build/assets/us/rom_part_4.o ver/us/build/src/libleo/leomecha.o ver/us/build/asm/us/data/fragments/15/fragment15_reloc.o ver/us/build/src/fragments/62/fragment62_2EA8E0.o ver/us/build/lib/libultra.a$:mtxcatl.o ver/us/build/src/33E30.o ver/us/build/assets/us/pokedex_area_model.o ver/us/build/lib/libultra.a$:heapalloc.o ver/us/build/assets/us/rom_part_7.o ver/us/build/assets/us/rom_part_31.o ver/us/build/src/libnaudio/n_syndelete.o ver/us/build/src/fragments/70/fragment70.o ver/us/build/asm/us/data/fragments/30/fragment30_header.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375C50.rodata.o ver/us/build/src/fragments/39/fragment39_281C40.o ver/us/build/asm/us/data/66BC0.data.o ver/us/build/src/fragments/51/fragment51.o ver/us/build/src/fragments/63/fragment63_394120.o ver/us/build/assets/us/6A9750.o ver/us/build/asm/us/data/fragments/12/fragment12_reloc.o ver/us/build/asm/us/data/fragments/34/fragment34_reloc.o ver/us/build/lib/libultra.a$:save.o ver/us/build/asm/us/data/fragments/31/fragment31_rodata_259A90.rodata.o ver/us/build/asm/us/data/fragments/65/fragment65_reloc.o ver/us/build/assets/us/menu_select_ui.o ver/us/build/asm/us/data/fragments/72/fragment72_header.o ver/us/build/lib/libultra.a$:reverb.o ver/us/build/asm/us/data/fragments/27/fragment27_reloc.o ver/us/build/asm/us/data/fragments/54/fragment54_reloc.o ver/us/build/asm/us/fragments/1/fragment1_code_asm.o ver/us/build/assets/us/fragments/29/fragment29_unk_bin_2.o ver/us/build/assets/us/rom_part_27.o ver/us/build/assets/us/rom_part_29.o ver/us/build/lib/libultra.a$:epiwrite.o ver/us/build/src/reset.o ver/us/build/src/fragments/34/fragment34_269820.o ver/us/build/assets/us/1FEC050.o ver/us/build/src/fragments/74/fragment74.o ver/us/build/lib/libultra.a$:pfsgetstatus.o ver/us/build/src/fragments/31/fragment31_2558B0.o ver/us/build/src/CE80.o ver/us/build/asm/us/data/fragments/35/fragment35_reloc.o ver/us/build/src/fragments/55/fragment55_2C13F0.o ver/us/build/src/fragments/68/fragment68.o ver/us/build/src/fragments/47/fragment47_2AFDB0.o ver/us/build/src/fragments/63/fragment63_3974E0.o ver/us/build/src/18140.o ver/us/build/asm/us/data/unk_bss_3.bss.o ver/us/build/lib/libultra.a$:visetspecial.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3764E0.rodata.o ver/us/build/assets/us/rom_part_3.o ver/us/build/asm/us/data/unk_bss_2.bss.o ver/us/build/asm/us/data/fragments/31/fragment31_rodata_259480.rodata.o ver/us/build/asm/us/data/fragments/25/fragment25_reloc.o ver/us/build/lib/libultra.a$:visetevent.o ver/us/build/lib/libultra.a$:mainbus.o ver/us/build/assets/us/rom_part_46.o ver/us/build/asm/us/data/unk_bss_14.bss.o ver/us/build/src/fragments/25/fragment25.o ver/us/build/src/fragments/11/fragment11.o ver/us/build/lib/libultra.a$:sptask.o ver/us/build/assets/us/fragments/6/fragment6_misc.o ver/us/build/lib/libultra.a$:epidma.o ver/us/build/lib/libultra.a$:vigetcurrframebuf.o ver/us/build/lib/libultra.a$:setcount.o ver/us/build/asm/us/data/fragments/68/fragment68_header.o ver/us/build/lib/libultra.a$:getmemsize.o ver/us/build/src/fragments/76/fragment76.o ver/us/build/assets/us/rom_part_23.o ver/us/build/lib/libultra.a$:invalicache.o ver/us/build/src/libleo/leotranslat.o ver/us/build/lib/libultra.a$:setthreadpri.o ver/us/build/assets/us/victory_palace_plate_text.o ver/us/build/src/fragments/62/fragment62_3223B0.o ver/us/build/src/1AB70.o ver/us/build/src/D470.o ver/us/build/src/49790.o ver/us/build/asm/us/data/fragments/7/fragment7_header.o ver/us/build/lib/libultra.a$:setcause.o ver/us/build/src/fragments/24/fragment24_1E46B0.o ver/us/build/src/fragments/62/fragment62_2F1D60.o ver/us/build/lib/libultra.a$:drvrnew.o ver/us/build/lib/libultra.a$:gbpakcheckconnector.o ver/us/build/src/fragments/27/fragment27.o ver/us/build/src/libleo/leord_capa.o ver/us/build/src/libleo/leoutil.o ver/us/build/src/math_util.o ver/us/build/lib/libultra.a$:pirawdma.o ver/us/build/lib/libultra.a$:random.o ver/us/build/lib/libultra.a$:syncprintf.o ver/us/build/lib/libultra.a$:rotaterpy.o ver/us/build/src/libleo/bootdisk.o ver/us/build/lib/libultra.a$:ll.o ver/us/build/assets/us/stadium_models.o ver/us/build/src/fragments/10/fragment10_1.o ver/us/build/asm/us/data/fragments/55/fragment55_header.o ver/us/build/lib/libultra.a$:pimgr.o ver/us/build/src/fragments/62/fragment62_31C660.o ver/us/build/asm/us/data/fragments/73/fragment73_header.o ver/us/build/src/fragments/61/fragment61_2E4040.o ver/us/build/asm/us/fragments/1/fragment1_header.o ver/us/build/assets/us/battle_portraits.o ver/us/build/asm/us/data/rom_rodata_7DF80.rodata.o ver/us/build/src/fragments/62/fragment62_328F10.o ver/us/build/asm/us/data/fragments/40/fragment40_reloc.o ver/us/build/src/fragments/53/fragment53.o ver/us/build/src/fragments/34/fragment34_261F90.o ver/us/build/src/29BA0.o ver/us/build/src/30640.o ver/us/build/asm/us/data/unk_bss.bss.o ver/us/build/asm/us/yay0.o ver/us/build/asm/us/data/fragments/62/fragment62_bss.bss.o ver/us/build/lib/libultra.a$:probetlb.o ver/us/build/src/26820.o ver/us/build/src/fragments/62/fragment62_359F80.o ver/us/build/src/controller.o ver/us/build/src/33FE0.o ver/us/build/lib/libultra.a$:gbpakreadwrite.o ver/us/build/asm/us/data/fragments/48/fragment48_reloc.o ver/us/build/src/libnaudio/n_resample.o ver/us/build/lib/libultra.a$:gbpakinit.o ver/us/build/lib/libultra.a$:sptaskyielded.o ver/us/build/asm/us/data/rom_data_79660.data.o ver/us/build/src/fragments/62/fragment62_3597B0.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375A60.rodata.o ver/us/build/lib/libultra.a$:conteepread.o ver/us/build/asm/us/data/fragments/49/fragment49_reloc.o ver/us/build/asm/us/data/unk_F3DEX2_68020.data.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3768E0.rodata.o ver/us/build/assets/us/fragments/1/fragment1_yay0_0.o ver/us/build/asm/us/data/fragments/35/fragment35_bss.bss.o ver/us/build/src/fragments/32/fragment32.o ver/us/build/lib/libultra.a$:ldiv.o ver/us/build/asm/us/data/rom_data_7A110.data.o ver/us/build/assets/us/bootcode_font.o ver/us/build/src/fragments/31/fragment31_2554C0.o ver/us/build/asm/us/data/fragments/45/fragment45_header.o ver/us/build/lib/libultra.a$:bnkf.o ver/us/build/lib/libultra.a$:leointerrupt.o ver/us/build/src/fragments/63/fragment63_39ED60.o ver/us/build/src/fragments/71/fragment71.o ver/us/build/src/fragments/8/fragment8.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_378040.rodata.o ver/us/build/asm/us/data/fragments/71/fragment71_header.o ver/us/build/assets/us/rom_part_8.o ver/us/build/assets/us/898000.o ver/us/build/asm/us/data/unk_bss_10.bss.o ver/us/build/lib/libultra.a$:thread.o ver/us/build/lib/libultra.a$:writebackdcache.o ver/us/build/asm/us/data/fragments/6/fragment6_reloc.o ver/us/build/asm/us/data/fragments/46/fragment46_reloc.o ver/us/build/src/libleo/driverominit.o ver/us/build/asm/us/data/unk_F3DEX2_68C80.data.o ver/us/build/asm/us/data/fragments/47/fragment47_header.o ver/us/build/src/fragments/57/fragment57.o ver/us/build/assets/us/rom_part_10.o ver/us/build/asm/us/data/fragments/25/fragment25_header.o ver/us/build/src/fragments/67/fragment67.o ver/us/build/lib/libultra.a$:recvmesg.o ver/us/build/src/fragments/3/fragment3_11BF90.o ver/us/build/src/fragments/62/fragment62_356730.o ver/us/build/src/libleo/testunitready.o ver/us/build/src/6BC0.o ver/us/build/asm/us/data/fragments/42/fragment42_reloc.o ver/us/build/src/libleo/leotestunit.o ver/us/build/assets/us/sushi_go_round_sprites.o ver/us/build/src/fragments/41/fragment41_291D60.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_377C90.rodata.o ver/us/build/asm/us/data/rom_data_74260.data.o ver/us/build/src/fragments/31/fragment31_257750.o ver/us/build/src/libleo/leomode_sel.o $
+    ver/us/build/asm/us/data/fragments/56/fragment56_reloc.o ver/us/build/src/libnaudio/n_synstartvoiceparam.o ver/us/build/src/fragments/11/fragment11_2.o ver/us/build/src/fragments/28/fragment28_214920.o ver/us/build/asm/us/data/fragments/60/fragment60_reloc.o ver/us/build/assets/us/fragments/1/fragment1_yay0_1.o ver/us/build/src/libleo/leoint.o ver/us/build/src/fragments/61/fragment61_2DD710.o ver/us/build/src/fragments/69/fragment69.o ver/us/build/assets/us/6E2F90.o ver/us/build/asm/us/data/fragments/36/fragment36_reloc.o ver/us/build/lib/libultra.a$:sp.o ver/us/build/src/fragments/63/fragment63_397B10.o ver/us/build/lib/libultra.a$:vi.o ver/us/build/asm/us/abs.o ver/us/build/asm/us/data/rom_data_6FC10.data.o ver/us/build/src/libleo/readdiskid.o ver/us/build/assets/us/snap_mode_ui.o ver/us/build/asm/us/data/fragments/61/fragment61_reloc.o ver/us/build/lib/libultra.a$:sinf.o ver/us/build/assets/us/rom_part_44.o ver/us/build/src/E570.o ver/us/build/src/DDC0.o ver/us/build/src/fragments/42/fragment42.o ver/us/build/asm/us/data/fragments/76/fragment76_header.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375EA0.rodata.o ver/us/build/src/fragments/62/fragment62_313250.o ver/us/build/lib/libultra.a$:epirawdma.o ver/us/build/src/libleo/setrtc.o ver/us/build/asm/us/data/fragments/14/fragment14_header.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3780B0.rodata.o ver/us/build/src/unk_49190.o ver/us/build/src/fragments/63/fragment63_3A1C30.o ver/us/build/asm/us/data/rom_rodata_7E0D0.rodata.o ver/us/build/lib/libultra.a$:vigetcurrcontext.o ver/us/build/src/11BA0.o ver/us/build/src/fragments/1/fragment1_7F9A0.o ver/us/build/asm/us/data/unk_bss_11.bss.o ver/us/build/src/fragments/62/fragment62_315D50.o ver/us/build/lib/libultra.a$:spsetpc.o ver/us/build/lib/libultra.a$:epirawwrite.o ver/us/build/src/fragments/31/fragment31_257DE0.o ver/us/build/src/C030.o ver/us/build/src/fragments/62/fragment62_2F74E0.o ver/us/build/src/libnaudio/n_mainbus.o ver/us/build/src/fragments/62/fragment62_3502D0.o ver/us/build/src/fragments/62/fragment62_359F90.o ver/us/build/src/fragments/75/fragment75.o ver/us/build/lib/libultra.a$:mtxcatf.o ver/us/build/lib/libultra.a$:aigetlen.o ver/us/build/src/libnaudio/n_synallocvoice.o ver/us/build/src/libleo/leoreset.o ver/us/build/asm/us/data/fragments/27/fragment27_header.o ver/us/build/src/fragments/23/fragment23_882181B0.o ver/us/build/asm/us/data/rom_data_703E0.data.o ver/us/build/src/fragments/26/fragment26.o ver/us/build/lib/libultra.a$:string.o ver/us/build/src/fragments/41/fragment41_289240.o ver/us/build/assets/us/52F6D0.o ver/us/build/src/fragments/63/fragment63_3A1970.o ver/us/build/lib/libultra.a$:load.o ver/us/build/asm/us/data/unk_bss_5.bss.o ver/us/build/asm/us/data/fragments/1/fragment1_rodata_AA6D0.rodata.o ver/us/build/asm/us/data/rom_data_79300.data.o ver/us/build/src/20470.o ver/us/build/src/1C720.o ver/us/build/asm/us/data/fragments/34/fragment34_header.o ver/us/build/src/fragments/62/fragment62_31A7E0.o ver/us/build/lib/libultra.a$:crc.o ver/us/build/assets/us/rom_part_48.o ver/us/build/src/C970.o ver/us/build/src/fragments/31/fragment31_257EC0.o ver/us/build/lib/libultra.a$:conteepprobe.o ver/us/build/src/1CF30.o ver/us/build/lib/libultra.a$:lookatref.o ver/us/build/asm/us/data/rom_rodata_7D110.rodata.o ver/us/build/asm/us/data/fragments/67/fragment67_header.o ver/us/build/assets/us/15C0000.o ver/us/build/asm/us/data/fragments/1/fragment1_rodata_A9140.rodata.o ver/us/build/asm/us/data/fragments/29/fragment29_header.o ver/us/build/asm/us/data/fragments/61/fragment61_header.o ver/us/build/assets/us/rom_part_47.o ver/us/build/lib/libultra.a$:normalize.o ver/us/build/src/fragments/17/fragment17_15F9B0.o ver/us/build/src/fragments/3/fragment3_119FB0.o ver/us/build/asm/us/data/fragments/33/fragment33_reloc.o ver/us/build/src/fragments/77/fragment77.o ver/us/build/lib/libultra.a$:vimodentsclan1.o ver/us/build/src/fragments/62/fragment62_343BA0.o ver/us/build/lib/libultra.a$:virtualtophysical.o ver/us/build/src/libnaudio/n_synthesizer.o ver/us/build/src/fragments/31/fragment31_257FA0.o ver/us/build/src/3D140.o ver/us/build/assets/us/fragments/1/fragment1_yay0_4.o ver/us/build/lib/libultra.a$:mtxutil.o ver/us/build/src/435D0.o ver/us/build/src/fragments/17/fragment17_169A40.o ver/us/build/src/fragments/62/fragment62_304060.o ver/us/build/asm/us/data/rom_rodata_7D1B0.rodata.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_378140.rodata.o ver/us/build/src/fragments/16/fragment16_158A00.o ver/us/build/lib/libultra.a$:afterprenmi.o ver/us/build/src/50A00.o ver/us/build/lib/libultra.a$:sirawwrite.o ver/us/build/lib/libultra.a$:vimgr.o ver/us/build/asm/us/data/unk_bss_17.bss.o ver/us/build/src/fragments/21/fragment21.o ver/us/build/asm/us/data/rom_rodata_7C750.rodata.o ver/us/build/lib/libultra.a$:epiread.o ver/us/build/asm/us/data/fragments/47/fragment47_reloc.o ver/us/build/src/fragments/49/fragment49.o ver/us/build/assets/us/kids_club_game_ui.o ver/us/build/lib/libultra.a$:contpfs.o ver/us/build/src/fragments/29/fragment29.o ver/us/build/lib/libultra.a$:createmesgqueue.o ver/us/build/src/fragments/18/fragment18.o ver/us/build/src/fragments/62/fragment62_315830.o ver/us/build/src/fragments/34/fragment34_26E6D0.o ver/us/build/src/fragments/62/fragment62_32B680.o ver/us/build/assets/us/rom_part_9.o ver/us/build/lib/libultra.a$:dpsetstat.o ver/us/build/src/fragments/20/fragment20.o ver/us/build/asm/us/data/fragments/2/fragment2_reloc.o ver/us/build/asm/us/data/fragments/39/fragment39_header.o ver/us/build/src/fragments/38/fragment38.o ver/us/build/src/46680.o ver/us/build/asm/us/data/rom_data_69770.data.o ver/us/build/lib/libultra.a$:setcompare.o ver/us/build/asm/us/data/fragments/18/fragment18_header.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3781D0.rodata.o ver/us/build/assets/us/rental_rules_ui.o ver/us/build/lib/libultra.a$:jammesg.o ver/us/build/src/5580.o ver/us/build/assets/us/6CA730.o ver/us/build/asm/us/data/rom_rodata_7E6F0.rodata.o ver/us/build/asm/us/exception_set.o ver/us/build/asm/us/data/fragments/30/fragment30_bss.bss.o ver/us/build/asm/us/data/fragments/32/fragment32_reloc.o ver/us/build/asm/us/data/fragments/55/fragment55_reloc.o ver/us/build/src/fragments/43/fragment43_2A3F60.o ver/us/build/asm/us/data/fragments/58/fragment58_header.o ver/us/build/lib/libultra.a$:ortho.o ver/us/build/asm/us/data/fragments/58/fragment58_reloc.o ver/us/build/src/gb_tower.o ver/us/build/lib/libultra.a$:xldtob.o ver/us/build/asm/us/data/fragments/37/fragment37_reloc.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_3781A0.rodata.o ver/us/build/src/libleo/leodiskinit.o ver/us/build/src/fragments/64/fragment64.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_375BA0.rodata.o ver/us/build/src/22630.o ver/us/build/src/fragments/1/fragment1_86CB0.o ver/us/build/assets/us/fragments/29/fragment29_unk_bin_1.o ver/us/build/src/4A3E0.o ver/us/build/src/fragments/54/fragment54.o ver/us/build/src/fragments/23/fragment23_1A8800.o ver/us/build/src/libleo/seek.o ver/us/build/lib/libultra.a$:aisetfreq.o ver/us/build/src/fragments/55/fragment55_2C0F90.o ver/us/build/src/dp_intro.o ver/us/build/asm/us/data/fragments/1/fragment1_rodata_A9BE0.rodata.o ver/us/build/assets/us/transfer_pak_error_ui.o ver/us/build/src/fragments/47/fragment47_2AD910.o ver/us/build/src/libleo/readrtc.o ver/us/build/src/fragments/31/fragment31_2577F0.o ver/us/build/src/libnaudio/n_load.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_376650.rodata.o ver/us/build/lib/libultra.a$:pfsisplug.o ver/us/build/lib/libultra.a$:auxbus.o ver/us/build/src/4CBC0.o ver/us/build/src/fragments/62/fragment62_35DF70.o ver/us/build/asm/us/data/fragments/62/fragment62_rodata_377FA0.rodata.o ver/us/build/assets/us/7820E0.o ver/us/build/lib/libultra.a$:synallocfx.o ver/us/build/asm/us/data/unk_bin_7F670.rodata.o ver/us/build/src/fragments/6/fragment6.o ver/us/build/src/fragments/55/fragment55_2BED40.o ver/us/build/asm/us/data/fragments/56/fragment56_header.o ver/us/build/asm/us/data/fragments/24/fragment24_reloc.o ver/us/build/lib/libultra.a$:aisetnextbuf.o ver/us/build/lib/libultra.a$:unmaptlball.o ver/us/build/lib/libultra.a$:seteventmesg.o ver/us/build/src/profiler.o ver/us/build/assets/us/sushi_go_round.o ver/us/build/asm/us/data/fragments/1/fragment1_reloc.o ver/us/build/asm/us/data/fragments/50/fragment50_header.o ver/us/build/lib/libultra.a$:startthread.o ver/us/build/lib/libultra.a$:bcopy.o ver/us/build/src/geo_layout.o ver/us/build/asm/us/data/fragments/38/fragment38_reloc.o ver/us/build/src/memmap.o ver/us/build/asm/us/data/unk_bss_12.bss.o ver/us/build/src/fragments/60/fragment60.o ver/us/build/src/fragments/72/fragment72.o ver/us/build/asm/us/data/fragments/59/fragment59_reloc.o ver/us/build/src/libnaudio/n_synsetfxmix.o ver/us/build/src/libleo/leord_diskid.o ver/us/build/lib/libultra.a$:vimodentsclpn1.o ver/us/build/asm/us/data/fragments/68/fragment68_reloc.o ver/us/build/assets/us/rom_part_30.o ver/us/build/asm/us/data/fragments/63/fragment63_reloc.o ver/us/build/src/fragments/3/fragment3_1193E0.o ver/us/build/asm/us/data/fragments/10/fragment10_header.o ver/us/build/lib/libultra.a$:translate.o ver/us/build/src/fragments/62/fragment62_2F3CB0.o ver/us/build/src/fragments/62/fragment62_351F20.o ver/us/build/assets/us/rom_part_5.o ver/us/build/assets/us/backgrounds.o ver/us/build/asm/us/data/fragments/17/fragment17_reloc.o ver/us/build/asm/us/data/fragments/62/fragment62_data.data.o ver/us/build/asm/us/data/fragments/3/fragment3_header.o ver/us/build/asm/us/data/fragments/70/fragment70_header.o ver/us/build/src/fragments/17/fragment17_165640.o ver/us/build/src/4BA90.o ver/us/build/src/fragments/9/fragment9.o ver/us/build/src/fragments/16/fragment16_15AD80.o ver/us/build/asm/us/data/rom_rodata_7D8D0.rodata.o ver/us/build/lib/libultra.a$:rotate.o ver/us/build/lib/libultra.a$:vimodempallan1.o ver/us/build/src/fragments/39/fragment39_27BCC0.o $
+    ver/us/build/assets/us/rom_part_45.o ver/us/build/asm/us/data/fragments/50/fragment50_reloc.o
+  version = us
+  mapfile = ver/us/build/pokestadium.map
+build ver/us/build/pokestadium.z64: z64 ver/us/build/pokestadium.elf | tools/build/rom/n64crc
+  version = us
+build ver/us/build/pokestadium.ok: sha1sum ver/us/checksum.sha1 | ver/us/build/pokestadium.z64
+build generated_code_us: phony
+build inc_img_bins_us: phony
+build ver/current/build/pokestadium.z64: phony ver/us/build/pokestadium.z64
+build all: phony ver/us/build/pokestadium.ok
+default all
