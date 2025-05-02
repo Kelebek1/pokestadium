@@ -313,8 +313,6 @@ class Configure:
                     built_objects.add(str(object_path))
                 elif object_path.suffix.endswith(".h") or object_path.suffix.endswith(".c"):
                     generated_code.append(str(object_path))
-                elif object_path.name.endswith(".png.bin") or object_path.name.endswith(".pal.bin"):
-                    inc_img_bins.append(str(object_path))
 
                 # don't rebuild objects if we've already seen all of them
                 if not str(object_path) in skip_outputs:
@@ -565,7 +563,7 @@ class Configure:
             str(self.rom_path()),
             "z64",
             str(self.elf_path()),
-            implicit=[CRC_TOOL],
+            implicit=[CRC_TOOL, VTXDIS_TOOL],
             variables={"version": self.version},
         )
 
@@ -578,7 +576,6 @@ class Configure:
             )
 
         ninja.build("generated_code_" + self.version, "phony", generated_code)
-        ninja.build("inc_img_bins_" + self.version, "phony", inc_img_bins)
 
     def make_current(self, ninja: ninja_syntax.Writer):
         current = Path("ver/current")
